@@ -88,11 +88,4 @@ Open `colab_pipeline.ipynb` in Colab. It will:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Maelkolb/Forsteinrichtungsoperate/blob/main/colab_pipeline.ipynb)
 
-## Requirements
 
-```
-google-genai
-Pillow
-numpy
-scipy          # optional — only needed with --deskew
-```
