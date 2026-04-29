@@ -69,6 +69,9 @@ class PipelineConfig:
     # Transcription
     transcription_temperature: float = 1.0   # Gemini 3 docs: keep at default 1.0
     transcription_thinking: str = "medium"   # enough reasoning for complex table cells
+    transcription_max_attempts: int = 2      # retry once on truncated / leaked output
+    transcription_max_output_tokens: int = 32768          # first attempt
+    transcription_max_output_tokens_retry: int = 65536    # bigger budget on retry
 
     # GLM-OCR (disabled – Gemini handles all regions)
     use_glm_ocr: bool = False

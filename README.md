@@ -63,6 +63,31 @@ merged header cells (`colspan`/`rowspan`). Red-ink content is wrapped in
 
 Region crops and a debug JSON are saved under `output/regions/`.
 
+## Robustness
+
+The transcriber post-processes every model response. For tables it
+extracts only the fenced ``` ```html `` `` block and discards any prose
+the model emitted before or after; for graphs it discards anything
+before the first `## ` heading. If the response is truncated
+(`finish_reason == MAX_TOKENS` or a missing `</table>`) the call is
+retried once with a higher output-token budget and a stricter directive.
+Tune via `--max-tokens-retry` or the matching fields on `PipelineConfig`.
+
+## Viewer (`scripts/build_viewer.py`)
+
+After a run, build a single self-contained HTML viewer with all scans
+embedded and the markdown rendered alongside:
+
+```bash
+pip install markdown
+python scripts/build_viewer.py output/        # writes output/viewer.html
+```
+
+The viewer also auto-renders any `## Data Points` table as an inline SVG
+scatter plot (preserving the original numeric table below it), and
+defensively scrubs any reasoning leaks present in already-generated
+markdown so re-running the pipeline isn't required for clean display.
+
 ## CLI flags
 
 | Flag | Default | Description |

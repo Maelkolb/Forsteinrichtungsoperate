@@ -31,7 +31,9 @@ from __future__ import annotations
 import argparse
 import base64
 import io
+import json
 import logging
+import math
 import re
 import shutil
 import sys
@@ -71,6 +73,34 @@ _PIPE_TABLE_FIX_RE = re.compile(
     r"(?P<prose>^(?!\s*$|\||#|>|-|\*|\d+\.).+\S.*\n)"   # a prose line
     r"(?P<table>\|[^\n]*\|\s*\n\|[\s:|\-]+\|)",         # header + separator
     re.MULTILINE,
+)
+
+# Reasoning sometimes leaks into TableRegion output between the metadata
+# comment and the ```html fence. Drop it.
+_LEAKED_TABLE_PROSE_RE = re.compile(
+    r"(<!--\s*TableRegion[^>]*-->\s*\n)"
+    r"((?:(?!```html\s*\n)[^\n]*\n)+)"
+    r"(```html\s*\n)",
+    re.MULTILINE,
+)
+
+# Same problem for GraphRegion: prose between the metadata comment and
+# the first ``## `` heading.
+_LEAKED_GRAPH_PROSE_RE = re.compile(
+    r"(<!--\s*GraphRegion[^>]*-->\s*\n)"
+    r"((?:(?!##\s)[^\n]*\n)+)"
+    r"(##\s)",
+    re.MULTILINE,
+)
+
+# A "Data Points" section followed by a pipe table — we'll parse this
+# at MD level and inject a chart placeholder before the table.
+_DATA_POINTS_SECTION_RE = re.compile(
+    r"(##\s+Data\s+Points\b[^\n]*\n)"   # the heading
+    r"(.*?)"                            # any prose between heading and table
+    r"(\|[^\n]*\|\s*\n\|[\s:|\-]+\|[\s\S]*?)"   # the pipe table
+    r"(?=\n\s*##\s|\Z)",                # until next ## or EOF
+    re.IGNORECASE | re.DOTALL,
 )
 
 
@@ -128,29 +158,117 @@ def _close_unmatched_table(html_block: str) -> str:
     return html_block
 
 
+def _strip_leaked_reasoning(md_body: str) -> str:
+    """Remove model "thinking aloud" leaks from existing pipeline output.
+
+    Two patterns are scrubbed:
+      * Prose between ``<!-- TableRegion ... -->`` and the ``` ```html `` `` fence.
+      * Prose between ``<!-- GraphRegion ... -->`` and the first ``## `` heading.
+
+    No-op on clean output (no prose between the markers).
+    """
+    def _repl_table(m: "re.Match[str]") -> str:
+        if m.group(2).strip():
+            return m.group(1) + "\n" + m.group(3)
+        return m.group(0)
+
+    def _repl_graph(m: "re.Match[str]") -> str:
+        if m.group(2).strip():
+            return m.group(1) + "\n" + m.group(3)
+        return m.group(0)
+
+    md_body = _LEAKED_TABLE_PROSE_RE.sub(_repl_table, md_body)
+    md_body = _LEAKED_GRAPH_PROSE_RE.sub(_repl_graph, md_body)
+    return md_body
+
+
+def _parse_data_points(table_md: str) -> List[Dict[str, object]]:
+    """Parse a Markdown pipe table into ``{label, x, y}`` records.
+
+    The table is expected to have at least three columns; the first is
+    treated as a label and the next two as numeric X / Y. Rows that fail
+    to parse are skipped silently.
+    """
+    points: List[Dict[str, object]] = []
+    for raw_line in table_md.splitlines():
+        line = raw_line.strip()
+        if not line.startswith("|"):
+            continue
+        # Skip header separator and a likely header row
+        if re.match(r"^\|[\s:|\-]+\|\s*$", line):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 3:
+            continue
+        # Heuristic: skip the header (first row with non-numeric x/y)
+        try:
+            x = float(re.sub(r"[^\d.\-eE]", "", cells[1]))
+            y = float(re.sub(r"[^\d.\-eE]", "", cells[2]))
+        except ValueError:
+            continue
+        if not (math.isfinite(x) and math.isfinite(y)):
+            continue
+        points.append({"label": cells[0], "x": x, "y": y})
+    return points
+
+
+def _inject_data_point_charts(md_body: str) -> str:
+    """Insert a chart placeholder before any data-points pipe table.
+
+    The placeholder is an HTML ``<div class="chart-host">`` carrying the
+    parsed points as JSON; runtime JS turns each one into an SVG scatter
+    plot. The original Markdown table is preserved below the chart for
+    readers who want the raw numbers.
+    """
+    def _repl(m: "re.Match[str]") -> str:
+        heading = m.group(1)
+        between = m.group(2)
+        table = m.group(3)
+        points = _parse_data_points(table)
+        if len(points) < 3:
+            return m.group(0)   # not enough data to chart
+        payload = json.dumps(points, ensure_ascii=False)
+        # HTML attribute-safe (single-quoted attribute → escape any ' in payload)
+        payload = payload.replace("'", "&#39;")
+        chart_html = f'<div class="chart-host" data-points=\'{payload}\'></div>\n\n'
+        return f"{heading}{between}{chart_html}{table}"
+
+    return _DATA_POINTS_SECTION_RE.sub(_repl, md_body)
+
+
 def render_markdown(md_body: str) -> str:
     """Pipeline-flavoured Markdown → HTML.
 
     Pre-processing:
-      1. If the document has an unclosed ``` ```html ... ``` ``` fence
+      1. Strip any reasoning the model leaked into existing pipeline output
+         (between the region metadata comment and the actual content).
+      2. Inject a chart placeholder before every ``Data Points`` table so
+         the runtime JS can render a scatter plot alongside the raw numbers.
+      3. If the document has an unclosed ``` ```html ... ``` ``` fence
          (upstream truncation), close it. The closing fence is inserted
          before any obviously-markdown content (blockquote/heading)
          that follows a blank line, so trailing marginalia survives.
-      2. Replace fenced html blocks with their raw content; auto-close
+      4. Replace fenced html blocks with their raw content; auto-close
          any unclosed <table> inside them.
-      3. Ensure pipe tables that follow prose have the blank line the
+      5. Ensure pipe tables that follow prose have the blank line the
          `tables` extension expects.
     """
-    # 1 — close any unclosed ```html fence in a way that preserves
+    # 1 — drop leaked reasoning from already-generated md
+    md_body = _strip_leaked_reasoning(md_body)
+
+    # 2 — pre-mark Data Points tables for chart rendering
+    md_body = _inject_data_point_charts(md_body)
+
+    # 3 — close any unclosed ```html fence in a way that preserves
     #     trailing markdown (marginalia is sometimes inside the fence).
     md_body = _close_unclosed_html_fence(md_body)
 
-    # 2 — substitute fenced html with raw html (closing any open <table>)
+    # 4 — substitute fenced html with raw html (closing any open <table>)
     md_body = _FENCED_HTML_RE.sub(
         lambda m: _close_unmatched_table(m.group(1)), md_body,
     )
 
-    # 3 — pipe-table blank-line fix
+    # 5 — pipe-table blank-line fix
     md_body = _PIPE_TABLE_FIX_RE.sub(
         lambda m: f"{m.group('prose')}\n{m.group('table')}",
         md_body,
@@ -518,6 +636,57 @@ article.page > header .regions {
   border: 0; border-top: 1px solid var(--border-soft); margin: 1.5em 0;
 }
 
+/* Chart host (rendered SVG scatter plots from data-points tables) */
+.transcription .chart-host {
+  margin: 1em 0;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+}
+.transcription .chart-host svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.transcription .chart-host .axis line,
+.transcription .chart-host .axis path {
+  stroke: var(--fg-muted);
+  stroke-width: 1;
+  fill: none;
+}
+.transcription .chart-host .axis text {
+  fill: var(--fg-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+}
+.transcription .chart-host .axis-title {
+  fill: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+}
+.transcription .chart-host .point {
+  fill: var(--accent);
+  fill-opacity: 0.7;
+  stroke: var(--accent);
+  stroke-width: 0.5;
+}
+.transcription .chart-host .grid line {
+  stroke: var(--border-soft);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.transcription .chart-host .chart-caption {
+  text-align: center;
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-top: 6px;
+  font-style: italic;
+}
+
 /* Lightbox */
 .lightbox {
   position: fixed; inset: 0;
@@ -558,6 +727,126 @@ article.page > header .regions {
 
 _JS = r"""
 (function(){
+  // --- Render chart-host placeholders as SVG scatter plots ---
+  function nice(n) {
+    // Round to a "nice" tick step
+    var exp = Math.pow(10, Math.floor(Math.log10(Math.abs(n) || 1)));
+    var f = n / exp;
+    var nf = f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10;
+    return nf * exp;
+  }
+  function ticks(min, max, count) {
+    var step = nice((max - min) / Math.max(1, count));
+    var t0 = Math.floor(min / step) * step;
+    var out = [];
+    for (var v = t0; v <= max + step * 0.001; v += step) {
+      out.push(Math.round(v / step) * step);
+    }
+    return out;
+  }
+  function fmt(v) {
+    if (Math.abs(v) >= 100) return v.toFixed(0);
+    if (Math.abs(v) >= 10)  return v.toFixed(1);
+    return v.toFixed(2);
+  }
+  function renderChart(host) {
+    var pts;
+    try { pts = JSON.parse(host.dataset.points); } catch (e) { return; }
+    if (!pts || pts.length < 3) return;
+
+    var W = 640, H = 360;
+    var pad = { l: 48, r: 16, t: 12, b: 36 };
+    var iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+
+    var xs = pts.map(function(p){ return p.x; });
+    var ys = pts.map(function(p){ return p.y; });
+    var xmin = Math.min.apply(null, xs), xmax = Math.max.apply(null, xs);
+    var ymin = Math.min.apply(null, ys), ymax = Math.max.apply(null, ys);
+    // pad ranges by 5%
+    var dx = (xmax - xmin) || 1, dy = (ymax - ymin) || 1;
+    xmin -= dx * 0.05; xmax += dx * 0.05;
+    ymin -= dy * 0.05; ymax += dy * 0.05;
+
+    function sx(x) { return pad.l + (x - xmin) / (xmax - xmin) * iw; }
+    function sy(y) { return pad.t + ih - (y - ymin) / (ymax - ymin) * ih; }
+
+    var xt = ticks(xmin, xmax, 6), yt = ticks(ymin, ymax, 6);
+
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "Scatter plot of " + pts.length + " data points");
+
+    var grid = document.createElementNS(svg.namespaceURI, "g");
+    grid.setAttribute("class", "grid");
+    xt.forEach(function(t){
+      var x = sx(t);
+      var ln = document.createElementNS(svg.namespaceURI, "line");
+      ln.setAttribute("x1", x); ln.setAttribute("x2", x);
+      ln.setAttribute("y1", pad.t); ln.setAttribute("y2", pad.t + ih);
+      grid.appendChild(ln);
+    });
+    yt.forEach(function(t){
+      var y = sy(t);
+      var ln = document.createElementNS(svg.namespaceURI, "line");
+      ln.setAttribute("x1", pad.l); ln.setAttribute("x2", pad.l + iw);
+      ln.setAttribute("y1", y); ln.setAttribute("y2", y);
+      grid.appendChild(ln);
+    });
+    svg.appendChild(grid);
+
+    var ax = document.createElementNS(svg.namespaceURI, "g");
+    ax.setAttribute("class", "axis");
+    // x axis
+    var xax = document.createElementNS(svg.namespaceURI, "line");
+    xax.setAttribute("x1", pad.l); xax.setAttribute("x2", pad.l + iw);
+    xax.setAttribute("y1", pad.t + ih); xax.setAttribute("y2", pad.t + ih);
+    ax.appendChild(xax);
+    xt.forEach(function(t){
+      var x = sx(t);
+      var lbl = document.createElementNS(svg.namespaceURI, "text");
+      lbl.setAttribute("x", x); lbl.setAttribute("y", pad.t + ih + 14);
+      lbl.setAttribute("text-anchor", "middle");
+      lbl.textContent = fmt(t);
+      ax.appendChild(lbl);
+    });
+    // y axis
+    var yax = document.createElementNS(svg.namespaceURI, "line");
+    yax.setAttribute("x1", pad.l); yax.setAttribute("x2", pad.l);
+    yax.setAttribute("y1", pad.t); yax.setAttribute("y2", pad.t + ih);
+    ax.appendChild(yax);
+    yt.forEach(function(t){
+      var y = sy(t);
+      var lbl = document.createElementNS(svg.namespaceURI, "text");
+      lbl.setAttribute("x", pad.l - 6); lbl.setAttribute("y", y + 3);
+      lbl.setAttribute("text-anchor", "end");
+      lbl.textContent = fmt(t);
+      ax.appendChild(lbl);
+    });
+    svg.appendChild(ax);
+
+    var pg = document.createElementNS(svg.namespaceURI, "g");
+    pts.forEach(function(p){
+      var c = document.createElementNS(svg.namespaceURI, "circle");
+      c.setAttribute("class", "point");
+      c.setAttribute("cx", sx(p.x));
+      c.setAttribute("cy", sy(p.y));
+      c.setAttribute("r", 3);
+      var t = document.createElementNS(svg.namespaceURI, "title");
+      t.textContent = (p.label ? p.label + " — " : "") + "(" + fmt(p.x) + ", " + fmt(p.y) + ")";
+      c.appendChild(t);
+      pg.appendChild(c);
+    });
+    svg.appendChild(pg);
+
+    host.appendChild(svg);
+    var cap = document.createElement("div");
+    cap.className = "chart-caption";
+    cap.textContent = "Reconstructed from " + pts.length + " transcribed data points (hover for label).";
+    host.appendChild(cap);
+  }
+  document.querySelectorAll(".chart-host").forEach(renderChart);
+
   // --- Sidebar filter ---
   var input = document.getElementById('filter');
   var items = Array.from(document.querySelectorAll('ol.page-list li'));
