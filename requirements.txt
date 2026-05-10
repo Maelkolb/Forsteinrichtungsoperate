@@ -1,0 +1,5 @@
+google-genai>=0.8.0
+Pillow>=10.0.0
+numpy>=1.24.0
+scipy>=1.11.0   # optional — only needed with --deskew
+markdown>=3.5
