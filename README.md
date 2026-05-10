@@ -114,6 +114,6 @@ Open `colab_pipeline.ipynb` in Colab. It will:
 3. Let you upload scan images
 4. Run the pipeline and download results
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Maelkolb/Forsteinrichtungsoperate/blob/main/colab_pipeline.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Maelkolb/Forsteinrichtungsoperate/blob/main/Forsteinrichtungsoperate_pipeline_colab.ipynb)
 
 
