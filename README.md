@@ -108,7 +108,7 @@ Region crops and a debug JSON are saved under `output/regions/`.
 
 ## Google Colab
 
-Open `colab_pipeline.ipynb` in Colab. It will:
+Open `Forsteinrichtungsoperate_pipiline_colab.ipynb` in Colab. It will:
 1. Clone this repo
 2. Install dependencies
 3. Let you upload scan images
