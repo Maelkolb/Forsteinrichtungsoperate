@@ -2,17 +2,8 @@
 
 Pipeline for transcribing 19th-century Bavarian/German handwritten forestry
 administrative records (*Forsteinrichtungsoperate*) using Gemini. Handles complex
-multi-column tables, Kurrent/Sütterlin script, mixed black/red ink, and
-graph-paper diagrams.
+multi-column tables, tree height graphs, textual sources, maps and mixed documents. 
 
-## Supported source types
-
-| Source | Region types detected |
-|---|---|
-| Forest inventory ledgers (*Hochwald*, *Altersklassen*) | TitleRegion, TableRegion |
-| Grazing registers (*Weidenutzung*, *Weidenutzungsschaft*) | TitleRegion, TableRegion |
-| Tree-height / growth curves (*Baumhöhe*) | GraphRegion |
-| Free narrative or annotation pages | ParagraphRegion, MarginaliaRegion |
 
 ## Quick start
 
