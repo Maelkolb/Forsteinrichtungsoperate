@@ -1139,6 +1139,27 @@ def main() -> None:
         sys.exit("error: no pages to render")
 
     html = build_html(pages, title=args.title)
+
+    # ── Inject the in-place transcription editor (CER/WER, JSON
+    # import/export, autosave, last-page resume).  Implementation
+    # lives in scripts/viewer_editor_addon.py + scripts/upgrade_viewer.py
+    # so the SAME logic is available to retrofit older viewers.
+    # If those files are missing for any reason the viewer still
+    # works — it just stays read-only as it did before this change.
+    try:
+        from upgrade_viewer import upgrade_html  # noqa: WPS433 (local import on purpose)
+        html, _addon_stats = upgrade_html(html)
+        log.info(
+            "Editor addon injected: CER/WER metrics, JSON import/export, "
+            "autosave + restore-on-reload."
+        )
+    except ImportError:
+        log.warning(
+            "viewer_editor_addon.py / upgrade_viewer.py not found — viewer "
+            "will be read-only.  Drop both files next to build_viewer.py "
+            "to enable in-browser editing."
+        )
+
     viewer_path.write_text(html, encoding="utf-8")
 
     size_mb = viewer_path.stat().st_size / (1024 * 1024)
