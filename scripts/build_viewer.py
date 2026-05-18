@@ -1,16 +1,5 @@
 #!/usr/bin/env python3
-"""Build a single self-contained HTML viewer for pipeline output.
-
-Pairs each Markdown file in ``<output>/md/`` with the matching scan in
-``<output>/pages/``, compresses and embeds the scans as base64, renders the
-Markdown (including the HTML tables produced for ``TableRegion`` and the
-text-table descriptions for ``GraphRegion``), and writes one self-contained
-HTML file you can open in any browser or hand off as an archive.
-
-When the pipeline was run with a layout-detection workflow (``--doc-type
-mixed`` or ``--doc-type text``), the regions JSON in ``<output>/regions/``
-is also picked up and rendered as a coloured SVG overlay on top of the
-scan, with a toggle button in the header to show/hide all overlays.
+"""
 
 Usage examples:
 
@@ -140,8 +129,7 @@ def _close_unmatched_table(html_block: str) -> str:
     """Inject ``</table>`` if the fenced block contains an unclosed table.
 
     The pipeline occasionally produces tables truncated mid-row. Without
-    this fix the trailing markdown (e.g. marginalia) gets absorbed into
-    the open HTML block and rendered as literal text.
+    this fix the trailing markdown rendered as literal text.
     """
     if "<table" in html_block and "</table>" not in html_block:
         return html_block.rstrip() + "\n</table>"
@@ -197,10 +185,6 @@ _MD_OUTSIDE_FENCE_RE = re.compile(r"^(>|#{1,6}\s|---|\*\s|-\s|\d+\.\s)")
 
 def _close_unclosed_html_fence(text: str) -> str:
     """Append a closing ``` for an unmatched ```html fence.
-
-    Best-effort: if obvious markdown (blockquote/heading/etc.) appears
-    after a blank line inside the open fence, close right before it so
-    the markdown gets parsed normally.
     """
     if len(re.findall(r"^```", text, re.MULTILINE)) % 2 == 0:
         return text   # all fences paired
@@ -282,11 +266,6 @@ def find_regions_json_for(md_path: Path, regions_dir: Path) -> Optional[Path]:
 
 def load_region_boxes(regions_json: Path) -> List[RegionBox]:
     """Parse a per-page regions JSON and return the layout boxes.
-
-    Returns an empty list for full-page outputs (which carry a single
-    ``FullPage`` record with no bbox). Defensive against malformed JSON
-    and missing fields — in either case we just return [] so the page
-    still renders without an overlay.
     """
     try:
         data = json.loads(regions_json.read_text(encoding="utf-8"))
@@ -327,11 +306,6 @@ def build_overlay_svg(
     image_size: Tuple[int, int],
 ) -> str:
     """Build an SVG fragment that overlays bounding boxes on a page image.
-
-    The viewBox is set to the original (pre-compression) image dimensions
-    so the overlay scales correctly when CSS shrinks the image to fit the
-    container — bbox coords from the regions JSON are pixel-coords in the
-    original image.
     """
     if not boxes:
         return ""
