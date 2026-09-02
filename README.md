@@ -108,3 +108,9 @@ Open `Forsteinrichtungsoperate_pipiline_colab.ipynb` in Colab. It will:
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Maelkolb/Forsteinrichtungsoperate/blob/main/Forsteinrichtungsoperate_pipeline_colab.ipynb)
 
 
+
+## Ecological information extraction
+
+`ecological_ie/` contains a Colab notebook that extracts ecological information (species, site, damage,
+regeneration, management, non-timber uses …) from the md transcriptions with Gemini 3.5 Flash structured
+output, plus a 40-page test set. See `ecological_ie/README.md`.
