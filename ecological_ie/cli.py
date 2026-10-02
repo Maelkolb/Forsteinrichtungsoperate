@@ -170,6 +170,13 @@ def run_review(args):
     print("review site:", write_review_site(args.units, args.run, args.out, args.copy_images))
 
 
+def run_explore(args):
+    from .explorer import build_explorer
+    package = args.package or args.run / "package"
+    out = build_explorer(args.units, args.run, package, args.out, args.image_base, args.package_link, not args.fragment)
+    print(f"explorer: {out} ({out.stat().st_size / 1e6:.1f} MB)")
+
+
 def run_export_specs(args):
     args.to.mkdir(parents=True, exist_ok=True)
     for unit_dir in selected_units(args.units, None):
@@ -242,6 +249,15 @@ def build_parser() -> argparse.ArgumentParser:
     review.add_argument("--out", type=Path, help="site folder (default: <run>/review)")
     review.add_argument("--copy-images", action="store_true", help="copy the page images into the site folder")
     review.set_defaults(func=run_review)
+
+    explore = commands.add_parser("explore", help="write the data explorer (single HTML file)")
+    add_unit_options(explore, with_sections=False)
+    explore.add_argument("--package", type=Path, help="data package folder (default: <run>/package)")
+    explore.add_argument("--out", type=Path, default=Path("work/release/explorer/index.html"))
+    explore.add_argument("--image-base", default="../review_site/images/", help="prefix of the page image paths")
+    explore.add_argument("--package-link", default="", help="optional link to the data package")
+    explore.add_argument("--fragment", action="store_true", help="omit the html/head/body wrapper (for hosts that add it)")
+    explore.set_defaults(func=run_explore)
 
     export = commands.add_parser("export-specs", help="copy the units' spec.yaml files into a folder (e.g. the repo)")
     export.add_argument("--units", type=Path, default=Path("work/units"))

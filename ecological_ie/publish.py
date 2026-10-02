@@ -49,6 +49,26 @@ def revier_name(text) -> str:
     return text
 
 
+UNIT_FAMILIES = {
+    "money": {"fl", "fl.", "gulden", "m", "m.", "mark", "kr", "pf"},
+    "volume": {"klafter", "klftr", "ster", "str", "kubikmeter", "raummeter", "fmtr", "fm", "rm"},
+    "area": {"tagwerk", "tgw", "ha", "hektar", "dez", "ar"},
+    "length": {"ruthen", "meter", "m", "km"},
+}
+
+
+def unit_family(unit) -> str:
+    unit = text_of(unit).lower().strip(" .")
+    return next((name for name, members in UNIT_FAMILIES.items() if unit in members or unit + "." in members), "")
+
+
+def effective_unit(row_unit, column_unit) -> str:
+    row_unit, column_unit = text_of(row_unit), text_of(column_unit)
+    if row_unit and (not column_unit or unit_family(row_unit) == unit_family(column_unit) != ""):
+        return row_unit
+    return column_unit
+
+
 def standard_value(value, unit: str):
     rule = STANDARD_UNITS.get(text_of(unit).lower().strip(" ."))
     if rule is None or value is None or pd.isna(value):
@@ -60,7 +80,7 @@ def stand_id(row: dict) -> str:
     district = text_of(row.get("key_district_no")).strip(" .").upper()
     compartment = re.sub(r"\D", "", text_of(row.get("key_compartment_no")))
     sub = re.sub(r"[^a-zäöü]", "", text_of(row.get("key_subcompartment")).lower())
-    if not district and not compartment:
+    if not ROMAN.match(district):
         return ""
     revier = revier_name(row.get("key_revier")) or revier_name(row.get("scope"))
     return "|".join([revier if revier in ("Schönau", "St. Oswald", "Klingenbrunn", "Schönberg") else revier,
@@ -98,11 +118,8 @@ def observations(cells: pd.DataFrame, rows: pd.DataFrame, checks: pd.DataFrame) 
                               for r in merged.itertuples()]
     merged["period"] = merged["row_period"].fillna("").astype(str).where(merged["row_period"].fillna("") != "",
                                                                          merged["period"].fillna(""))
-    if "key_unit" in merged:
-        merged["unit_of_measure"] = merged["key_unit"].fillna("").where(merged["key_unit"].fillna("") != "",
-                                                                         merged["measure_unit"].fillna(""))
-    else:
-        merged["unit_of_measure"] = merged["measure_unit"].fillna("")
+    row_units = merged["key_unit"] if "key_unit" in merged else pd.Series("", index=merged.index)
+    merged["unit_of_measure"] = [effective_unit(r, c) for r, c in zip(row_units, merged["measure_unit"])]
     merged["scope"] = merged["scope"].fillna("")
     if "key_revier" in merged:
         merged["scope"] = merged["scope"].where(merged["scope"] != "", merged["key_revier"].fillna("").map(revier_name))
@@ -205,9 +222,10 @@ def spec_codebook(units_dir: Path) -> str:
 
 def publish(units_dir: Path, run_dir: Path, package: Path, title: str, ledger: list[dict] | None = None) -> Path:
     derived = run_dir / "derived"
-    if package.exists():
-        shutil.rmtree(package)
-    (package / "data").mkdir(parents=True)
+    (package / "data").mkdir(parents=True, exist_ok=True)
+    for stale in [*package.glob("*.json"), *package.glob("*.md"), *(package / "data").glob("*")]:
+        if stale.is_file():
+            stale.unlink()
     rows, cells, checks = load(derived, "table_rows"), load(derived, "table_cells"), load(derived, "table_checks")
     resources = []
     units, pages = units_table(units_dir)

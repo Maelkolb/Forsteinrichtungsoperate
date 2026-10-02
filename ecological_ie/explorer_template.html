@@ -1,0 +1,996 @@
+<title>Ilzertrift-Komplex 1878/90</title>
+<meta name="description" content="Data explorer for the Waldstandsrevision of the Ilzertrift-Komplex (Reviere Schönau, St. Oswald, Klingenbrunn), 1878/90">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a ledger page. Sticky register tabs on top, one reading column per view, a source drawer that slides in from the right with the scan behind every number. */
+:root {
+  --paper: #eef1ed; --sheet: #fbfcfa; --sheet-2: #f4f6f2; --ink: #1c2327; --ink-2: #4a5459; --muted: #7b8589;
+  --rule: #d8ddd8; --rule-strong: #b9c1bc; --spruce: #2f5d50; --spruce-wash: #e2ebe6;
+  --redink: #b3261e; --focus: #2f5d50;
+  --rev-1: #2a78d6; --rev-2: #eb6834; --rev-3: #1baf7a;
+  --harvest-main: #2f6b5a; --harvest-inter: #7aaa98; --conifer: #2a6a37; --broadleaf: #b07a20;
+  --ok: #0ca30c; --warn: #fab219; --serious: #ec835a; --crit: #d03b3b; --unchecked: #a7aeab;
+  --grid: #e3e7e3; --axis: #c3c9c4; --shadow: 0 10px 30px rgba(28, 35, 39, .14);
+  --display: "Spectral", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --radius: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111514; --sheet: #191e1d; --sheet-2: #1f2524; --ink: #e7ebe8; --ink-2: #b4bcb8; --muted: #858e8a;
+    --rule: #2b3230; --rule-strong: #3c4542; --spruce: #8cc3ae; --spruce-wash: #1f2c28;
+    --redink: #ef7a70; --focus: #8cc3ae;
+    --rev-1: #3987e5; --rev-2: #d95926; --rev-3: #199e70;
+    --harvest-main: #93cbb7; --harvest-inter: #4e8a76; --conifer: #367a42; --broadleaf: #bd8a36;
+    --unchecked: #5d6663; --grid: #262c2b; --axis: #39413f; --shadow: 0 10px 30px rgba(0, 0, 0, .45);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111514; --sheet: #191e1d; --sheet-2: #1f2524; --ink: #e7ebe8; --ink-2: #b4bcb8; --muted: #858e8a;
+  --rule: #2b3230; --rule-strong: #3c4542; --spruce: #8cc3ae; --spruce-wash: #1f2c28;
+  --redink: #ef7a70; --focus: #8cc3ae;
+  --rev-1: #3987e5; --rev-2: #d95926; --rev-3: #199e70;
+  --harvest-main: #93cbb7; --harvest-inter: #4e8a76; --conifer: #367a42; --broadleaf: #bd8a36;
+  --unchecked: #5d6663; --grid: #262c2b; --axis: #39413f; --shadow: 0 10px 30px rgba(0, 0, 0, .45);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--paper); }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+a { color: var(--spruce); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; text-wrap: balance; margin: 0; letter-spacing: -.005em; }
+h1 { font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.08; }
+h2 { font-size: 1.45rem; line-height: 1.2; }
+h3 { font-size: 1.12rem; line-height: 1.3; }
+p { margin: 0; }
+.mono { font-family: var(--mono); font-size: .82em; letter-spacing: .01em; }
+.muted { color: var(--muted); }
+.eyebrow { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* top bar */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+.top-inner { max-width: 1240px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; gap: 24px; min-height: 56px; }
+.brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; color: var(--ink); white-space: nowrap; }
+.brand b { font-family: var(--display); font-weight: 600; font-size: 1.18rem; }
+.brand span { font-family: var(--mono); font-size: .8rem; color: var(--ink-2); }
+.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { background: none; border: 0; padding: 17px 12px 15px; cursor: pointer; color: var(--ink-2); font-weight: 500; font-size: .95rem;
+  border-bottom: 2px solid transparent; white-space: nowrap; }
+.tab:hover { color: var(--ink); }
+.tab[aria-current="page"] { color: var(--ink); border-bottom-color: var(--spruce); }
+@media (max-width: 640px) { .top-inner { flex-wrap: wrap; gap: 0; padding-top: 10px; } .tab { padding: 10px 10px 12px; } }
+
+main { max-width: 1240px; margin: 0 auto; padding: 28px 20px 80px; display: grid; gap: 28px; }
+.view-head { display: grid; gap: 10px; max-width: 760px; }
+.view-head p { color: var(--ink-2); font-size: 1.05rem; }
+.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 24px; display: grid; gap: 14px; min-width: 0; }
+@media (max-width: 640px) { .card { padding: 18px 16px; } }
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.card-head > div { display: grid; gap: 4px; min-width: 0; flex: 1; }
+.card-note { color: var(--ink-2); font-size: .92rem; max-width: 70ch; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 900px) { .grid-2 { grid-template-columns: minmax(0, 1fr); } }
+
+/* overview hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 36px; align-items: end; padding-top: 8px; }
+@media (max-width: 900px) { .hero { grid-template-columns: minmax(0, 1fr); gap: 22px; } }
+.hero .lede { font-size: 1.12rem; color: var(--ink-2); max-width: 60ch; margin-top: 14px; }
+.figure { border-left: 3px solid var(--spruce); padding: 4px 0 4px 22px; display: grid; gap: 6px; }
+.figure .big { font-family: var(--body); font-weight: 600; font-size: clamp(3.2rem, 6vw, 4.6rem); line-height: 1; letter-spacing: -.02em; }
+.figure .what { font-size: 1.05rem; font-weight: 600; }
+.figure .how { color: var(--ink-2); font-size: .95rem; }
+.figure .btn.link { justify-self: start; margin-top: 4px; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.stat { padding: 16px 18px; display: grid; gap: 2px; border-right: 1px solid var(--rule); min-width: 0; }
+.stat:last-child { border-right: 0; }
+.stat .v { font-size: 1.7rem; font-weight: 600; line-height: 1.1; }
+.stat .l { color: var(--ink-2); font-size: .9rem; }
+@media (max-width: 700px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .stat:nth-child(2) { border-right: 0; } .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule); } }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px; background: var(--sheet); flex-wrap: wrap; }
+.seg button { border: 0; background: none; padding: 5px 13px; border-radius: 999px; cursor: pointer; font-size: .9rem; color: var(--ink-2); }
+.seg button[aria-pressed="true"] { background: var(--spruce); color: var(--sheet); }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 999px;
+  padding: 3px 11px; font-size: .86rem; cursor: pointer; color: var(--ink-2); }
+.chip[aria-pressed="true"] { border-color: var(--spruce); background: var(--spruce-wash); color: var(--ink); }
+.chip .dot, .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+.chip .count { color: var(--muted); font-variant-numeric: tabular-nums; }
+input[type="search"], select { font: inherit; font-size: .92rem; color: var(--ink); background: var(--sheet); border: 1px solid var(--rule-strong);
+  border-radius: var(--radius); padding: 6px 10px; min-width: 0; max-width: 100%; }
+input[type="search"] { width: min(320px, 100%); }
+.btn { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: var(--radius); padding: 5px 11px; cursor: pointer; font-size: .88rem; color: var(--ink-2); }
+.btn:hover { border-color: var(--spruce); color: var(--ink); }
+.btn.link { border: 0; background: none; padding: 0; color: var(--spruce); text-decoration: underline; text-underline-offset: 3px; }
+
+/* legend & charts */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .88rem; color: var(--ink-2); }
+.legend > span { display: inline-flex; align-items: center; gap: 7px; }
+.key-rect { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
+.key-line { width: 16px; height: 2px; border-radius: 2px; display: inline-block; flex: none; }
+.chart { width: 100%; position: relative; min-height: 120px; }
+.chart svg { display: block; width: 100%; height: auto; }
+.chart text { fill: var(--muted); font: 12px var(--body); font-variant-numeric: tabular-nums; }
+.chart .gridline { stroke: var(--grid); stroke-width: 1; }
+.chart .baseline { stroke: var(--axis); stroke-width: 1; }
+.chart .hit { fill: transparent; cursor: pointer; }
+.chart .hit:focus-visible { outline: none; stroke: var(--focus); stroke-width: 2; }
+.chart .ann-line { stroke: var(--ink-2); stroke-width: 1; }
+.chart .ann-band { fill: var(--ink); opacity: .05; }
+.chart .ann-text { fill: var(--ink-2); font-size: 11.5px; font-weight: 600; }
+.chart .ref { stroke: var(--ink-2); stroke-width: 1.5; }
+.chart .ref-text { fill: var(--ink-2); font-size: 11.5px; }
+.chart .end-label { fill: var(--ink-2); font-size: 12px; font-weight: 600; }
+.chart .cross { stroke: var(--ink-2); stroke-width: 1; }
+.tablewrap { overflow: auto; max-height: 520px; border: 1px solid var(--rule); border-radius: var(--radius); }
+table.data { border-collapse: collapse; width: 100%; font-size: .88rem; }
+table.data th, table.data td { padding: 6px 10px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+table.data th { font-weight: 600; color: var(--ink-2); background: var(--sheet-2); position: sticky; top: 0; z-index: 1; }
+table.data td.n, table.data th.n { text-align: right; font-variant-numeric: tabular-nums; }
+table.data tbody tr { cursor: pointer; }
+table.data tbody tr:hover td { background: var(--sheet-2); }
+table.data tbody tr[aria-selected="true"] td { background: var(--spruce-wash); }
+
+/* tooltip */
+.tip { position: fixed; z-index: 40; pointer-events: none; background: var(--sheet); border: 1px solid var(--rule-strong); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 9px 12px; font-size: .86rem; min-width: 160px; max-width: 300px; display: grid; gap: 4px; }
+.tip .t { font-weight: 600; color: var(--ink); }
+.tip .row { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
+.tip .row b { color: var(--ink); font-variant-numeric: tabular-nums; font-weight: 600; margin-left: auto; padding-left: 12px; }
+.tip .hint { color: var(--muted); font-size: .78rem; }
+
+/* status */
+.status { display: inline-flex; align-items: center; gap: 6px; font-size: .84rem; color: var(--ink-2); white-space: nowrap; }
+.status i { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; font-style: normal; font-size: 10px; font-weight: 700; color: #fff; flex: none; }
+.statusbar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: var(--grid); gap: 2px; min-width: 120px; }
+.statusbar span { display: block; height: 100%; }
+
+/* units / sources */
+.units { display: grid; border-top: 1px solid var(--rule); }
+.unit-row { display: grid; grid-template-columns: 64px minmax(0, 2.2fr) minmax(0, 1fr) 160px; gap: 16px; align-items: center; padding: 12px 4px;
+  border-bottom: 1px solid var(--rule); cursor: pointer; }
+.unit-row:hover { background: var(--sheet-2); }
+.unit-row .id { font-family: var(--mono); font-size: .84rem; color: var(--ink-2); }
+.unit-row .t { font-weight: 600; }
+.unit-row .s { color: var(--ink-2); font-size: .86rem; }
+@media (max-width: 760px) { .unit-row { grid-template-columns: 52px minmax(0, 1fr); } .unit-row > :nth-child(n+3) { grid-column: 2; } }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
+.thumb { border: 1px solid var(--rule); border-radius: 4px; background: var(--sheet-2); padding: 0; cursor: pointer; display: grid; gap: 4px; overflow: hidden; }
+.thumb img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; display: block; background: var(--sheet-2); }
+.thumb span { font-family: var(--mono); font-size: .72rem; color: var(--ink-2); padding: 0 6px 6px; text-align: left; }
+
+/* stands */
+.stands-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 20px; align-items: start; }
+@media (max-width: 1000px) { .stands-layout { grid-template-columns: minmax(0, 1fr); } }
+.stand-card { position: sticky; top: 76px; max-height: calc(100vh - 96px); overflow: auto; }
+@media (max-width: 1000px) { .stand-card { position: static; max-height: none; } }
+.kv { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 6px 14px; align-items: baseline; }
+.kv .k { color: var(--ink-2); font-size: .92rem; }
+.kv .v { font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; }
+.kv button { border: 0; background: none; padding: 0; cursor: pointer; }
+.kv button.v:hover { color: var(--spruce); text-decoration: underline; text-underline-offset: 3px; }
+.src-block { display: grid; gap: 8px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.src-block h4 { margin: 0; font-size: .86rem; font-weight: 600; color: var(--ink-2); display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.species { display: flex; flex-wrap: wrap; gap: 6px; }
+.species span { border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 10px; font-size: .86rem; }
+.quote { font-family: var(--display); font-style: italic; font-size: 1.02rem; color: var(--ink); border-left: 2px solid var(--rule-strong); padding-left: 12px; overflow-wrap: anywhere; }
+.hist-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 800px) { .hist-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* lists */
+.items { display: grid; border-top: 1px solid var(--rule); }
+.item { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 18px; padding: 14px 4px; border-bottom: 1px solid var(--rule); }
+@media (max-width: 700px) { .item { grid-template-columns: minmax(0, 1fr); gap: 6px; } }
+.item .when { font-variant-numeric: tabular-nums; font-weight: 600; }
+.item .sub { color: var(--muted); font-weight: 400; font-size: .84rem; }
+.item .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--ink-2); font-size: .86rem; align-items: center; }
+.item .body { display: grid; gap: 6px; min-width: 0; }
+.tag { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--ink-2); border: 1px solid var(--rule-strong); border-radius: 4px; padding: 0 7px; }
+.area-row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 80px; gap: 12px; align-items: center; border: 0; background: none; padding: 0; cursor: pointer; text-align: left; width: 100%; }
+.area-row .track { height: 14px; background: var(--grid); border-radius: 4px; overflow: hidden; }
+.area-row .fill { display: block; height: 100%; border-radius: 0 4px 4px 0; }
+
+/* maps */
+.map-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 800px) { .map-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.map-tab { border: 1px solid var(--rule); background: var(--sheet); border-radius: var(--radius); padding: 0; cursor: pointer; text-align: left; overflow: hidden; display: grid; }
+.map-tab img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+.map-tab span { padding: 8px 10px; font-size: .85rem; color: var(--ink-2); }
+.map-tab[aria-pressed="true"] { border-color: var(--spruce); box-shadow: 0 0 0 1px var(--spruce); }
+.map-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; }
+@media (max-width: 1000px) { .map-layout { grid-template-columns: minmax(0, 1fr); } }
+.map-view { position: relative; overflow: auto; max-height: 76vh; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--sheet-2); }
+.map-inner { position: relative; }
+.map-inner img { display: block; width: 100%; }
+.map-inner .lab { position: absolute; border: 1.5px solid var(--redink); border-radius: 2px; background: transparent; padding: 0; cursor: pointer; }
+.map-inner .lab.dim { opacity: .15; }
+.map-inner .lab.hit { background: color-mix(in srgb, var(--redink) 22%, transparent); }
+.map-side { display: grid; gap: 14px; align-content: start; max-height: 76vh; overflow: auto; }
+.label-list { display: grid; gap: 2px; font-size: .88rem; }
+.label-list button { border: 0; background: none; text-align: left; padding: 3px 4px; border-radius: 3px; cursor: pointer; display: flex; justify-content: space-between; gap: 8px; }
+.label-list button:hover { background: var(--sheet-2); }
+
+/* drawer */
+.drawer { position: fixed; z-index: 30; top: 0; right: 0; bottom: 0; width: min(560px, 100%); background: var(--sheet); border-left: 1px solid var(--rule);
+  box-shadow: var(--shadow); display: grid; grid-template-rows: auto minmax(0, 1fr); transform: translateX(105%); transition: transform .22s ease; visibility: hidden; }
+.drawer.open { transform: none; visibility: visible; }
+.drawer-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; padding: calc(16px + env(safe-area-inset-top, 0px)) 22px 14px; border-bottom: 1px solid var(--rule); }
+.drawer-head > div { display: grid; gap: 4px; min-width: 0; }
+.drawer-head .x { border: 0; background: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--ink-2); padding: 2px 6px; }
+.drawer-body { overflow: auto; padding: 18px 22px calc(40px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 16px; align-content: start; }
+.reading { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; font-size: .92rem; margin: 0; }
+.reading dt { color: var(--muted); }
+.reading dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.as-written { font-family: var(--mono); font-size: .95rem; background: var(--sheet-2); padding: 1px 6px; border-radius: 3px; }
+.scan { position: relative; height: min(58vh, 520px); overflow: auto; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--sheet-2); }
+.scan-inner { position: relative; }
+.scan-inner img { display: block; width: 100%; }
+.scan-mark { position: absolute; left: 0; right: 0; border-top: 2px solid var(--redink); border-bottom: 2px solid var(--redink); background: color-mix(in srgb, var(--redink) 10%, transparent); pointer-events: none; }
+.scan-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: .84rem; color: var(--muted); }
+.obs-switch { display: flex; flex-wrap: wrap; gap: 6px; }
+.empty { color: var(--muted); font-style: italic; }
+.foot { color: var(--muted); font-size: .84rem; border-top: 1px solid var(--rule); padding-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 22px; }
+@media (prefers-reduced-motion: reduce) { .drawer { transition: none; } }
+</style>
+
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="#overview"><b>Ilzertrift-Komplex</b><span>1878/90</span></a>
+    <nav class="tabs" id="tabs" aria-label="Views"></nav>
+  </div>
+</header>
+<main id="view" aria-live="polite"></main>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Source">
+  <div class="drawer-head"><div id="drawer-title"></div><button class="x" id="drawer-close" aria-label="Close source">×</button></div>
+  <div class="drawer-body" id="drawer-body"></div>
+</aside>
+<div class="tip" id="tip" hidden></div>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById("data").textContent);
+const IMG = "__IMAGE_BASE__";
+const PACKAGE_LINK = "__PACKAGE_LINK__";
+const REVIERE = ["Schönau", "St. Oswald", "Klingenbrunn"];
+const REV_COLOR = { "Schönau": "var(--rev-1)", "St. Oswald": "var(--rev-2)", "Klingenbrunn": "var(--rev-3)" };
+const STATUS = {
+  ok: { label: "Sum checked", color: "var(--ok)", icon: "✓", order: 0 },
+  ok_after_recheck: { label: "Corrected on re-read", color: "var(--ok)", icon: "↻", order: 1 },
+  reading_confirmed: { label: "Reading confirmed, sum differs", color: "var(--warn)", icon: "?", order: 2 },
+  mismatch_after_recheck: { label: "Sum differs", color: "var(--crit)", icon: "!", order: 3 },
+  mismatch: { label: "Sum differs", color: "var(--crit)", icon: "!", order: 3 },
+  unparseable: { label: "Unreadable number", color: "var(--serious)", icon: "–", order: 4 },
+  unchecked: { label: "Not covered by a sum", color: "var(--unchecked)", icon: "·", order: 5 },
+};
+const STATUS_ORDER = ["ok", "ok_after_recheck", "reading_confirmed", "mismatch_after_recheck", "unparseable"];
+const EVENT_TYPES = { windthrow: "Windthrow", bark_beetle: "Bark beetle", snow_break: "Snow break", ice_break: "Rime break",
+  frost: "Frost", fungal: "Rot", game_damage: "Game browsing", grazing_damage: "Grazing damage", fire: "Fire",
+  drought: "Drought", flood: "Flood", other_insects: "Other insects", other: "Other" };
+const CATEGORIES = { tree_species: "Tree species", stand_structure: "Stand structure", site_conditions: "Site",
+  ground_vegetation: "Ground vegetation", climate_weather: "Climate & weather", damage_event: "Damage",
+  regeneration: "Regeneration", silvicultural_measure: "Silviculture", non_timber_use: "Non-timber use",
+  wildlife: "Wildlife", land_use_hydrology: "Land use & water", quantity: "Quantities", other_ecological: "Other" };
+const VAR_LABELS = { age: "Age", area: "Area", growing_stock: "Growing stock", growing_stock_faggots: "Growing stock, faggots",
+  planned_harvest: "Planned harvest 1878/89", planned_harvest_faggots: "Planned harvest, faggots", yield_per_area: "Yield per ha",
+  yield_faggots_per_area: "Faggots per ha", cut_area: "Cut area", planned_yield: "Planned yield", planned_secondary_yield: "Planned intermediate yield",
+  harvest_age: "Age at harvest", nonwooded_area: "Non-wooded area", growing_stock_per_area: "Growing stock per ha",
+  final_yield_per_area: "Final yield per ha", harvest_estimate: "Estimated yield", harvest_result: "Actual yield",
+  harvest_surplus: "Surplus", harvest_deficit: "Deficit", harvest_estimate_bundles: "Estimated faggots", harvest_result_bundles: "Actual faggots",
+  harvest_surplus_bundles: "Surplus faggots", harvest_deficit_bundles: "Deficit faggots", stem_count: "Stem count", volume: "Volume",
+  area_not_assigned: "Area not assigned", area_transferred: "Area transferred", area_became_bare: "Became bare",
+  area_to_young_class: "Passed to young class", remaining_cut_area: "Remaining cut area",
+  harvest_main_use: "Hauptnutzung", harvest_intermediate_use: "Zwischennutzung", harvest_total: "Total harvest",
+  grazing_cows: "Kühe", grazing_oxen: "Ochsen", grazing_young_cattle: "Jungrinder", litter_leaf: "Laubstreu", litter_needle: "Nadelstreu",
+  litter_other: "Other litter", rafting_structures_cost_total: "Trift works, total cost" };
+const UNIT_TITLES = Object.fromEntries(D.units.map(u => [u.id, u.title]));
+
+const nf = (v, digits) => v == null || Number.isNaN(v) ? "–" : new Intl.NumberFormat("en-US", { maximumFractionDigits: digits ?? (Math.abs(v) >= 100 ? 0 : Math.abs(v) >= 10 ? 1 : 2) }).format(v);
+const compact = v => new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(v);
+const varLabel = v => VAR_LABELS[v] || v.replace(/_/g, " ").replace(/^./, c => c.toUpperCase());
+const store = (key, value) => { try { if (value === undefined) return localStorage.getItem(key); localStorage.setItem(key, value); } catch (e) { return null; } return null; };
+
+function el(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") node.className = v;
+    else if (k === "style") node.style.cssText = v;
+    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+    else node.setAttribute(k, v === true ? "" : v);
+  }
+  for (const child of children.flat(3)) {
+    if (child == null || child === false || child === "") continue;
+    node.append(child instanceof Node ? child : document.createTextNode(String(child)));
+  }
+  return node;
+}
+function svgEl(tag, attrs = {}) { const n = document.createElementNS("http://www.w3.org/2000/svg", tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); return n; }
+function svgText(attrs, text) { const t = svgEl("text", attrs); t.textContent = text; return t; }
+
+const OBS_COLS = Object.fromEntries(D.obs.cols.map((c, i) => [c, i]));
+function obs(i) { const r = D.obs.rows[i]; const o = { i }; for (const c in OBS_COLS) o[c] = r[OBS_COLS[c]]; return o; }
+function page(u, p) { const r = D.pages[`${u}/${p}`]; return r && { u, p, pid: r[0], img: r[1] ? IMG + r[1] : "", w: r[2], h: r[3], kind: r[4], sig: r[5], num: r[6] }; }
+
+function statusDot(cs) { const s = STATUS[cs] || STATUS.unchecked; return el("i", { style: `background:${s.color}`, "aria-hidden": "true" }, s.icon); }
+function statusTag(cs) { const s = STATUS[cs] || STATUS.unchecked; return el("span", { class: "status" }, statusDot(cs), s.label); }
+function worstStatus(list) { return (list || []).slice().sort((a, b) => (STATUS[b]?.order ?? 9) - (STATUS[a]?.order ?? 9))[0] || "unchecked"; }
+
+/* tooltip */
+const tip = document.getElementById("tip");
+function showTip(event, title, rows, hint) {
+  tip.replaceChildren(el("div", { class: "t" }, title), ...rows.map(r => el("div", { class: "row" }, r.key || "", r.label, r.value !== "" ? el("b", {}, r.value) : "")), hint ? el("div", { class: "hint" }, hint) : "");
+  tip.hidden = false;
+  const pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = event.clientX + pad, y = event.clientY + pad;
+  if (x + w > innerWidth - 8) x = event.clientX - w - pad;
+  if (y + h > innerHeight - 8) y = event.clientY - h - pad;
+  tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
+}
+function hideTip() { tip.hidden = true; }
+const keyLine = color => el("span", { class: "key-line", style: `background:${color}` });
+const keyRect = color => el("span", { class: "key-rect", style: `background:${color}` });
+
+/* drawer */
+const drawer = document.getElementById("drawer");
+document.getElementById("drawer-close").addEventListener("click", closeDrawer);
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(); });
+function closeDrawer() { drawer.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); }
+function openDrawer(titleNodes, bodyNodes) {
+  document.getElementById("drawer-title").replaceChildren(...titleNodes);
+  document.getElementById("drawer-body").replaceChildren(...bodyNodes);
+  drawer.classList.add("open"); drawer.setAttribute("aria-hidden", "false");
+  document.getElementById("drawer-body").scrollTop = 0;
+  document.getElementById("drawer-close").focus({ preventScroll: true });
+}
+function scanViewer(pg, box, zoom) {
+  if (!pg || !pg.img) return el("p", { class: "empty" }, "No image of this page in the current data set; the scan is held at the archive.");
+  let level = zoom || (box ? 1.7 : 1);
+  const inner = el("div", { class: "scan-inner" });
+  const img = el("img", { src: pg.img, alt: `Scan of ${pg.pid}` });
+  inner.append(img);
+  if (box && box.length === 4) {
+    const [y0, , y1] = box, h = Math.max(y1 - y0, 12);
+    inner.append(el("div", { class: "scan-mark", style: `top:${Math.max(0, y0 - h * 1.2) / 10}%;height:${(h * 3.4) / 10}%` }));
+  }
+  const view = el("div", { class: "scan", tabindex: "0", "aria-label": "Page scan" }, inner);
+  const apply = () => {
+    inner.style.width = (level * 100) + "%";
+    if (box && img.naturalHeight) {
+      view.scrollTop = Math.max(0, (box[0] + box[2]) / 2000 * inner.offsetHeight - view.clientHeight / 2);
+      view.scrollLeft = Math.max(0, (box[1] + box[3]) / 2000 * inner.offsetWidth - view.clientWidth * .6);
+    }
+  };
+  img.addEventListener("load", apply);
+  const tools = el("div", { class: "scan-tools" },
+    el("button", { class: "btn", "aria-label": "Zoom out", onclick: () => { level = Math.max(1, level - .4); apply(); } }, "−"),
+    el("button", { class: "btn", "aria-label": "Zoom in", onclick: () => { level = Math.min(4, level + .4); apply(); } }, "+"),
+    el("span", { class: "mono" }, pg.pid),
+    box ? el("span", {}, "Red band: approximate position of the row.") : "");
+  setTimeout(apply, 0);
+  return el("div", { style: "display:grid;gap:8px" }, view, tools);
+}
+function sourceLine(u, pg, extra) {
+  return el("dd", {}, `${u} · ${UNIT_TITLES[u] || ""}`, el("br"), el("span", { class: "mono" }, `${pg ? pg.pid : ""}${extra || ""}`));
+}
+function openObservations(indexes, title) {
+  const list = [...new Set(indexes)].map(obs);
+  if (!list.length) return;
+  let current = 0;
+  const body = el("div", { style: "display:grid;gap:16px" });
+  const render = () => {
+    const o = list[current], pg = page(o.u, o.p);
+    const converted = o.vs != null && o.v != null && Math.abs(o.vs - o.v) > 1e-9;
+    body.replaceChildren(
+      list.length > 1 ? el("div", { class: "obs-switch" }, list.map((x, i) => el("button", { class: "chip", "aria-pressed": i === current ? "true" : "false", onclick: () => { current = i; render(); } },
+        x.sc && REV_COLOR[x.sc] ? el("span", { class: "dot", style: `background:${REV_COLOR[x.sc]}` }) : "", `${varLabel(x.var)}${x.sc ? " · " + x.sc : ""}`))) : "",
+      el("dl", { class: "reading" },
+        el("dt", {}, "Value"), el("dd", {}, el("b", { class: "num" }, nf(o.vs ?? o.v, 3)), " ", o.us || ""),
+        el("dt", {}, "As written"), el("dd", {}, el("span", { class: "as-written" }, o.raw || "–"), converted ? el("span", { class: "muted" }, " converted with the factor the source uses") : ""),
+        o.per ? [el("dt", {}, "Period"), el("dd", {}, o.per)] : "",
+        o.sc ? [el("dt", {}, "Revier"), el("dd", {}, o.sc)] : "",
+        o.st ? [el("dt", {}, "Stand"), el("dd", {}, standLabel(o.st))] : "",
+        el("dt", {}, "Check"), el("dd", {}, statusTag(o.cs)),
+        el("dt", {}, "Source"), sourceLine(o.u, pg, ` · table ${o.t + 1}, row ${o.r + 1}`)),
+      scanViewer(pg, o.box));
+  };
+  render();
+  openDrawer([el("div", { class: "eyebrow" }, "Source"), el("h3", {}, title)], [body]);
+}
+function openQuote(item, title) {
+  const pg = item.p ? page(item.u, item.p) : null;
+  openDrawer([el("div", { class: "eyebrow" }, "Source"), el("h3", {}, title)], [
+    el("p", { class: "quote" }, item.quote || ""),
+    el("dl", { class: "reading" },
+      item.qc ? [el("dt", {}, "Quote"), el("dd", {}, quoteCheck(item.qc))] : "",
+      el("dt", {}, "Source"), sourceLine(item.u, pg)),
+    scanViewer(pg, null)]);
+}
+function openPage(u, p) {
+  const pg = page(u, p);
+  openDrawer([el("div", { class: "eyebrow" }, `${u} · ${UNIT_TITLES[u] || ""}`), el("h3", { class: "mono" }, pg ? pg.pid : "")], [scanViewer(pg, null, 1)]);
+}
+function quoteCheck(qc) {
+  const text = { exact_on_page: "found verbatim on the page", normalised_on_page: "found on the page", elsewhere_in_document: "found elsewhere in the document",
+    prefix: "beginning found in the text", missing: "not found verbatim, may be paraphrased", empty: "no quote" }[qc] || qc;
+  const color = qc === "missing" ? "var(--warn)" : qc === "prefix" ? "var(--serious)" : "var(--ok)";
+  return el("span", { class: "status" }, el("i", { style: `background:${color}`, "aria-hidden": "true" }, qc === "missing" ? "?" : "✓"), text);
+}
+
+/* charts */
+function niceTicks(max, count = 4) {
+  if (!max || max <= 0) return [0, 1];
+  const raw = max / count, mag = 10 ** Math.floor(Math.log10(raw)), norm = raw / mag;
+  const step = (norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 2.5 ? 2.5 : norm <= 5 ? 5 : 10) * mag;
+  const ticks = []; for (let v = 0; v <= max + step * .999; v += step) ticks.push(+v.toFixed(10));
+  return ticks;
+}
+function labelStep(n, inner, width = 54) { return Math.max(1, Math.ceil(n * width / inner)); }
+function periodIndex(x, year) { return x.findIndex(p => parseInt(p, 10) === year); }
+function barPath(x0, y0, w, y1) { const r = Math.min(4, (y1 - y0), w / 2); return `M${x0},${y1} V${y0 + r} Q${x0},${y0} ${x0 + r},${y0} H${x0 + w - r} Q${x0 + w},${y0} ${x0 + w},${y0 + r} V${y1} Z`; }
+function attachHit(hit, onTip, onOpen) {
+  hit.addEventListener("pointermove", onTip); hit.addEventListener("pointerleave", hideTip);
+  hit.addEventListener("focus", () => { const r = hit.getBoundingClientRect(); onTip({ clientX: r.left + r.width / 2, clientY: r.top }); });
+  hit.addEventListener("blur", hideTip);
+  if (onOpen) { hit.addEventListener("click", () => { hideTip(); onOpen(); }); hit.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); hideTip(); onOpen(); } }); }
+}
+
+function columnChart(host, cfg) {
+  const width = Math.max(300, host.clientWidth), height = cfg.height || 300;
+  const m = { t: cfg.annotations?.length ? 34 : 14, r: 14, b: 34, l: 56 };
+  const iw = width - m.l - m.r, ih = height - m.t - m.b;
+  const n = cfg.x.length, band = iw / n, bw = Math.min(24, band * .62);
+  const totals = cfg.x.map((_, i) => cfg.series.reduce((s, g) => s + (g.points[i]?.v || 0), 0));
+  const ticks = niceTicks(Math.max(...totals, cfg.ref || 0) * 1.04);
+  const top = ticks[ticks.length - 1], y = v => m.t + ih - v / top * ih;
+  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": cfg.title });
+  for (const t of ticks) {
+    svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: y(t), y2: y(t), class: t === 0 ? "baseline" : "gridline" }));
+    svg.append(svgText({ x: m.l - 8, y: y(t) + 4, "text-anchor": "end" }, compact(t)));
+  }
+  for (const a of cfg.annotations || []) {
+    const i0 = periodIndex(cfg.x, a.from), i1 = periodIndex(cfg.x, a.to);
+    if (i0 < 0) continue;
+    const band0 = m.l + i0 * band, band1 = m.l + ((i1 < 0 ? i0 : i1) + 1) * band;
+    if (a.to !== a.from) {
+      svg.append(svgEl("rect", { x: band0, y: m.t, width: band1 - band0, height: ih, class: "ann-band" }));
+      svg.append(svgText({ x: band1 - 4, y: m.t - 10, class: "ann-text", "text-anchor": "end" }, a.label));
+    } else {
+      svg.append(svgEl("line", { x1: band0 + band / 2, x2: band0 + band / 2, y1: m.t - 4, y2: m.t + ih, class: "ann-line" }));
+      svg.append(svgText({ x: band0 + band / 2 - 4, y: m.t - 10, class: "ann-text", "text-anchor": "end" }, a.label));
+    }
+  }
+  if (cfg.ref) {
+    svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: y(cfg.ref), y2: y(cfg.ref), class: "ref" }));
+    svg.append(svgText({ x: m.l + 6, y: y(cfg.ref) - 6, class: "ref-text" }, cfg.refLabel));
+  }
+  cfg.x.forEach((label, i) => {
+    let acc = 0;
+    const cx = m.l + i * band + band / 2;
+    const parts = cfg.series.map(s => ({ s, p: s.points[i] })).filter(d => d.p && d.p.v > 0);
+    parts.forEach((d, k) => {
+      const yTop = y(acc + d.p.v), yBottom = y(acc) - (k > 0 ? 2 : 0);
+      if (yBottom - yTop > .5) svg.append(svgEl("path", { d: k === parts.length - 1 ? barPath(cx - bw / 2, yTop, bw, yBottom) : `M${cx - bw / 2},${yBottom} V${yTop} H${cx + bw / 2} V${yBottom} Z`, fill: d.s.color }));
+      acc += d.p.v;
+    });
+    const hit = svgEl("rect", { x: m.l + i * band, y: m.t, width: band, height: ih, class: "hit", tabindex: "0", role: "button", "aria-label": `${label}: ${nf(totals[i])} ${cfg.unit}` });
+    const rows = cfg.series.map(s => ({ key: keyRect(s.color), label: s.label, value: s.points[i] ? `${nf(s.points[i].v)} ${cfg.unit}` : "–" }));
+    if (cfg.series.length > 1) rows.push({ label: "Total", value: `${nf(totals[i])} ${cfg.unit}` });
+    const parts2 = cfg.series.flatMap(s => (s.points[i]?.parts || []).map(([name, v]) => ({ label: `  ${s.label}, ${name}`, value: `${nf(v)} ${cfg.unit}` })));
+    const statuses = cfg.series.flatMap(s => s.points[i]?.cs || []);
+    attachHit(hit, e => showTip(e, label, rows.concat(parts2), `${STATUS[worstStatus(statuses)].label} · click for the source`),
+      () => openObservations(cfg.series.flatMap(s => s.points[i]?.refs || []), `${cfg.title}, ${label}`));
+    svg.append(hit);
+  });
+  const step = labelStep(n, iw);
+  cfg.x.forEach((label, i) => { if (i % step === 0) svg.append(svgText({ x: m.l + i * band + band / 2, y: height - m.b + 18, "text-anchor": "middle" }, label)); });
+  host.replaceChildren(svg);
+}
+
+function lineChart(host, cfg) {
+  const width = Math.max(300, host.clientWidth), height = cfg.height || 280;
+  const m = { t: 14, r: width < 520 ? 16 : 98, b: 34, l: 48 };
+  const iw = width - m.l - m.r, ih = height - m.t - m.b, n = cfg.x.length;
+  const values = cfg.series.flatMap(s => s.points.map(p => p?.v || 0));
+  const ticks = niceTicks(Math.max(...values, 1) * 1.05), top = ticks[ticks.length - 1];
+  const x = i => m.l + (n === 1 ? iw / 2 : i / (n - 1) * iw), y = v => m.t + ih - v / top * ih;
+  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": cfg.title });
+  for (const t of ticks) {
+    svg.append(svgEl("line", { x1: m.l, x2: m.l + iw, y1: y(t), y2: y(t), class: t === 0 ? "baseline" : "gridline" }));
+    svg.append(svgText({ x: m.l - 8, y: y(t) + 4, "text-anchor": "end" }, compact(t)));
+  }
+  const step = labelStep(n, iw);
+  cfg.x.forEach((label, i) => { if (i % step === 0) svg.append(svgText({ x: x(i), y: height - m.b + 18, "text-anchor": "middle" }, label)); });
+  const ends = [];
+  for (const s of cfg.series) {
+    let d = "", pen = false;
+    s.points.forEach((p, i) => { if (!p) { pen = false; return; } d += `${pen ? "L" : "M"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`; pen = true; });
+    svg.append(svgEl("path", { d, fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    const last = s.points.map((p, i) => p ? i : -1).filter(i => i >= 0).pop();
+    if (last != null) {
+      svg.append(svgEl("circle", { cx: x(last), cy: y(s.points[last].v), r: 4, fill: s.color, stroke: "var(--sheet)", "stroke-width": 2 }));
+      ends.push({ s, y: y(s.points[last].v), x: x(last) });
+    }
+  }
+  if (m.r > 40) {
+    ends.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 17) ends[i].y = ends[i - 1].y + 17;
+    for (const e of ends) svg.append(svgText({ x: e.x + 10, y: e.y + 4, class: "end-label" }, e.s.label));
+  }
+  const cross = svgEl("line", { y1: m.t, y2: m.t + ih, class: "cross", visibility: "hidden" });
+  svg.append(cross);
+  const overlay = svgEl("rect", { x: m.l, y: m.t, width: iw, height: ih, class: "hit", tabindex: "0", role: "button", "aria-label": `${cfg.title}: click a year for its sources` });
+  const nearest = e => { const r = svg.getBoundingClientRect(); const px = (e.clientX - r.left) * width / r.width; return Math.max(0, Math.min(n - 1, Math.round((px - m.l) / iw * (n - 1)))); };
+  overlay.addEventListener("pointermove", e => {
+    const i = nearest(e); cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
+    showTip(e, cfg.x[i], cfg.series.map(s => ({ key: keyLine(s.color), label: s.label, value: s.points[i] ? `${nf(s.points[i].v)} ${cfg.unit}` : "–" })), "click for the source");
+  });
+  overlay.addEventListener("pointerleave", () => { cross.setAttribute("visibility", "hidden"); hideTip(); });
+  overlay.addEventListener("click", e => { const i = nearest(e); hideTip(); openObservations(cfg.series.flatMap(s => s.points[i]?.refs || []), `${cfg.title}, ${cfg.x[i]}`); });
+  svg.append(overlay);
+  host.replaceChildren(svg);
+}
+
+function histogram(host, values, color, cfg) {
+  const width = Math.max(220, host.clientWidth), height = 170, m = { t: 10, r: 8, b: 30, l: 32 };
+  const iw = width - m.l - m.r, ih = height - m.t - m.b;
+  const counts = cfg.bins.map(([a, b]) => values.filter(v => v >= a && v < b).length);
+  const ticks = niceTicks(Math.max(...counts, 1), 3), top = ticks[ticks.length - 1];
+  const band = iw / cfg.bins.length, bw = Math.min(24, band - 2), y = v => m.t + ih - v / top * ih;
+  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": `${cfg.title}: ages of stands` });
+  for (const t of ticks) { svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: y(t), y2: y(t), class: t === 0 ? "baseline" : "gridline" }));
+    svg.append(svgText({ x: m.l - 6, y: y(t) + 4, "text-anchor": "end" }, t)); }
+  cfg.bins.forEach(([a, b], i) => {
+    const c = counts[i], x0 = m.l + i * band + (band - bw) / 2;
+    if (c) svg.append(svgEl("path", { d: barPath(x0, y(c), bw, m.t + ih), fill: color }));
+    const hit = svgEl("rect", { x: m.l + i * band, y: m.t, width: band, height: ih, class: "hit" });
+    attachHit(hit, e => showTip(e, `${a}–${b - 1} years`, [{ label: cfg.title, value: `${c} stands` }]));
+    svg.append(hit);
+    if (i % 3 === 0) svg.append(svgText({ x: m.l + i * band + band / 2, y: height - 10, "text-anchor": "middle" }, a));
+  });
+  host.replaceChildren(svg);
+}
+
+function statusBar(counts) {
+  const merged = { ...counts, mismatch_after_recheck: (counts.mismatch_after_recheck || 0) + (counts.mismatch || 0) };
+  const sum = STATUS_ORDER.reduce((s, k) => s + (merged[k] || 0), 0);
+  if (!sum) return el("span", { class: "muted", style: "font-size:.84rem" }, "no sums to check");
+  return el("div", { class: "statusbar", role: "img", "aria-label": STATUS_ORDER.filter(k => merged[k]).map(k => `${STATUS[k].label}: ${merged[k]}`).join(", ") },
+    STATUS_ORDER.filter(k => merged[k]).map(k => el("span", { style: `width:${merged[k] / sum * 100}%;background:${STATUS[k].color};${k === "ok_after_recheck" ? "opacity:.55" : ""}`, title: `${STATUS[k].label}: ${merged[k]}` })));
+}
+function statusLegend(counts) {
+  const merged = counts ? { ...counts, mismatch_after_recheck: (counts.mismatch_after_recheck || 0) + (counts.mismatch || 0) } : null;
+  return el("div", { class: "legend" }, STATUS_ORDER.filter(k => !merged || merged[k]).map(k => el("span", {}, statusTag(k), merged ? el("b", { class: "num" }, nf(merged[k], 0)) : "")));
+}
+
+function dataTable(columns, rows, onRow) {
+  return el("div", { class: "tablewrap" }, el("table", { class: "data" },
+    el("thead", {}, el("tr", {}, columns.map(c => el("th", { class: c.n ? "n" : "" }, c.label)))),
+    el("tbody", {}, rows.map(r => el("tr", { onclick: onRow ? () => onRow(r) : null }, columns.map(c => el("td", { class: c.n ? "n" : "" }, c.get(r))))))));
+}
+
+const charts = [];
+function chartBlock(draw) {
+  const host = el("div", { class: "chart" });
+  const tableHost = el("div", { hidden: true });
+  const toggle = el("button", { class: "btn", "aria-pressed": "false" }, "Show table");
+  toggle.addEventListener("click", () => { const on = tableHost.hidden; tableHost.hidden = !on; host.hidden = on; toggle.setAttribute("aria-pressed", on ? "true" : "false"); toggle.textContent = on ? "Show chart" : "Show table"; });
+  const redraw = () => { if (host.isConnected && !host.hidden) draw(host); };
+  charts.push(redraw);
+  requestAnimationFrame(redraw);
+  return { host, tableHost, toggle };
+}
+let resizeTimer;
+addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => charts.forEach(f => f()), 150); });
+
+function seriesTable(s, groups) {
+  const columns = [{ label: "Year of use", get: r => r.period }]
+    .concat(groups.map(g => ({ label: `${g.label} (${s.unit})`, n: true, get: r => r.values[g.key] == null ? "–" : nf(r.values[g.key]) })));
+  const rows = s.x.map((period, i) => ({ period, values: Object.fromEntries(groups.map(g => [g.key, g.points[i]?.v])), refs: groups.flatMap(g => g.points[i]?.refs || []) }));
+  return dataTable(columns, rows, r => openObservations(r.refs, `${s.title}, ${r.period}`));
+}
+
+/* routing */
+const VIEWS = [["overview", "Overview"], ["use", "Harvest & use"], ["stands", "Stands"], ["disturbances", "Disturbances"],
+  ["statements", "Statements"], ["maps", "Maps"], ["sources", "Sources"]];
+const viewHost = document.getElementById("view");
+const tabs = document.getElementById("tabs");
+for (const [id, label] of VIEWS) tabs.append(el("button", { class: "tab", "data-view": id, onclick: () => go(id) }, label));
+function go(id) { if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id); render(id); }
+addEventListener("hashchange", () => render(location.hash.slice(1)));
+function render(id) {
+  if (!VIEWS.some(v => v[0] === id)) id = "overview";
+  for (const b of tabs.children) b.setAttribute("aria-current", b.dataset.view === id ? "page" : "false");
+  charts.length = 0; closeDrawer(); hideTip();
+  viewHost.replaceChildren(...{ overview, use, stands, disturbances, statements, maps, sources }[id]());
+  scrollTo({ top: 0 });
+  store("ilz-view", id);
+}
+function head(eyebrow, title, text) { return el("section", { class: "view-head" }, el("div", { class: "eyebrow" }, eyebrow), el("h1", {}, title), text ? el("p", {}, text) : ""); }
+
+/* overview */
+function harvestAnnotations() {
+  const picked = [];
+  for (const type of ["windthrow", "bark_beetle"]) {
+    const e = D.events.filter(ev => ev.type === type).map(ev => ({ ev, m: (ev.edtf || "").match(/^(\d{4})(-\d\d-\d\d)?(?:\/(\d{4}))?/) }))
+      .filter(({ m }) => m && +m[1] >= 1860 && +m[1] <= 1877 && (!m[3] || +m[3] - +m[1] <= 8))
+      .sort((a, b) => (b.m[2] ? 1 : 0) - (a.m[2] ? 1 : 0) || (b.m[3] ? 1 : 0) - (a.m[3] ? 1 : 0))[0];
+    if (!e) continue;
+    const from = +e.m[1], to = e.m[3] ? +e.m[3] : from;
+    picked.push({ from, to, label: type === "windthrow" ? `Storm ${e.ev.date}` : `Bark beetle ${from}–${to}` });
+  }
+  return picked;
+}
+function harvestCard(height) {
+  const s = D.series.find(x => x.id === "harvest");
+  const groups = [{ ...s.groups[0], label: "Hauptnutzung", color: "var(--harvest-main)" }, { ...s.groups[1], label: "Zwischennutzung", color: "var(--harvest-inter)" }];
+  const perYear = s.etat ? s.etat / s.years : null;
+  const block = chartBlock(host => columnChart(host, { x: s.x, series: groups, unit: "Ster", title: s.title, height,
+    annotations: harvestAnnotations(), ref: perYear, refLabel: perYear ? `Etat: ${nf(perYear)} Ster a year` : "" }));
+  block.tableHost.append(seriesTable(s, groups));
+  return el("section", { class: "card" },
+    el("div", { class: "card-head" },
+      el("div", {}, el("div", { class: "eyebrow" }, "I-16 · Abschluß der jährlichen Materialergebnisse"), el("h2", {}, "Harvest per year of use, 1860/61–1877"),
+        el("p", { class: "card-note" }, "Final fellings (Hauptnutzung) and intermediate yields (Zwischennutzung) of the whole complex, in Ster. Klafter up to 1871 are converted with the clerk's own factor of 3.1325 Ster. The line spreads the planned cut (Etat) evenly over the 17 years.")),
+      block.toggle),
+    el("div", { class: "legend" }, groups.map(g => el("span", {}, keyRect(g.color), g.label)), el("span", {}, keyLine("var(--ink-2)"), "Etat per year")),
+    block.host, block.tableHost);
+}
+function overview() {
+  const s = D.series.find(x => x.id === "harvest");
+  const overPct = s.etat ? (s.total / s.etat - 1) * 100 : null;
+  const checks = D.meta.checks, totalChecks = Object.values(checks).reduce((a, b) => a + b, 0);
+  const okShare = ((checks.ok || 0) + (checks.ok_after_recheck || 0)) / totalChecks * 100;
+  return [
+    el("section", { class: "hero" },
+      el("div", {},
+        el("div", { class: "eyebrow" }, "Waldstandsrevision · Forstamt Schönberg · Reviere Schönau, St. Oswald, Klingenbrunn"),
+        el("h1", { style: "margin-top:10px" }, "The Ilzertrift forests in the revision of 1878/90"),
+        el("p", { class: "lede" }, `Structured data from ${D.meta.pages} pages of the revision files (A 383 I – A 385): tables read as faithful grids and checked against their own sums, reports proofread against the scans, maps read label by label. Every number opens the page it comes from.`)),
+      el("div", { class: "figure" },
+        el("div", { class: "big" }, overPct != null ? `+${nf(overPct, 0)} %` : "–"),
+        el("div", { class: "what" }, "felled above the plan, 1860/61–1877"),
+        el("div", { class: "how" }, `${nf(s.total, 0)} Ster cut against an Etat of ${nf(s.etat, 0)} Ster: ${nf(s.overcut, 0)} Ster more (“Demnach Mehrfällung”). Most of it came after the storm of October 1870 and the bark beetle years.`),
+        el("button", { class: "btn link", onclick: () => openPage("I-16", 1) }, "See the closing table, Beilage I. 16"))),
+    el("div", { class: "stats" },
+      [[D.meta.counts.observations, "numeric values, each linked to its cell"], [D.stands.length, "stands, by Revier, Distrikt and Abteilung"],
+       [D.meta.counts.statements, "statements from reports and protocols"], [D.meta.counts.map_labels, "labels read on four maps"]]
+        .map(([v, l]) => el("div", { class: "stat" }, el("div", { class: "v" }, nf(v, 0)), el("div", { class: "l" }, l)))),
+    harvestCard(320),
+    el("section", { class: "card" },
+      el("div", { class: "card-head" },
+        el("div", {}, el("div", { class: "eyebrow" }, "Reliability"), el("h2", {}, `${nf(okShare, 0)} % of ${nf(totalChecks, 0)} sums reproduced`),
+          el("p", { class: "card-note" }, "The tables carry their own arithmetic: column totals, row sums and carry-overs between pages. Every reading was checked against it, and failed sums were read again on zoomed crops of the scan.")),
+        el("button", { class: "btn", onclick: () => go("sources") }, "All 24 sections")),
+      statusLegend(checks), statusBar(checks)),
+    footer()];
+}
+
+/* harvest & use */
+function revierSeriesCard(s, eyebrow, explanation) {
+  let variant = "all";
+  const holder = el("div", { style: "display:grid;gap:14px" });
+  const seg = el("div", { class: "seg", role: "group", "aria-label": "Kind" });
+  const drawCard = () => {
+    const groups = (s.variants[variant] || s.groups).map(g => ({ ...g, label: g.key, color: REV_COLOR[g.key] }));
+    const block = chartBlock(host => lineChart(host, { x: s.x, series: groups, unit: s.unit, title: s.title }));
+    block.tableHost.append(seriesTable(s, groups));
+    holder.replaceChildren(el("div", { class: "controls", style: "justify-content:space-between" }, seg, block.toggle),
+      el("div", { class: "legend" }, groups.map(g => el("span", {}, keyLine(g.color), g.label))), block.host, block.tableHost);
+  };
+  for (const [key, label] of [["all", "All"], ...Object.entries(s.variables)]) seg.append(el("button", { "aria-pressed": key === variant ? "true" : "false", onclick: e => {
+    variant = key; for (const b of seg.children) b.setAttribute("aria-pressed", b === e.currentTarget ? "true" : "false"); drawCard(); } }, label));
+  drawCard();
+  return el("section", { class: "card" }, el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, eyebrow), el("h2", {}, s.title), el("p", { class: "card-note" }, explanation)), holder);
+}
+function simpleSeriesCard(s, eyebrow, colors, explanation) {
+  const groups = s.groups.map((g, i) => ({ ...g, color: colors[i] }));
+  const block = chartBlock(host => columnChart(host, { x: s.x, series: groups, unit: s.unit, title: s.title, height: 260 }));
+  block.tableHost.append(seriesTable(s, groups));
+  return el("section", { class: "card" },
+    el("div", { class: "card-head" }, el("div", {}, el("div", { class: "eyebrow" }, eyebrow), el("h2", {}, s.title), el("p", { class: "card-note" }, explanation)), block.toggle),
+    groups.length > 1 ? el("div", { class: "legend" }, groups.map(g => el("span", {}, keyRect(g.color), g.label))) : "",
+    block.host, block.tableHost);
+}
+function use() {
+  const get = id => D.series.find(s => s.id === id);
+  return [
+    head("Harvest & use, 1860/61–1877", "What the forest gave, year by year", "Timber, grazing, litter, new cultures and the cost of the timber-floating works, from the closing tables of the past period. Click any year for the cells it comes from."),
+    harvestCard(340),
+    el("div", { class: "grid-2" },
+      revierSeriesCard(get("grazing"), "I-20 · Weidenschaft", "Cattle driven into the state forest each year, per Revier."),
+      revierSeriesCard(get("litter"), "I-20 · Streunutzung", "Litter raked from the forest floor each year, in Fuder (cart loads of 144 cubic feet).")),
+    el("div", { class: "grid-2" },
+      simpleSeriesCard(get("cultures"), "I-18 · Forstculturen", ["var(--conifer)", "var(--broadleaf)"], "Area newly planted or sown each year, conifers and broadleaves; hover a year for planting and sowing separately."),
+      simpleSeriesCard(get("trift"), "I-19 · Triftbaukosten", ["var(--harvest-main)"], "Cash expense of the state on chutes, timber yards, stream clearing, bank protection and splash dams, in Mark.")),
+    footer()];
+}
+
+/* stands */
+const standById = Object.fromEntries(D.stands.map(s => [s.id, s]));
+function standLabel(id) { const s = standById[id]; if (!s) return id; return `${s.rev} · Distr. ${s.d}${s.c ? " · Abt. " + s.c : ""}${s.s ? " " + s.s : ""}${s.names ? " (" + s.names.split(";")[0] + ")" : ""}`; }
+function romanValue(r) { const map = { I: 1, V: 5, X: 10, L: 50, C: 100 }; let total = 0; for (let i = 0; i < (r || "").length; i++) { const a = map[r[i]] || 0, b = map[r[i + 1]] || 0; total += a < b ? -a : a; } return total || 999; }
+function stands() {
+  const state = { rev: "all", district: "all", q: "" };
+  const ages = REVIERE.map(r => ({ r, values: D.obs.rows.filter(x => x[0] === "I-02" && x[4] === "age" && x[9] === r && x[5] != null).map(x => x[5]) }));
+  const bins = Array.from({ length: 15 }, (_, i) => [i * 20, i * 20 + 20]);
+  const histCard = el("section", { class: "card" },
+    el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, "I-02 · Spezieller Wirtschaftsplan 1878/89"), el("h2", {}, "Age of the stands scheduled for cutting"),
+      el("p", { class: "card-note" }, "Stands in the cutting plan for the new period, by Revier, in age classes of 20 years.")),
+    el("div", { class: "hist-grid" }, ages.map(a => {
+      const block = chartBlock(host => histogram(host, a.values, REV_COLOR[a.r], { bins, title: a.r }));
+      return el("div", { style: "display:grid;gap:6px" }, el("h3", {}, a.r, el("span", { class: "muted", style: "font-family:var(--body);font-weight:400;font-size:.88rem" }, ` · ${a.values.length} stands`)), block.host);
+    })));
+  const tableHost = el("div");
+  const card = el("div", { class: "card stand-card" }, el("p", { class: "empty" }, "Select a stand to see what the sources say about it."));
+  const districts = [...new Set(D.stands.map(s => s.d))].sort((a, b) => romanValue(a) - romanValue(b));
+  const districtSelect = el("select", { id: "district", "aria-label": "Distrikt" }, el("option", { value: "all" }, "All Distrikte"), districts.map(d => el("option", { value: d }, `Distrikt ${d}`)));
+  const search = el("input", { type: "search", id: "stand-search", placeholder: "Search names, e.g. Rachel", "aria-label": "Search stands" });
+  const revChips = el("div", { class: "controls" });
+  for (const [key, label] of [["all", "All Reviere"], ...REVIERE.map(r => [r, r])]) revChips.append(el("button", { class: "chip", "aria-pressed": key === "all" ? "true" : "false", onclick: e => {
+    state.rev = key; for (const b of revChips.children) b.setAttribute("aria-pressed", b === e.currentTarget ? "true" : "false"); draw(); } }, key !== "all" ? el("span", { class: "dot", style: `background:${REV_COLOR[key]}` }) : "", label));
+  districtSelect.addEventListener("change", () => { state.district = districtSelect.value; draw(); });
+  search.addEventListener("input", () => { state.q = search.value.trim().toLowerCase(); draw(); });
+  const firstValue = (s, v, unit) => { for (const i of s.obs) { const o = obs(i); if (o.var === v && (!unit || o.us === unit)) return o; } return null; };
+  function draw() {
+    const list = D.stands.filter(s => (state.rev === "all" || s.rev === state.rev) && (state.district === "all" || s.d === state.district)
+      && (!state.q || (s.names || "").toLowerCase().includes(state.q) || s.id.toLowerCase().includes(state.q)))
+      .sort((a, b) => REVIERE.indexOf(a.rev) - REVIERE.indexOf(b.rev) || romanValue(a.d) - romanValue(b.d) || (+a.c || 0) - (+b.c || 0) || a.s.localeCompare(b.s));
+    tableHost.replaceChildren(el("p", { class: "muted", style: "font-size:.86rem;margin-bottom:8px" }, `${list.length} stands${list.length > 400 ? " · showing the first 400" : ""}`),
+      dataTable([
+        { label: "Stand", get: s => el("span", { style: "white-space:nowrap" }, el("span", { class: "dot", style: `margin-right:7px;background:${REV_COLOR[s.rev]}` }), `${s.d}${s.c ? " · " + s.c : ""}${s.s ? " " + s.s : ""}`) },
+        { label: "Name", get: s => (s.names || "").split(";")[0] },
+        { label: "Area ha", n: true, get: s => { const o = firstValue(s, "area", "ha"); return o ? nf(o.vs ?? o.v, 2) : "–"; } },
+        { label: "Age", n: true, get: s => { const o = firstValue(s, "age"); return o ? nf(o.v, 0) : "–"; } },
+        { label: "Sources", get: s => s.src.replace(/; /g, " ") }],
+        list.slice(0, 400), s => renderStandCard(card, s)));
+  }
+  draw();
+  return [
+    head("Stands", "The forest stand by stand", `${D.stands.length} stands appear in the tables, keyed by Revier, Distrikt (Roman numeral), Abteilung and Unterabteilung. Pick one to see every value the sources give for it.`),
+    histCard,
+    el("section", { class: "card" }, el("div", { class: "controls" }, revChips, districtSelect, search), el("div", { class: "stands-layout" }, tableHost, card)),
+    footer()];
+}
+function renderStandCard(card, s) {
+  const byUnit = {};
+  for (const i of s.obs) { const o = obs(i); (byUnit[o.u] = byUnit[o.u] || []).push(o); }
+  const blocks = Object.entries(byUnit).map(([u, list]) => el("div", { class: "src-block" },
+    el("h4", {}, el("span", { class: "mono" }, u), UNIT_TITLES[u] || ""),
+    el("div", { class: "kv" }, list.map(o => [
+      el("span", { class: "k" }, varLabel(o.var), o.per ? el("span", { class: "muted" }, ` · ${o.per}`) : ""),
+      el("button", { class: "v num", onclick: () => openObservations([o.i], `${varLabel(o.var)} · ${standLabel(s.id)}`) }, `${nf(o.vs ?? o.v)} ${o.us || ""}`),
+      el("span", { class: "status", title: (STATUS[o.cs] || STATUS.unchecked).label }, statusDot(o.cs))]))));
+  const descBlocks = s.desc.map(i => D.descs[i]).filter(Boolean).map(d => {
+    const stand = d.parts.stand || {}, site = d.parts.site || {}, damage = d.parts.damage || [], mgmt = d.parts.management || {};
+    const species = (stand.species || []).map(sp => el("span", {}, sp.name_de + (sp.share_value != null ? ` ${nf(sp.share_value * 100, 0)} %` : "")));
+    const facts = [["Age", stand.age_raw || stand.age_mean], ["Structure", stand.structure], ["Stocking", stand.stocking_min != null ? `${stand.stocking_min}${stand.stocking_max ? "–" + stand.stocking_max : ""}` : ""],
+      ["Health", stand.health], ["Regeneration", stand.regeneration], ["Soil", site.soil], ["Bedrock", site.bedrock], ["Exposition", site.exposition],
+      ["Slope", site.slope], ["Moisture", site.moisture], ["Cutting", mgmt.planned_cut_type], ["Damage", damage.map(x => x.type).join(", ")]].filter(([, v]) => v);
+    return el("div", { class: "src-block" },
+      el("h4", {}, el("span", { class: "mono" }, d.u), "Description cell, decomposed"),
+      species.length ? el("div", { class: "species" }, species) : "",
+      facts.length ? el("div", { class: "kv", style: "grid-template-columns:auto minmax(0,1fr)" }, facts.map(([k, v]) => [el("span", { class: "k" }, k), el("span", {}, String(v))])) : "",
+      el("p", { class: "quote", style: "font-size:.95rem" }, d.text),
+      el("button", { class: "btn link", style: "justify-self:start", onclick: () => openQuote({ u: d.u, p: d.p, quote: d.text }, `Description · ${standLabel(s.id)}`) }, "Read the cell on the scan"));
+  });
+  card.replaceChildren(
+    el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, s.rev), el("h2", {}, `Distrikt ${s.d}${s.c ? " · Abteilung " + s.c : ""}${s.s ? " " + s.s : ""}`),
+      s.names ? el("p", { class: "muted" }, s.names) : ""),
+    blocks.length ? blocks : el("p", { class: "empty" }, "No numeric values for this stand."), descBlocks);
+  if (innerWidth < 1000) card.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* disturbances */
+function parseEdtf(edtf) {
+  const m = (edtf || "").match(/^(\d{3})([\dX])(?:-(\d\d))?(?:-(\d\d))?(?:\/(\d{3})([\dX]))?/);
+  if (!m) return null;
+  const decade = m[2] === "X";
+  const from = +(m[1] + (decade ? "0" : m[2])) + (m[3] ? (+m[3] - 1) / 12 : 0);
+  const to = m[5] ? +(m[5] + (m[6] === "X" ? "9" : m[6])) + .99 : decade ? from + 9.99 : from + (m[3] ? .08 : .99);
+  return { from, to, uncertain: decade };
+}
+function disturbances() {
+  const dated = D.events.map(e => ({ ...e, span: parseEdtf(e.edtf) })).filter(e => e.span).sort((a, b) => a.span.from - b.span.from);
+  const undated = D.events.filter(e => !parseEdtf(e.edtf));
+  const types = [...new Set(dated.map(e => e.type))];
+  const timeline = chartBlock(host => {
+    const width = Math.max(320, host.clientWidth), lane = 36, m = { t: 26, r: 16, b: 30, l: width < 520 ? 92 : 112 }, height = m.t + m.b + lane * types.length;
+    const x0 = 1835, x1 = 1895, x = v => m.l + (v - x0) / (x1 - x0) * (width - m.l - m.r);
+    const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": "Timeline of disturbance events" });
+    for (let yr = 1840; yr <= 1890; yr += 10) { svg.append(svgEl("line", { x1: x(yr), x2: x(yr), y1: m.t, y2: height - m.b, class: "gridline" }));
+      svg.append(svgText({ x: x(yr), y: height - 10, "text-anchor": "middle" }, yr)); }
+    svg.append(svgEl("rect", { x: x(1860.75), y: m.t, width: x(1878) - x(1860.75), height: lane * types.length, class: "ann-band" }));
+    svg.append(svgText({ x: x(1860.9), y: m.t - 9, class: "ann-text" }, "past period 1860/61–1877"));
+    types.forEach((type, k) => {
+      const yy = m.t + k * lane + lane / 2;
+      svg.append(svgText({ x: m.l - 12, y: yy + 4, "text-anchor": "end", style: "fill:var(--ink-2);font-size:12.5px" }, EVENT_TYPES[type] || type));
+      svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: yy, y2: yy, class: "gridline" }));
+      for (const e of dated.filter(d => d.type === type)) {
+        const a = x(e.span.from), b = Math.max(x(e.span.to), a + 9);
+        svg.append(b - a > 13 ? svgEl("rect", { x: a, y: yy - 5, width: b - a, height: 10, rx: 5, fill: "var(--harvest-main)", opacity: e.span.uncertain ? .4 : .85 })
+          : svgEl("circle", { cx: a + 4.5, cy: yy, r: 5.5, fill: "var(--harvest-main)", stroke: "var(--sheet)", "stroke-width": 2 }));
+        const hit = svgEl("rect", { x: a - 8, y: yy - 13, width: Math.max(24, b - a + 16), height: 26, class: "hit", tabindex: "0", role: "button", "aria-label": `${EVENT_TYPES[type] || type}, ${e.date || e.edtf}` });
+        attachHit(hit, ev => showTip(ev, `${EVENT_TYPES[type] || type} · ${e.date || e.edtf}`, [{ label: e.place || e.rev || e.u, value: "" }], e.extent || "click for the quote"),
+          () => openQuote(e, `${EVENT_TYPES[type] || type}, ${e.date || ""}`));
+        svg.append(hit);
+      }
+    });
+    host.replaceChildren(svg);
+  });
+  const areaRows = (unit, variable) => REVIERE.map(r => {
+    const rows = D.obs.rows.map((x, i) => [x, i]).filter(([x]) => x[0] === unit && x[4] === variable && x[9] === r);
+    return { r, v: rows.reduce((s, [x]) => s + (x[6] ?? x[5] ?? 0), 0), refs: rows.map(([, i]) => i) };
+  });
+  const damageStatements = D.statements.filter(s => s.cat === "damage_event" && !D.events.some(e => e.quote === s.quote));
+  const eventItem = e => el("div", { class: "item" },
+    el("div", { class: "when" }, e.date || e.edtf || "undated", el("div", { class: "sub" }, EVENT_TYPES[e.type] || e.type)),
+    el("div", { class: "body" }, el("p", { class: "quote" }, e.quote),
+      el("div", { class: "meta" }, e.place ? el("span", {}, e.place) : "", e.extent ? el("span", {}, e.extent) : "",
+        el("button", { class: "btn link", onclick: () => openQuote(e, `${EVENT_TYPES[e.type] || e.type}, ${e.date || ""}`) }, `${e.u} · open page`))));
+  return [
+    head("Disturbances", "Storm, beetle, snow and frost", "Dated events named in the Erörternde Darstellung, the Grundlagenprotokoll and the examination protocol, next to the areas the tables record as laid bare."),
+    el("section", { class: "card" },
+      el("div", { class: "card-head" }, el("div", {}, el("div", { class: "eyebrow" }, "From the texts"), el("h2", {}, `${dated.length} dated events`),
+        el("p", { class: "card-note" }, "Dots are single dates, bars periods; pale bars are dated only to the decade. Click an event for its quote and page."))),
+      timeline.host),
+    el("div", { class: "grid-2" },
+      areaCard("I-17 · Abgleichung der Angriffsflächen", "Cutting areas laid bare instead", areaRows("I-17", "area_became_bare"), "Areas planned for cutting in the past period that became bare (blößig) through wind and beetle, in ha."),
+      areaCard("I-13 · Verzeichnis der nicht eingereihten Flächen", "Areas left out of the plan", areaRows("I-13", "area_not_assigned"), "Windthrow and beetle gaps, mostly at high elevation and hard to reforest, in ha.")),
+    el("section", { class: "card" },
+      el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, "Quotes"), el("h2", {}, "What the foresters wrote")),
+      el("div", { class: "items" }, dated.map(eventItem), undated.map(eventItem),
+        damageStatements.map(s => el("div", { class: "item" },
+          el("div", { class: "when" }, s.time || "undated", el("div", { class: "sub" }, s.subj)),
+          el("div", { class: "body" }, el("p", { class: "quote" }, s.quote),
+            el("div", { class: "meta" }, s.place ? el("span", {}, s.place) : "", s.val ? el("span", {}, `${s.val} ${s.vu || ""}`) : "",
+              el("button", { class: "btn link", onclick: () => openQuote(s, s.subj) }, `${s.u} · open page`))))))),
+    footer()];
+}
+function areaCard(eyebrow, title, rows, note) {
+  const max = Math.max(...rows.map(r => r.v), 1);
+  return el("section", { class: "card" },
+    el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, eyebrow), el("h2", {}, title), el("p", { class: "card-note" }, note)),
+    el("div", { style: "display:grid;gap:10px" }, rows.map(r => el("button", { class: "area-row", onclick: () => openObservations(r.refs, `${title} · ${r.r}`), "aria-label": `${r.r}: ${nf(r.v, 1)} ha` },
+      el("span", {}, r.r), el("span", { class: "track" }, el("span", { class: "fill", style: `width:${r.v / max * 100}%;background:${REV_COLOR[r.r]}` })),
+      el("b", { class: "num", style: "text-align:right" }, `${nf(r.v, 1)} ha`)))));
+}
+
+/* statements */
+function statements() {
+  const state = { cat: "all", rev: "all", q: "", limit: 60 };
+  const counts = {}; for (const s of D.statements) counts[s.cat] = (counts[s.cat] || 0) + 1;
+  const list = el("div", { class: "items" });
+  const more = el("button", { class: "btn", onclick: () => { state.limit += 60; draw(); } }, "Show more");
+  const catChips = el("div", { class: "controls" });
+  for (const [key, label, count] of [["all", "All", D.statements.length], ...Object.entries(CATEGORIES).filter(([k]) => counts[k]).map(([k, l]) => [k, l, counts[k]])])
+    catChips.append(el("button", { class: "chip", "aria-pressed": key === "all" ? "true" : "false", onclick: e => {
+      state.cat = key; state.limit = 60; for (const b of catChips.children) b.setAttribute("aria-pressed", b === e.currentTarget ? "true" : "false"); draw(); } }, label, el("span", { class: "count" }, count)));
+  const revSelect = el("select", { id: "st-rev", "aria-label": "Revier" }, el("option", { value: "all" }, "All Reviere"), REVIERE.map(r => el("option", { value: r }, r)));
+  const search = el("input", { type: "search", id: "st-search", placeholder: "Search, e.g. Fichte, Windbruch, Weide", "aria-label": "Search statements" });
+  revSelect.addEventListener("change", () => { state.rev = revSelect.value; state.limit = 60; draw(); });
+  search.addEventListener("input", () => { state.q = search.value.trim().toLowerCase(); state.limit = 60; draw(); });
+  const count = el("p", { class: "muted", style: "font-size:.86rem" });
+  function draw() {
+    const filtered = D.statements.filter(s => (state.cat === "all" || s.cat === state.cat) && (state.rev === "all" || s.rev === state.rev)
+      && (!state.q || [s.subj, s.attr, s.val, s.quote, s.place, s.species].join(" ").toLowerCase().includes(state.q)));
+    count.textContent = `${filtered.length} statements`;
+    list.replaceChildren(...filtered.slice(0, state.limit).map(s => el("div", { class: "item" },
+      el("div", { class: "when" }, s.time || "–", el("div", { class: "sub" }, CATEGORIES[s.cat] || s.cat)),
+      el("div", { class: "body" },
+        el("div", {}, el("b", {}, s.subj), s.attr ? ` · ${s.attr}` : "", s.val ? el("span", { class: "num" }, ` · ${s.val}${s.vu ? " " + s.vu : ""}`) : ""),
+        el("p", { class: "quote" }, s.quote),
+        el("div", { class: "meta" }, el("span", { class: "tag" }, s.status), s.place ? el("span", {}, s.place) : "", s.rev ? el("span", {}, s.rev) : "",
+          el("button", { class: "btn link", onclick: () => openQuote(s, s.subj) }, `${s.u} · open page`))))));
+    more.hidden = filtered.length <= state.limit;
+  }
+  draw();
+  return [
+    head("Statements", "What the reports say about the forest", `${D.statements.length} single statements from the Erörternde Darstellung (I-00), the protocols (I-01, I-21) and the text pages of the plans, each with its verbatim quote, place, date and whether it describes, plans or forbids.`),
+    el("section", { class: "card" }, catChips, el("div", { class: "controls" }, revSelect, search, count), list, more),
+    footer()];
+}
+
+/* maps */
+function maps() {
+  let current = 0, zoom = 1, showLabels = true, q = "";
+  const tabsRow = el("div", { class: "map-tabs" });
+  const viewer = el("div", { class: "map-view" });
+  const info = el("div", { style: "display:grid;gap:6px" });
+  const toggle = el("button", { class: "chip", "aria-pressed": "true", onclick: () => { showLabels = !showLabels; toggle.setAttribute("aria-pressed", showLabels ? "true" : "false"); draw(); } }, "Label boxes");
+  const search = el("input", { type: "search", id: "map-search", placeholder: "Find a label, e.g. Rachel", "aria-label": "Find a label" });
+  search.addEventListener("input", () => { q = search.value.trim().toLowerCase(); draw(); });
+  const dynamic = el("div", { style: "display:grid;gap:14px" });
+  const side = el("div", { class: "map-side" },
+    el("div", { class: "controls" }, el("div", { class: "seg" },
+      el("button", { "aria-label": "Zoom out", onclick: () => { zoom = Math.max(1, zoom - .5); draw(); } }, "−"),
+      el("button", { "aria-label": "Zoom in", onclick: () => { zoom = Math.min(5, zoom + .5); draw(); } }, "+")), toggle),
+    search, dynamic);
+  function focusLabel(l) {
+    const m = D.maps[current];
+    zoom = Math.max(zoom, 2.5); q = l[0].toLowerCase(); search.value = l[0]; draw();
+    requestAnimationFrame(() => { const inner = viewer.firstChild; viewer.scrollTo({ left: l[2] / m.w * inner.offsetWidth - viewer.clientWidth / 2, top: l[3] / m.h * inner.offsetHeight - viewer.clientHeight / 2 }); });
+  }
+  function draw() {
+    const m = D.maps[current], pg = page(m.u, m.p);
+    for (const [i, b] of [...tabsRow.children].entries()) b.setAttribute("aria-pressed", i === current ? "true" : "false");
+    info.replaceChildren(el("div", { class: "eyebrow" }, `${m.u} · ${UNIT_TITLES[m.u]}`), el("h2", {}, m.title), el("p", { class: "card-note" }, [m.type, m.date, m.scale].filter(Boolean).join(" · ")));
+    const inner = el("div", { class: "map-inner", style: `width:${zoom * 100}%` }, el("img", { src: pg.img, alt: m.title }));
+    const matches = [];
+    m.labels.forEach((l, i) => {
+      const hit = q && l[0].toLowerCase().includes(q);
+      if (hit) matches.push(i);
+      if (!showLabels) return;
+      const b = el("button", { class: `lab${q && !hit ? " dim" : ""}${hit ? " hit" : ""}`, "aria-label": l[0],
+        style: `left:${l[2] / m.w * 100}%;top:${l[3] / m.h * 100}%;width:${(l[4] - l[2]) / m.w * 100}%;height:${(l[5] - l[3]) / m.h * 100}%` });
+      b.addEventListener("pointermove", e => showTip(e, l[0], [{ label: l[1].replace(/_/g, " "), value: l[6] }]));
+      b.addEventListener("pointerleave", hideTip);
+      inner.append(b);
+    });
+    const scroll = [viewer.scrollLeft, viewer.scrollTop];
+    viewer.replaceChildren(inner);
+    viewer.scrollLeft = scroll[0]; viewer.scrollTop = scroll[1];
+    const byClass = {}; for (const l of m.labels) byClass[l[1]] = (byClass[l[1]] || 0) + 1;
+    const listed = q ? matches.map(i => m.labels[i]) : m.labels.filter(l => ["settlement", "forest_district", "water", "mountain", "trift_structure"].includes(l[1]));
+    dynamic.replaceChildren(
+      el("p", { class: "muted", style: "font-size:.86rem" }, `${m.labels.length} labels: ` + Object.entries(byClass).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, v]) => `${v} ${k.replace(/_/g, " ")}`).join(", ")),
+      m.legend.length ? el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, "Legend"), m.legend.map(([sym, meaning]) => el("div", { style: "font-size:.88rem" }, el("b", {}, meaning), el("span", { class: "muted" }, ` · ${sym}`)))) : "",
+      el("div", { class: "eyebrow" }, q ? `${matches.length} matches` : "Places, districts, waters"),
+      el("div", { class: "label-list" }, listed.slice(0, 150).map(l => el("button", { onclick: () => focusLabel(l) }, el("span", {}, l[0]), el("span", { class: "muted" }, l[1].replace(/_/g, " "))))));
+  }
+  D.maps.forEach((m, i) => { const pg = page(m.u, m.p); tabsRow.append(el("button", { class: "map-tab", onclick: () => { current = i; zoom = 1; q = ""; search.value = ""; viewer.scrollTo(0, 0); draw(); } },
+    el("img", { src: pg.img, alt: "", loading: "lazy" }), el("span", {}, `${m.u} · ${UNIT_TITLES[m.u]}`))); });
+  draw();
+  return [
+    head("Maps", "Four sheets, read label by label", "Every label was read on overlapping zoomed tiles and placed on the sheet. Search a place name to find it, hover a box for the reading. The 1200 px images limit what can be read on the large overview sheet (I-08)."),
+    tabsRow,
+    el("section", { class: "card" }, info, el("div", { class: "map-layout" }, viewer, side)),
+    footer()];
+}
+
+/* sources */
+function sources() {
+  const detail = el("div");
+  const showUnit = u => {
+    const keys = Object.keys(D.pages).filter(k => k.startsWith(u.id + "/")).sort((a, b) => +a.split("/")[1] - +b.split("/")[1]);
+    detail.replaceChildren(el("section", { class: "card" },
+      el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, `${u.id} · ${u.heft} ${u.nr}`), el("h2", {}, u.title)),
+      el("p", { class: "card-note" }, u.summary),
+      Object.keys(u.checks).length ? statusLegend(u.checks) : "",
+      el("div", { class: "thumbs" }, keys.map(k => { const p = +k.split("/")[1]; const pg = page(u.id, p);
+        return el("button", { class: "thumb", onclick: () => openPage(u.id, p), "aria-label": `Open ${pg.pid}` },
+          pg.img ? el("img", { src: pg.img, alt: "", loading: "lazy" }) : el("div", { style: "aspect-ratio:3/4;display:grid;place-items:center;color:var(--muted);font-size:.8rem" }, "no image"),
+          el("span", {}, `p. ${pg.num}`)); }))));
+    detail.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const rows = D.units.map(u => el("div", { class: "unit-row", role: "button", tabindex: "0", onclick: () => showUnit(u), onkeydown: e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); showUnit(u); } } },
+    el("div", { class: "id" }, u.id),
+    el("div", { style: "display:grid;gap:2px;min-width:0" }, el("div", { class: "t" }, u.title),
+      el("div", { class: "s" }, `${u.pages} pages · ${[u.kinds.Te && u.kinds.Te + " text", u.kinds.Ta && u.kinds.Ta + " table", u.kinds.Ka && u.kinds.Ka + " map"].filter(Boolean).join(", ")}`)),
+    el("div", { class: "s" }, Object.keys(u.checks).length ? `${nf(Object.values(u.checks).reduce((a, b) => a + b, 0), 0)} sums checked` : "text or map"),
+    el("div", {}, statusBar(u.checks))));
+  return [
+    head("Sources", "24 sections of the Operat", "The items of the table of contents (A 383 I, p. 2) that are linked to pages. The bar shows how the readings of each table section fared against its own sums. Open a section to page through its scans."),
+    el("section", { class: "card" }, statusLegend(null), el("div", { class: "units" }, rows)),
+    detail, footer()];
+}
+
+function footer() {
+  return el("footer", { class: "foot" },
+    el("span", {}, "Waldstandsrevision Ilzertrift-Komplex 1878/90 · Regierung von Niederbayern, Kammer der Forsten, A 383 I – A 385"),
+    el("span", {}, `Data package ${D.meta.built} · ${nf(D.meta.counts.cells, 0)} table cells`),
+    PACKAGE_LINK ? el("a", { href: PACKAGE_LINK }, "Data package (CSV)") : "",
+    el("span", {}, "Readings by Gemini 3.8 Flash from scan and transcript; unit specs and checks by Claude Code"));
+}
+
+render((location.hash ? location.hash.slice(1) : store("ilz-view")) || "overview");
+</script>

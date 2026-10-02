@@ -62,6 +62,21 @@ def parse_number(raw: str) -> Number:
     return Number(None, "not_a_number")
 
 
+UNIT_WORDS = [("ster", "Ster"), ("stere", "Ster"), ("str", "Ster"), ("raummeter", "Ster"), ("klafter", "Klafter"),
+              ("klftr", "Klafter"), ("m", "M"), ("mark", "M"), ("fl", "fl"), ("gulden", "fl"), ("hektar", "ha"),
+              ("hekt", "ha"), ("ha", "ha"), ("tagwerk", "Tagwerk"), ("tagw", "Tagwerk"), ("tgw", "Tagwerk"),
+              ("kubikmeter", "Kubikmeter"), ("cbm", "Kubikmeter")]
+UNIT_LABEL = re.compile(r"^=?\s*([A-Za-zä.]+)(?:\s*[A-Za-z₰.]*)?\s*$")
+
+
+def unit_in_label(raw: str) -> str:
+    match = UNIT_LABEL.match(strip_markup(raw))
+    if not match:
+        return ""
+    word = match.group(1).lower().strip(" .")
+    return next((name for spelling, name in UNIT_WORDS if word == spelling), "")
+
+
 def currency_base(unit_key: str) -> int:
     return 60 if (unit_key or "fl").lower().strip(". ") in ("fl", "gulden", "fl kr", "fl. kr") else 100
 
@@ -119,6 +134,10 @@ def normalise_table(table: dict, form: dict, state: KeyState, previous: dict, co
                 canonical_raw.setdefault(canonical, []).append((index, raw, effective))
         if (row.get("sets_key") or {}).get("value"):
             state.update({row["sets_key"]["key"]: row["sets_key"]["value"]})
+        elif row_type in ("heading", "carry_over", "group_header"):
+            unit_word = next((unit_in_label(c) for c in cells if unit_in_label(c)), "")
+            if unit_word:
+                state.update({"unit": unit_word})
         values, row_keys = {}, {}
         for column_id, entries in canonical_raw.items():
             column = columns.get(column_id, {"type": "text"})

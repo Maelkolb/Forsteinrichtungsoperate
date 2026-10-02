@@ -157,3 +157,13 @@ def test_second_reading_score_prefers_consistent_grid():
     assert good_score["value"] > shifted_score["value"]
     assert shifted_score["out_of_range"] == 1 and shifted_score["mismatch"] >= 1
     assert not needs_second_reading(good_score)
+
+
+def test_unit_heading_without_model_key_switches_unit():
+    from ecological_ie.normalize import unit_in_label
+    assert [unit_in_label(t) for t in ["= Ster", "Klafter.", "M. ₰", "Tgw.", "Su", "1872"]] == \
+        ["Ster", "Klafter", "M", "Tagwerk", "", ""]
+    rows, _ = normalise([row(["", "", "", "", "fl.", "kr."], "heading"), row(["1875", "I", "", "", "10", "30"]),
+                         row(["= M. Pf.", "", "", "", "18", "00"], "carry_over"), row(["1876", "I", "", "", "2", "57"])])
+    assert [r.get("key_unit") for r in rows] == ["fl", "fl", "M", "M"]
+    assert rows[3]["values"]["fee"] == 2.57
