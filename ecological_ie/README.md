@@ -28,11 +28,17 @@ python -m ecological_ie spec-check
 python -m ecological_ie run tables recheck describe text maps      # or: run all
 python -m ecological_ie run tables --section I-11 --positions 3 4  # a single unit / pages
 
-# 5 rebuild derived tables, publish the data package, write the review site
+# 5 rebuild derived tables, publish the data package, write the review site and the explorer
 python -m ecological_ie derive
 python -m ecological_ie publish
-python -m ecological_ie review
+python -m ecological_ie review --out work/release/review_site --copy-images
+python -m ecological_ie explore --package work/runs/main/package --out work/release/explorer/index.html \
+    --image-base ../review_site/images/
 ```
+
+The explorer (`explorer.py`, `explorer_template.html`) is one HTML file with the data embedded: overview, harvest and
+use 1860/61–1877, stands, disturbances, statements, maps and sources. Every value opens a drawer with the reading, its
+check status and the page scan. `--fragment` leaves out the html/head/body wrapper for hosts that add their own.
 
 Model options for `run`: `--model` (default `gemini-3.8-flash`), `--thinking`, `--recheck-model`, `--rounds`,
 `--workers`, `--image-resolution` (default `ultra_high`), `--force`. Every stage appends model, token counts and cost
