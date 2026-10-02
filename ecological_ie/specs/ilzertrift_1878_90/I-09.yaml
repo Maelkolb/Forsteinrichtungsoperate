@@ -1,0 +1,23 @@
+unit: I-09
+title: Triftbaukarten
+summary: |
+  Triftbaukarte, Beilage I.9 of the 1878 Waldstandsrevision: a hand-drawn plan "Zum Triftbau-Antrag des St. Oswalder
+  Reviers" of the timber-floating waters of Revier St. Oswald, from the Rachelsee (top) down the Seebach and the Große
+  Ohe to Riedlhütte and Hammer (bottom left). The watercourses carry Roman numerals I-XI explained in a legend at the
+  bottom right (Große Ohe, the Triftcanal along it, Seebach, Hinterer and Vorderer Schachtenbach, two Seigen and four
+  Zuleitungscanäle feeding the Schachtenbäche and the Rachelsee); red lines mark existing and ochre/yellow lines newly
+  planned floating channels, and Klausen, bridges and Schwellen are labelled. A signed pencil note at the right
+  margin says that the numbering agrees with the plan attached to the Triftbau proposal for 1878/89.
+default_profile: map
+map:
+  expected: "Triftbaukarte: hand-drawn plan of the floating streams, canals and structures (Triftbauten) of Revier St. Oswald, distinguishing existing and planned floating channels; belongs to the Triftbau proposal (Triftbauplan) 1878/89."
+  title: "'Zum Triftbau-Antrag des St. Oswalder Reviers' (top right, ink, underlined)."
+  legend: "Bottom right: I. Große Ohe; II. Triftcanal an der großen Ohe; III. Seebach; IV. Hinterer Schachtenbach; V. Vorderer Schachtenbach; VI. Tiefe Seige; VII. Weitauseige (?); VIII. Zuleitungscanal vom Seebach in die Schachtenbäche; IX. [Zuleitungscanal] vom ...bach in den Rachelsee; X. [Zuleitungscanal] von der ... in den Rachelsee; XI. [Zuleitungscanal] von der tiefen Seige in die Schachtenbachklause; red line = fertige Holztriftbächle (existing); ochre/yellow line = neu herzustellende Holztriftbächle (to be built). The Roman numerals on the map refer to this legend."
+  scale: "Under the legend a ratio '1 : 10000' (?) with a short bar marked in red; reading uncertain at 1200 px (the HTR read 's. 1888')."
+  annotations: "Pencil note at the right margin, signed: the numbers agree with those of the plan attached to the Triftbau proposal for the years 1878/89."
+  symbols: "Thin blue-black lines = streams; double or coloured lines = floating channels; small letters and numbers along the channels (a, b, 4, 12 ...) mark individual structures; a thin red-violet polygon in the lower half is a boundary (state forest / Revier)."
+  toponyms: "Rachelsee, Seebach, Schachtenbachklause, Hinterer and Vorderer Schachtenbach, Hintere and Vordere Schachtenbrücke, Grubenbrücke (?), Obere and Untere ...schwelle, Neuhüttsteg (?), Guglöderbrücke (?), Große Ohe, Triftcanal, Hammer, Riedlhütte. Spellings partly uncertain."
+  resolution: "1200 px (1200 x 1937) is enough for the title, the legend and the underlined main labels on zoomed tiles; the pencil note and the small letters and numbers along the channels are barely legible."
+notes: |
+  Single sheet (A 384 II 110), mounted in 3 x 3 panels. The plan is sparse (streams only, no topography or stands),
+  so the content is the network of floating waters, the Klausen and the planned new channels.

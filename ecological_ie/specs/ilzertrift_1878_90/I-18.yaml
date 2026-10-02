@@ -1,0 +1,277 @@
+unit: I-18
+title: Generelle Übersicht der Forstverbesserungen
+summary: |
+  Beilage I. 18 (Formular 28 / Formular 4 für Forstmeister, Forstamt Schönberg, 31 January 1879): general overview
+  of the forest improvements in the Reviere Schönau, St. Oswald and Klingenbrunn during the III. Zeitabschnitt
+  1860/61–1877, one row per year of use (the three Reviere together). Page 2 (Cap. II § 6 Forstculturen, Saaten und
+  Pflanzungen): culture supervision, drainage, seed collection, broadleaf and conifer sowings and plantings with area
+  (Tagwerk, new cultures and Nachbesserungen), seed quantities, plant numbers and costs; page 3: sums of Titl. 4,
+  Titl. 5 (protection ditches and a further area-based measure), total of § 6 and services in kind; page 4: Cap. II
+  § 4 Titl. 4 Holzabfuhrwege (new roads and repairs). Money in Gulden/Kreuzer until 1875, converted sum into Mark,
+  1876–1877 in Mark/Pfennig; lengths in Ruthen and seeds in Metzen/Pfund until 1871, metric from 1872. Page 5 is a
+  situation map of a projected wood-haulage road through Distr. VIII.
+default_profile: table
+default_form: cultures
+pages:
+  1:
+    role: title
+    profile: text
+  2:
+    note: Cap. II § 6 Forstculturen, Saaten und Pflanzungen (double page)
+  3:
+    form: culture_sums
+    note: Cap. II § 6 continued – Summe Titl. 4, Titl. 5, Summe § 6, Naturalleistungen (double page)
+  4:
+    form: roads
+    note: Cap. II § 4 Titl. 4 Holzabfuhrwege (double page), signed Schönberg 31 January 1879
+  5:
+    role: map
+    profile: map
+    note: lower half of the image is masked (grey rectangle)
+forms:
+  cultures:
+    name: Cap. II § 6 Forstculturen – Saaten und Pflanzungen 1860/61–1877
+    description: |
+      Double page; one row per year in the first column ("Bezeichnung des Reviers, Forstamts" holds the years
+      1860/61 … 1866/67, 1868 … 1877; there is no 1867). Dots "." are empty cells. Money pairs are fl. | kr. up to
+      1875 (kr. with fractions like 21½). After 1875: a sum row of the money columns (sum, in fl.), a line "M. Pf."
+      and the converted sums (carry_over, sets_key unit = M); 1876 and 1877 are in M. | Pf.; the final "Su" row is the
+      grand total (sum, money in M). The lines "Hekt …" below "Su" convert the area sums into hectares: row_type note.
+      Quantity columns change to metric units after 1871: between 1871 and 1872 small boxes give the subtotal
+      1860/61–1871 of a quantity column (e.g. "47743" Ruthen in Titl. 2, "2,75" Metzen Bucheln, Pfund of conifer
+      seed) and its conversion ("= Meter 139342", "= Hektoliter 1,09", "= Kilogramm …"). Give the subtotal line as
+      row_type sum and the converted line as carry_over, but WITHOUT sets_key (sets_key unit is reserved for the
+      currency); name the new unit in the row note. Small second lines "… in Saatbeeten" (part sown in nursery seed
+      beds) under a value belong to that year's row: put them into the row note. Footnote "* in Pflanzkästen versetzte
+      Laubholzpflanzen" refers to the Laubholzpflanzungen total.
+    columns:
+      - {id: year, label: "Bezeichnung des Reviers, Forstamts", type: period, meaning: "year of use"}
+      - {id: t1_cost, label: "Titl. 1 › Auf Culturaufseher (?) › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: culture_supervision_cost, meaning: "cash expense, Titl. 1 (header uncertain); Mark from 1876"}
+      - {id: t1_cost_kr, label: "Titl. 1 › Auf Culturaufseher (?) › Baarer Aufwand › kr.", type: pair_minor,
+         of: t1_cost, mode: currency}
+      - {id: drain_length, label: "Titl. 2 › Auf Entwässerungs-Anstalten › Ruthen › Zahl", type: number,
+         unit: Ruthen, variable: drainage_ditch_length, meaning: "length of drainage ditches; Meter from 1872"}
+      - {id: drain_estimate, label: "Titl. 2 › Auf Entwässerungs-Anstalten › Voller Kostenanschlag › fl.",
+         type: pair_major, unit: fl, variable: drainage_cost_estimate}
+      - {id: drain_estimate_kr, label: "Titl. 2 › Auf Entwässerungs-Anstalten › Voller Kostenanschlag › kr.",
+         type: pair_minor, of: drain_estimate, mode: currency}
+      - {id: drain_cost, label: "Titl. 2 › Auf Entwässerungs-Anstalten › Baarer Aufwand › fl.", type: pair_major,
+         unit: fl, variable: drainage_cost}
+      - {id: drain_cost_kr, label: "Titl. 2 › Auf Entwässerungs-Anstalten › Baarer Aufwand › kr.", type: pair_minor,
+         of: drain_cost, mode: currency}
+      - {id: seed_coll_estimate, label: "Titl. 3 › Auf Samengewinnung und Conservirung › Voller Kostenanschlag › fl.",
+         type: pair_major, unit: fl, variable: seed_collection_cost_estimate}
+      - {id: seed_coll_estimate_kr, label: "Titl. 3 › Auf Samengewinnung und Conservirung › Voller Kostenanschlag › kr.",
+         type: pair_minor, of: seed_coll_estimate, mode: currency}
+      - {id: seed_coll_cost, label: "Titl. 3 › Auf Samengewinnung und Conservirung › Baarer Aufwand › fl.",
+         type: pair_major, unit: fl, variable: seed_collection_cost}
+      - {id: seed_coll_cost_kr, label: "Titl. 3 › Auf Samengewinnung und Conservirung › Baarer Aufwand › kr.",
+         type: pair_minor, of: seed_coll_cost, mode: currency}
+      - {id: bs_area_new, label: "Titl. 4 › Laubholz-Ansaaten › Fläche der neuen Culturen › Tagwerke", type: number,
+         unit: Tagwerk, variable: broadleaf_sowing_area}
+      - {id: bs_area_repair, label: "Titl. 4 › Laubholz-Ansaaten › Fläche der Nachbesserungen › Tagwerke",
+         type: number, unit: Tagwerk, variable: broadleaf_sowing_repair_area,
+         meaning: "area of re-sowing in failed cultures (Nachbesserungen)"}
+      - {id: bs_seed_acorns, label: "Titl. 4 › Laubholz-Ansaaten › Samenquantum › Eicheln › Metzen", type: number,
+         unit: Metzen, variable: seed_acorns, meaning: "acorns sown ('Scheffel' crossed out, 'Metzen')"}
+      - {id: bs_seed_beech, label: "Titl. 4 › Laubholz-Ansaaten › Samenquantum › Bucheln › Metzen", type: number,
+         unit: Metzen, variable: seed_beechnuts, meaning: "beechnuts sown; Hektoliter after 1871"}
+      - {id: bs_seed_other, label: "Titl. 4 › Laubholz-Ansaaten › Samenquantum › übrige Samen (?) › Pfd.",
+         type: number, unit: Pfund, variable: seed_other_broadleaf, meaning: "other broadleaf seed"}
+      - {id: bs_estimate, label: "Titl. 4 › Laubholz-Ansaaten › Voller Kostenanschlag › fl.", type: pair_major,
+         unit: fl, variable: broadleaf_sowing_cost_estimate}
+      - {id: bs_estimate_kr, label: "Titl. 4 › Laubholz-Ansaaten › Voller Kostenanschlag › kr.", type: pair_minor,
+         of: bs_estimate, mode: currency}
+      - {id: bs_cost, label: "Titl. 4 › Laubholz-Ansaaten › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: broadleaf_sowing_cost}
+      - {id: bs_cost_kr, label: "Titl. 4 › Laubholz-Ansaaten › Baarer Aufwand › kr.", type: pair_minor, of: bs_cost,
+         mode: currency}
+      - {id: cs_area_new, label: "Nadelholzsaaten › Fläche der neuen Culturen › Tagwerke", type: number,
+         unit: Tagwerk, variable: conifer_sowing_area}
+      - {id: cs_area_repair, label: "Nadelholzsaaten › Fläche der Nachbesserungen › Tagwerke", type: number,
+         unit: Tagwerk, variable: conifer_sowing_repair_area}
+      - {id: cs_seed, label: "Nadelholzsaaten › Samenquantum › Pfd.", type: number, unit: Pfund,
+         variable: seed_conifer, meaning: "conifer seed sown; Kilogramm after 1871; part 'in Saatbeeten' in the note"}
+      - {id: cs_estimate, label: "Nadelholzsaaten › Voller Kostenanschlag › fl.", type: pair_major, unit: fl,
+         variable: conifer_sowing_cost_estimate}
+      - {id: cs_estimate_kr, label: "Nadelholzsaaten › Voller Kostenanschlag › kr.", type: pair_minor,
+         of: cs_estimate, mode: currency}
+      - {id: cs_cost, label: "Nadelholzsaaten › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: conifer_sowing_cost}
+      - {id: cs_cost_kr, label: "Nadelholzsaaten › Baarer Aufwand › kr.", type: pair_minor, of: cs_cost,
+         mode: currency}
+      - {id: bp_area_new, label: "Laubholzpflanzungen › Fläche der neuen Culturen › Tagwerke", type: number,
+         unit: Tagwerk, variable: broadleaf_planting_area}
+      - {id: bp_area_repair, label: "Laubholzpflanzungen › Fläche der Nachbesserungen › Tagwerke", type: number,
+         unit: Tagwerk, variable: broadleaf_planting_repair_area}
+      - {id: bp_plants, label: "Laubholzpflanzungen › Pflanzenmenge › Stück", type: number, unit: Stück,
+         variable: broadleaf_plants}
+      - {id: bp_estimate, label: "Laubholzpflanzungen › Voller Kostenanschlag › fl.", type: pair_major, unit: fl,
+         variable: broadleaf_planting_cost_estimate}
+      - {id: bp_estimate_kr, label: "Laubholzpflanzungen › Voller Kostenanschlag › kr.", type: pair_minor,
+         of: bp_estimate, mode: currency}
+      - {id: bp_cost, label: "Laubholzpflanzungen › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: broadleaf_planting_cost}
+      - {id: bp_cost_kr, label: "Laubholzpflanzungen › Baarer Aufwand › kr.", type: pair_minor, of: bp_cost,
+         mode: currency}
+      - {id: cp_area_new, label: "Nadelholzpflanzungen › Fläche der neuen Culturen › Tagwerke", type: number,
+         unit: Tagwerk, variable: conifer_planting_area}
+      - {id: cp_area_repair, label: "Nadelholzpflanzungen › Fläche der Nachbesserungen › Tagwerke", type: number,
+         unit: Tagwerk, variable: conifer_planting_repair_area}
+      - {id: cp_plants, label: "Nadelholzpflanzungen › Pflanzenmenge › Stück", type: number, unit: Stück,
+         variable: conifer_plants}
+      - {id: cp_estimate, label: "Nadelholzpflanzungen › Voller Kostenanschlag › fl.", type: pair_major, unit: fl,
+         variable: conifer_planting_cost_estimate}
+      - {id: cp_estimate_kr, label: "Nadelholzpflanzungen › Voller Kostenanschlag › kr.", type: pair_minor,
+         of: cp_estimate, mode: currency}
+      - {id: cp_cost, label: "Nadelholzpflanzungen › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: conifer_planting_cost}
+      - {id: cp_cost_kr, label: "Nadelholzpflanzungen › Baarer Aufwand › kr.", type: pair_minor, of: cp_cost,
+         mode: currency}
+    observations:
+      scope: Reviere Schönau, St. Oswald and Klingenbrunn together (Forstamt Schönberg)
+  culture_sums:
+    name: Cap. II § 6 Forstculturen – Summe Titl. 4, Titl. 5 Übrige Kulturen und Verbesserungen, Summe § 6
+    description: |
+      Same row order as page 2 (years 1860/61 … 1877 in the first column, no 1867; sum after 1875 in fl., line
+      "M. Pf." and converted sums as carry_over with sets_key unit = M; 1876–1877 in M.; final "Su" = grand total).
+      Dots "." are empty. The Ruthen column of the ditches has a subtotal box after 1871 ("78 = Meter 228"): subtotal
+      as row_type sum, converted line as carry_over without sets_key (unit Meter in the note). In the area column of
+      the second Titl. 5 measure small second lines "auf/incl. 1,31 Saatbeete" give the part in nursery seed beds: put
+      them into the row note. Under "Su" the area total is converted ("Hektar 2167,440 auf 13,002 Saatbeete"): note.
+      The Naturalleistungen and Bemerkungen columns are empty (dots).
+    columns:
+      - {id: year, label: "Bezeichnung des Reviers, Forstamts", type: period, meaning: "year of use"}
+      - {id: t4_estimate, label: "Summe Titl. 4 Ansaaten u. Pflanzungen › Voller Kostenanschlag › fl.",
+         type: pair_major, unit: fl, variable: sowing_planting_cost_estimate}
+      - {id: t4_estimate_kr, label: "Summe Titl. 4 Ansaaten u. Pflanzungen › Voller Kostenanschlag › kr.",
+         type: pair_minor, of: t4_estimate, mode: currency}
+      - {id: t4_cost, label: "Summe Titl. 4 Ansaaten u. Pflanzungen › Baarer Aufwand › fl.", type: pair_major,
+         unit: fl, variable: sowing_planting_cost}
+      - {id: t4_cost_kr, label: "Summe Titl. 4 Ansaaten u. Pflanzungen › Baarer Aufwand › kr.", type: pair_minor,
+         of: t4_cost, mode: currency}
+      - {id: ditch_length, label: "Titl. 5 Übrige Kulturen und Verbesserungen › Auf Schutz- und Schonungs-Gräben › Ruthen › Zahl",
+         type: number, unit: Ruthen, variable: protection_ditch_length,
+         meaning: "length of protection/enclosure ditches; Meter from 1872"}
+      - {id: ditch_estimate, label: "Titl. 5 › Auf Schutz- und Schonungs-Gräben › Voller Kostenanschlag › fl.",
+         type: pair_major, unit: fl, variable: protection_ditch_cost_estimate}
+      - {id: ditch_estimate_kr, label: "Titl. 5 › Auf Schutz- und Schonungs-Gräben › Voller Kostenanschlag › kr.",
+         type: pair_minor, of: ditch_estimate, mode: currency}
+      - {id: ditch_cost, label: "Titl. 5 › Auf Schutz- und Schonungs-Gräben › Baarer Aufwand › fl.",
+         type: pair_major, unit: fl, variable: protection_ditch_cost}
+      - {id: ditch_cost_kr, label: "Titl. 5 › Auf Schutz- und Schonungs-Gräben › Baarer Aufwand › kr.",
+         type: pair_minor, of: ditch_cost, mode: currency}
+      - {id: other_area, label: "Titl. 5 › Auf … Gegenstände (Kopf unsicher) › Fläche › Tagw.", type: number,
+         unit: Tagwerk, variable: other_improvement_area,
+         meaning: "area of a further culture/tending measure (header unreadable, HTR 'Unterhaltungs-Gegenstände'); incl. nursery seed beds"}
+      - {id: other_estimate, label: "Titl. 5 › Auf … Gegenstände › Voller Kostenanschlag › fl.", type: pair_major,
+         unit: fl, variable: other_improvement_cost_estimate}
+      - {id: other_estimate_kr, label: "Titl. 5 › Auf … Gegenstände › Voller Kostenanschlag › kr.",
+         type: pair_minor, of: other_estimate, mode: currency}
+      - {id: other_cost, label: "Titl. 5 › Auf … Gegenstände › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: other_improvement_cost}
+      - {id: other_cost_kr, label: "Titl. 5 › Auf … Gegenstände › Baarer Aufwand › kr.", type: pair_minor,
+         of: other_cost, mode: currency}
+      - {id: t5_estimate, label: "Summe Titl. 5 › Voller Kostenanschlag › fl.", type: pair_major, unit: fl,
+         variable: other_cultures_cost_estimate}
+      - {id: t5_estimate_kr, label: "Summe Titl. 5 › Voller Kostenanschlag › kr.", type: pair_minor,
+         of: t5_estimate, mode: currency}
+      - {id: t5_cost, label: "Summe Titl. 5 › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: other_cultures_cost}
+      - {id: t5_cost_kr, label: "Summe Titl. 5 › Baarer Aufwand › kr.", type: pair_minor, of: t5_cost,
+         mode: currency}
+      - {id: p6_estimate, label: "Summe § 6 Forstculturen › Voller Kostenanschlag › fl.", type: pair_major, unit: fl,
+         variable: forest_culture_cost_estimate_total, meaning: "Titl. 1–5 together (Titl. 1–4 on page 2)"}
+      - {id: p6_estimate_kr, label: "Summe § 6 Forstculturen › Voller Kostenanschlag › kr.", type: pair_minor,
+         of: p6_estimate, mode: currency}
+      - {id: p6_cost, label: "Summe § 6 Forstculturen › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: forest_culture_cost_total}
+      - {id: p6_cost_kr, label: "Summe § 6 Forstculturen › Baarer Aufwand › kr.", type: pair_minor, of: p6_cost,
+         mode: currency}
+      - {id: entitled_team_days, label: "Bezeichnung der Naturalleistungen › Berechtigte › Spanndienst › Anzahl Tage",
+         type: number, unit: Tage, variable: labour_days_team_entitled,
+         meaning: "team (draught) labour days owed by holders of forest rights"}
+      - {id: entitled_hand_days, label: "Bezeichnung der Naturalleistungen › Berechtigte › Handdienst › Anzahl Tage",
+         type: number, unit: Tage, variable: labour_days_hand_entitled}
+      - {id: commoners_team_days, label: "Bezeichnung der Naturalleistungen › Waldgenossen › Spanndienst › Anzahl Tage",
+         type: number, unit: Tage, variable: labour_days_team_commoners}
+      - {id: commoners_hand_days, label: "Bezeichnung der Naturalleistungen › Waldgenossen › Handdienst › Anzahl Tage",
+         type: number, unit: Tage, variable: labour_days_hand_commoners}
+      - {id: in_kind_value, label: "Anschlag in Geld › fl.", type: pair_major, unit: fl,
+         variable: in_kind_services_value}
+      - {id: in_kind_value_kr, label: "Anschlag in Geld › kr.", type: pair_minor, of: in_kind_value, mode: currency}
+      - {id: remarks, label: "Bemerkungen", type: text}
+    row_sums:
+      - {target: t5_estimate, of: [ditch_estimate, other_estimate]}
+      - {target: t5_cost, of: [ditch_cost, other_cost]}
+    observations:
+      scope: Reviere Schönau, St. Oswald and Klingenbrunn together (Forstamt Schönberg)
+  roads:
+    name: Cap. II § 4 Titl. 4 Holzabfuhrwege 1860/61–1877
+    description: |
+      Same row order as pages 2–3 (years 1860/61 … 1877 in the first column, no 1867). Money fl. | kr. until 1875;
+      after 1875 a sum row (fl.), the line "M. Pf." and the converted sums (carry_over, sets_key unit = M); 1876–1877
+      in M. | Pf.; final "Su" (sum). Length columns (Ruthen) have subtotal boxes after 1871 ("13221,5 = Meter 38590"
+      for new roads, "38848 = Meter 113382" for repairs): subtotal line as row_type sum, converted line as carry_over
+      WITHOUT sets_key (unit Meter in the row note); from 1872 the lengths are in Meter. In the Naturalleistungen block
+      only 1860/61 (16 days) and the money value (74 fl, 200 fl in 1861/62; 274 fl = 469,71 M) are filled.
+    columns:
+      - {id: year, label: "Bezeichnung des Reviers, Forstamts", type: period, meaning: "year of use"}
+      - {id: new_length, label: "Neue Wegbauten › Ruthen › Zahl", type: number, unit: Ruthen,
+         variable: road_construction_length, meaning: "length of new wood-haulage roads; Meter from 1872"}
+      - {id: new_estimate, label: "Neue Wegbauten › Voller Kostenanschlag › fl.", type: pair_major, unit: fl,
+         variable: road_construction_cost_estimate}
+      - {id: new_estimate_kr, label: "Neue Wegbauten › Voller Kostenanschlag › kr.", type: pair_minor,
+         of: new_estimate, mode: currency}
+      - {id: new_cost, label: "Neue Wegbauten › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: road_construction_cost}
+      - {id: new_cost_kr, label: "Neue Wegbauten › Baarer Aufwand › kr.", type: pair_minor, of: new_cost,
+         mode: currency}
+      - {id: repair_length, label: "Weg-Reparaturen › Ruthen › Zahl", type: number, unit: Ruthen,
+         variable: road_repair_length, meaning: "length of repaired roads; Meter from 1872"}
+      - {id: repair_estimate, label: "Weg-Reparaturen › Voller Kostenanschlag › fl.", type: pair_major, unit: fl,
+         variable: road_repair_cost_estimate}
+      - {id: repair_estimate_kr, label: "Weg-Reparaturen › Voller Kostenanschlag › kr.", type: pair_minor,
+         of: repair_estimate, mode: currency}
+      - {id: repair_cost, label: "Weg-Reparaturen › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: road_repair_cost}
+      - {id: repair_cost_kr, label: "Weg-Reparaturen › Baarer Aufwand › kr.", type: pair_minor, of: repair_cost,
+         mode: currency}
+      - {id: sum_estimate, label: "Summa Titl. 4 › Voller Kostenanschlag › fl.", type: pair_major, unit: fl,
+         variable: road_cost_estimate_total}
+      - {id: sum_estimate_kr, label: "Summa Titl. 4 › Voller Kostenanschlag › kr.", type: pair_minor,
+         of: sum_estimate, mode: currency}
+      - {id: sum_cost, label: "Summa Titl. 4 › Baarer Aufwand › fl.", type: pair_major, unit: fl,
+         variable: road_cost_total}
+      - {id: sum_cost_kr, label: "Summa Titl. 4 › Baarer Aufwand › kr.", type: pair_minor, of: sum_cost,
+         mode: currency}
+      - {id: entitled_team_days, label: "Bezeichnung der Naturalleistungen › Berechtigte › Spanndienst › Anzahl Tage",
+         type: number, unit: Tage, variable: labour_days_team_entitled}
+      - {id: entitled_hand_days, label: "Bezeichnung der Naturalleistungen › Berechtigte › Handdienst › Anzahl Tage",
+         type: number, unit: Tage, variable: labour_days_hand_entitled}
+      - {id: commoners_team_days, label: "Bezeichnung der Naturalleistungen › Waldgenossen › Spanndienst › Anzahl Tage",
+         type: number, unit: Tage, variable: labour_days_team_commoners}
+      - {id: commoners_hand_days, label: "Bezeichnung der Naturalleistungen › Waldgenossen › Handdienst › Anzahl Tage",
+         type: number, unit: Tage, variable: labour_days_hand_commoners}
+      - {id: in_kind_value, label: "Anschlag in Geld › fl.", type: pair_major, unit: fl,
+         variable: in_kind_services_value}
+      - {id: in_kind_value_kr, label: "Anschlag in Geld › kr.", type: pair_minor, of: in_kind_value, mode: currency}
+      - {id: remarks, label: "Bemerkungen", type: text}
+    row_sums:
+      - {target: sum_estimate, of: [new_estimate, repair_estimate]}
+      - {target: sum_cost, of: [new_cost, repair_cost]}
+    observations:
+      scope: Reviere Schönau, St. Oswald and Klingenbrunn together (Forstamt Schönberg)
+map:
+  expected: "Situation zum proj. Holzabfuhrweg durch Distr. VIII – planned wood-haulage road (red line with station numbers 1–82, Gesamtlänge 3085,1 m) through Distrikt VIII, with dashed contour lines and Abtheilung boundaries"
+  places: "Abtheilungen 2 Östl. Föhrau, 3 Siebenruck, 4 Wasserriegel, 5 Rehhübel, 6 Gr. Ebene, 7 Sargau, 9 Hamerwald, 10 Hohe Scheitstatt, 11 Ob. Kohlstatthäng, 18 Ob. Stadlerruck, 20 …; existing Neuriedelhüttenweg (top right)"
+  caveat: "lower half of the scan is masked by a grey rectangle; no scale, date or north arrow visible"
+notes: |
+  Headers read from the scans; uncertain: Titl. 1 ("Auf Culturaufseher"?, only Baarer Aufwand), the third seed column
+  of the Laubholz-Ansaaten ("übrige Samen"?), and the second measure of Titl. 5 on page 3 ("Auf … Gegenstände", HTR
+  "Unterhaltungs-Gegenstände"; area in Tagwerk with "incl. … Saatbeete", total 6361,22 Tagwerk = 2167,440 ha). The
+  rows are years for the three Reviere together, not per Revier. Unit changes: money fl/kr → M/Pf from 1876;
+  lengths Ruthen → Meter, Metzen → Hektoliter, Pfund → Kilogramm from 1872 (only the subtotals are converted, the
+  column unit is not set by a heading). Row sums checked on the scan: 1860/61 roads 2935|7 + 713|47½ = 3648|54½;
+  1873 Titl. 5 2|54 + 97|11 = 100|5.

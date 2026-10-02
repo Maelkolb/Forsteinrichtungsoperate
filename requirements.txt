@@ -3,3 +3,7 @@ Pillow>=10.0.0
 numpy>=1.24.0
 scipy>=1.11.0   # optional — only needed with --deskew
 markdown>=3.5
+pandas>=2.0          # ecological_ie
+tqdm>=4.60           # ecological_ie
+PyYAML>=6.0          # ecological_ie specs
+jsonschema>=4.0      # ecological_ie spec validation

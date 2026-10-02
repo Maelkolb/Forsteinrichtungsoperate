@@ -1,0 +1,105 @@
+unit: I-12
+title: Zusammenstellung aus dem Abschluß der Perioden- und Altersklassentabellen
+summary: |
+  Beilage I. 12 (Form F. XXV, "ad §§ 39 u. 41 Altersklassen- u. Periodentabelle"), Forstamt Schönberg: closing summary
+  of the age-class and period tables of the 1878 Waldstandsrevision for the Ilzertrift-Komplex (Reviere Schönau,
+  St. Oswald, Klingenbrunn), state "Term. a quo 1878". Only one block is filled: Betriebsklasse "Hochwald zu 144
+  Jahren" (page 1). Each printed block holds two independent lists side by side: on the left the area of the age
+  classes I–IV, unbestockt, produktiv, improduktiv (Hektar | Dez., percent of the productive area), on the right the
+  six management periods I*–VI of the rotation with cut area (Angriffsfläche, ha), estimated final-felling yield
+  (Haubarkeitsertrag, Ster; per ha), mean felling age, mean increment and estimated intermediate yield
+  (Zwischennutzung, Ster). Below them the derivation of the yearly yield (Etat) in note lines. Page 3 is the same
+  table marked "ungültig" (superseded, other Zwischennutzung figures); pages 2 and 4–8 are blank printed forms.
+default_profile: table
+default_form: xxv
+pages:
+  2:
+    role: empty
+    profile: skip
+    note: blank printed form F. XXV (two empty Betriebsklasse blocks)
+  3:
+    role: other
+    profile: skip
+    note: |
+      Same Hochwald-144 table as page 1, marked "ungültig" in pencil (superseded draft: Zwischennutzung 763200 Ster,
+      80,4 Ster/ha, 12,2 % instead of 703200 / 74,1 / 11,1 on page 1). Not extracted to avoid duplicate observations;
+      switch to profile table if the superseded estimate is wanted.
+  4:
+    role: empty
+    profile: skip
+    note: blank printed form F. XXV
+  5:
+    role: empty
+    profile: skip
+    note: blank printed form F. XXV
+  6:
+    role: empty
+    profile: skip
+    note: blank printed form F. XXV
+  7:
+    role: empty
+    profile: skip
+    note: blank printed form F. XXV
+  8:
+    role: empty
+    profile: skip
+    note: blank printed form F. XXV
+forms:
+  xxv:
+    name: F. XXV – Zusammenstellung aus dem Abschluß der Perioden- und Altersklassentabellen
+    description: |
+      The page has two printed blocks (upper and lower), one per Betriebsklasse; only the upper block of page 1 is
+      filled. Heading lines inside the block: "Term. a quo 1878", "Ilzertriftcomplex im K. Forstamte Schönberg" and
+      "Hochwald zu 144 Jahren" (group_header, sets_key betriebsklasse = "Hochwald zu 144 Jahren").
+      IMPORTANT: each physical line carries two unrelated lists. Return them as TWO SEPARATE TABLES (rule 9):
+      (a) the age-class list = columns Altersklassen, Fläche (Hektar | Dez.) and Procente; rows I., II., III., IV.,
+      "unbestockt" (data, key altersklasse), "produktiv" (sum of I–IV + unbestockt), "improduktiv" (data), "Summa"
+      (sum); (b) the period list = columns Perioden … Zwischennutzung; rows I*, II … VI (data, the period number goes
+      into the Perioden column) and "Summa" (sum). The first line "Soll" in both lists gives the normal (target) share
+      per class/period (total / 4 resp. / 6): row_type note. Dots "." are empty placeholders. In the Procente column
+      bracketed subtotals (44,7 for I+II, 55,3 for III–unbestockt) stand to the right of the values: put them in the
+      row note. Below the lists come computation lines, all row_type note with their numbers in the cells: left
+      "Jährl. … der prod. Fläche … Ha" (yearly share = productive area / 144), "Nicht eingereiht" (194,602, see
+      Beilage I. 13), "Mehrmals", "hievon Hochwald / Niederwald", "Differenz", "diese der eingereihten Fläche",
+      "giebt wie oben als produktiv"; right "*Nachhauungen (?)", "Summa", "Übergehen (?)", "Rest", "1/144" (yearly
+      final-felling yield) and, written across the columns, the total yearly yield "488 68 Ster" (= 43985 + 4883).
+      In the Zwischennutzung column the text "Zwischennutzungen pro Ha 74,1 Ster, sie halten 11,1 Proc. der
+      Hauptnutzung" and 4883 (= yearly intermediate yield) are notes too. Most numbers are underlined in red; a few
+      are written in red (e.g. 448 next to "Rest"): report red digits as red content of their cell.
+    columns:
+      - {id: age_class, label: "Altersklassen", type: key, key: altersklasse,
+         meaning: "age class I–IV (36-year classes of the 144-year rotation), unbestockt (unstocked), produktiv, improduktiv"}
+      - {id: area, label: "Fläche › Hektar", type: pair_major, unit: ha, variable: area,
+         meaning: "area of the age class"}
+      - {id: area_dec, label: "Fläche › Dez.", type: pair_minor, of: area, mode: digits}
+      - {id: area_percent, label: "Procente der productionsfähigen Fläche", type: number, unit: "%",
+         variable: area_share, meaning: "share of the age class in the productive area"}
+      - {id: period, label: "Perioden", type: period,
+         meaning: "management period I*–VI of the 144-year rotation (presumably 24 years each from 1878); I* is the current period"}
+      - {id: cut_area, label: "Angriffsfläche › Hektar", type: number, unit: ha, variable: cut_area,
+         meaning: "area assigned to final felling in the period (decimal comma, three decimals)"}
+      - {id: yield_total, label: "Haubarkeitsertrag › im Ganzen › Ster", type: number, unit: Ster,
+         variable: planned_yield_main_use, meaning: "estimated final-felling yield of the period"}
+      - {id: yield_total_brush, label: "Haubarkeitsertrag › im Ganzen › Ster und Wellenhunderte", type: number,
+         unit: "Ster u. Wellenhunderte", variable: planned_yield_main_use_incl_brushwood,
+         meaning: "second yield column (incl. brushwood in hundreds of faggots); only dots on this page"}
+      - {id: yield_per_ha, label: "Haubarkeitsertrag › pro Hektar › Ster u. Wellenhdte.", type: number,
+         unit: Ster/ha, variable: planned_yield_per_ha}
+      - {id: felling_age, label: "Durchschnittliches Abtriebsalter", type: number, unit: Jahre,
+         variable: mean_felling_age}
+      - {id: increment, label: "Durchschnittlicher Zuwachs › Ster u. Wellenhdte.", type: number, unit: Ster/ha/Jahr,
+         variable: mean_annual_increment, meaning: "yield per ha divided by the felling age"}
+      - {id: intermediate_total, label: "Zwischennutzung im Ganzen › Ster", type: number, unit: Ster,
+         variable: planned_yield_intermediate_use, meaning: "estimated yield of thinnings in the period"}
+      - {id: intermediate_brush, label: "Zwischennutzung im Ganzen › Ster und Wellenhunderte", type: number,
+         unit: "Ster u. Wellenhunderte", variable: planned_yield_intermediate_use_incl_brushwood,
+         meaning: "only dots on this page"}
+    observations:
+      scope_keys: [betriebsklasse, altersklasse]
+      scope: Ilzertrift-Komplex (Reviere Schönau, St. Oswald, Klingenbrunn), Forstamt Schönberg, state 1878
+notes: |
+  Header read from the scans (the HTR headers are garbled: "Hiebsertragsschätzung", "Erntedurchschnitt des Vorraths",
+  "Holzerzeugungs-Quotient" do not exist on the form). Uncertain readings: the first word of the line "Jährl. (?) … der
+  prod. Fläche", "*Nachhauungen (?)" (asterisk links it to period I*) and "Übergehen (?)". Sums check on page 1:
+  age-class areas add up to 9595,055 (produktiv) and 9742,059 ha; Angriffsflächen to 9489,323 ha; Haubarkeitsertrag
+  to 6238340 Ster; Zwischennutzung to 703200 Ster. The 194,602 ha "nicht eingereiht" match the total of Beilage I. 13.

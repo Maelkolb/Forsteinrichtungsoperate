@@ -1,0 +1,55 @@
+unit: I-21
+title: Protokoll über die Prüfung des Operats vom 14. Juli 1879
+summary: |
+  Copy (Abschrift, Beil. I. 21) of the protocol of the on-site examination of the Waldstandsrevisionsoperat for the
+  Reviere Klingenbrunn, St. Oswald and Schönau (Forstamt Schönberg), held at Klingenbrunn on 14 July 1879 by
+  Kreisforstmeister Winklmair as government commissioner with Forstmeister Plaß, the Oberförster Kühlwein and Roth
+  and the assistants Rosenbeck and Loesch. Numbered points: 1) the past period 1860/61-1877 (17 years): allowed vs.
+  realised felling area (over-cut of 1165 ha) and the fellings in Ster (Haupt- and Zwischennutzung); 2) management
+  history, natural regeneration, the storm of 26/27 October 1870 and the bark beetle; [3) and the start of 4) are on a
+  missing page]; 4) changes in the compartment division; 5) age-class distribution at the end of the period (Tagwerk
+  and ha) and at present (ha), state of the forests; 6) growing-stock survey and the new annual cut for 1878/89
+  (Forstamt proposal 61,000 Ster, commissioner 57,800 + 6,500 = 64,300 Ster) with its distribution among the three
+  Reviere; 7) Fällungsplan; then Kulturplan (beech and larch sowing not supported), Wegbau- and Triftbauplan still
+  pending, Streunutzungsplan (126.452 ha and 3,790 Ster per year, to be reduced to 1,000 Ster), signatures and the
+  Beschluß forwarding the protocol to the Regierung von Niederbayern, Kammer der Finanzen.
+default_profile: text
+reading_order: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+pages:
+  1:
+    role: title
+    note: "Heading, place and date Klingenbrunn 14 July 1879, list of those present, preamble and start of point 1 (marginal Beil. I. 21, fol. 50)."
+  3:
+    note: "Ends with the end of point 2; archive page 137 (points 3 and the start of 4) follows in the original but is missing."
+  4:
+    note: "Starts mid-sentence in point 4 (Abth. 6 des Revieres St. Oswald ... Unterabtheilung f); the preceding page 137 is missing."
+  11:
+    note: "Streunutzungsplan, acknowledgement of the Forstamt, closing formula and signatures."
+  12:
+    role: signature
+    note: "Beschluß: protocol forwarded to the k. Regierung von Niederbayern, Kammer der Finanzen; signatures Winklmeier, Lösch."
+segments:
+  - [1, 3]
+  - [4, 6]
+  - [7, 9]
+  - [10, 12]
+notes: |
+  Reading order: the annotation order (138, 141, 142, 143, 135, 136, 139, 140, 144, 145, 146, 134) is wrong; the real
+  order is the archive/volume order 134, 135, 136, 138, 139, ..., 146 = positions 1-12. Evidence: 134 is the title
+  page (heading, date, attendance list, "1.)") and 146 the closing Beschluß. Page joins: 135 "es besteht ... nur die
+  unbedeutende Differenz" -> 136 "von 73,99 Ster, welche ihren Grund ..."; 138 ends with the age-class table "zu Ende
+  des verflossenen Zeitabschnittes" -> 139 "Gegenwärtig stellt sich dasselbe folgendermaßen dar"; 139 "die Spuren
+  der" -> 140 "Beschädigungen ..."; 140 "nachdem die betreffenden Beständ[e]" -> 141 "größtentheils aus ... bestehen";
+  141 "an die Forstverwaltung stellt," -> 142 "glaubt der unterzeichnete Regierungskommissär"; 142 "und sohin zur
+  Etatserfüllung" -> 143 "von den in der I. Periode zu gewärtigenden Haubarkeitsbeträgen ..."; 143 "nicht befürworten
+  zu können, da sich die ..." -> 144 "in den ihr zusagenden Lokalitäten ohnehin allerorts auf natürlichem Wege
+  vermehrt"; 144 "ein Quantum" -> 145 "von 3790 Str"; 145 signatures -> 146 Beschluß. The point numbers run 1), 2) on
+  134-136, 5) on 138, 6) on 140, 7) on 143.
+  Gaps: 136 ends point 2 with a full stop ("anzubahnen.") while 138 starts mid-sentence inside point 4, so archive
+  page 137 (points 3-4) is missing; it is not in any unit. The join 134 -> 135 ("Durch h. Reg. Min. Entschließung" ->
+  "[...]fläche betrug für den sog. Ilzertriftkomplex 177,8 Tgw") is grammatically incomplete (probably words dropped by
+  the copyist); no other page fits there.
+  HTR misreadings: marginal "Beil. I. 24" = Beil. I. 21; "Thaltrift-", "Staniz-complex" = Ilzertrift-, Flanitzkomplex;
+  "B)" on pos 3 = 2); "Sichtbungsplan" = Triftbauplan; "Verwendungsplan" = Streunutzungsplan; "Hmr", "Kr.", "Xtr",
+  "Htr", "Str" = Ster. Pencil marginalia on pos 8-11 are later remarks of the reviewing Regierung (e.g. on the
+  Nachhieb stock and on beech/larch sowing), not part of the protocol text.

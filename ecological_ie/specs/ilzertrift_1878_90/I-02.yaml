@@ -1,0 +1,349 @@
+unit: I-02
+title: Spezieller Wirtschaftsplan
+summary: 'Beilage I. 2 (Form No. VII, Forstamt Schönberg): special management plan (Specieller Wirthschafts-Plan) of the
+
+  Wirthschaftscomplex Reviere Schönau, St. Oswald and Klingenbrunn for the period 1878–1889, Hochwald in 144-year
+
+  rotation. The first page holds the title and the Wirthschaftsregeln (silvicultural rules); the table pages list one row
+
+  per Abtheilung/Unterabtheilung scheduled for a cut, grouped by kind of use (Hauptnutzungen: Angriffshiebe,
+
+  Nachhauungen, Auszugshauungen, zufällige Ergebnisse; Zwischennutzungen: Durchforstungen, Reinigungen, zufällige
+
+  Ergebnisse) and within each by Revier, with area, dominant species, age, yield per hectare and planned harvest. Areas
+
+  are hectares with three decimals (the printed ''Tagwerk'' is struck through and replaced by ''Hektar'' on some pages and
+
+  left standing on others), yields and harvests in Ster (Raummeter) and hundreds of faggots (Wellen-Hundert, nearly
+
+  always empty). Positions 1–31 (folios 114–146) are the complete plan, signed Schönberg 28 September 1881; positions
+
+  32–48 are fragments of further copies that repeat stands of positions 2–31: a title page ''Ins Operat v. 1878''
+
+  (folio 148), an extract for Revier St. Oswald (161–169) and the end of a complex-wide copy (183–189) with struck-out
+
+  original harvest figures.
+
+  '
+default_profile: table
+default_form: wp7
+pages:
+  1:
+    role: title
+    profile: text
+    note: title, period 1878–1889, Wirthschaftsregeln (references to Heft III der forstw. Mittheilungen), no table
+  18:
+    form: wp7_ausz
+    note: Auszugshauungen begin; long text at the top (suspension by Regierung order of 12 Dec 1880, Finanzministerium rescript
+      of 2 Dec 1880) and the legend of the Bestandsschluß letters W, K, P; marginal remark on seed-bearing old firs
+  19:
+    form: wp7_ausz
+  20:
+    form: wp7_ausz
+  21:
+    form: wp7_ausz
+  22:
+    form: wp7_ausz
+  23:
+    form: wp7_ausz
+    note: ends with Summa Auszugshauungen of the three Reviere
+  24:
+    note: text rows on zufällige Ergebnisse, then Zusammenstellung of the Hauptnutzung (Angriffshiebe, Nachhiebe, Auszugshauungen,
+      zufällige Ergebnisse)
+  30:
+    note: zufällige Ergebnisse of the Zwischennutzung per Revier, Anmerkung with the areas of the age classes (ha), Summe
+      Zwischennutzungen
+  31:
+    note: Zusammenstellung Hauptnutzung + Zwischennutzung = Summa Summarum; signed Schönberg 28 Sept 1881
+  32:
+    role: title
+    profile: text
+    note: title page of a further copy ('Ins Operat v. 1878'), Wirthschaftsregeln repeated almost verbatim
+  33:
+    note: extract for Revier St. Oswald (positions 33–41, headers printed 'Hektar'); duplicates St. Oswald rows of 2–31
+    role: copy
+  34:
+    role: copy
+  35:
+    role: copy
+  36:
+    role: copy
+  37:
+    role: copy
+  38:
+    note: St. Oswald Auszugshauungen in the plain wp7 layout, only keys and Material-Anfall ('Bemerkungen wie bei Revier Schönau')
+    role: copy
+  39:
+    role: copy
+  40:
+    role: copy
+  41:
+    role: copy
+  42:
+    form: wp7_ausz
+    note: end of a complex-wide copy (positions 42–48), Auszugshauungen Schönau (end), St. Oswald; struck-out original harvest
+      figures
+    role: copy
+  43:
+    form: wp7_ausz
+    role: copy
+  44:
+    form: wp7_ausz
+    role: copy
+  45:
+    form: wp7_ausz
+    note: Summa Auszugshauungen with struck-out originals (e.g. 125180 → 84110) and red figures
+    role: copy
+  46:
+    role: copy
+  47:
+    role: copy
+  48:
+    role: copy
+forms:
+  wp7:
+    name: Form No. VII – Spezieller Wirthschaftsplan 1878/89
+    description: 'One row per Abtheilung/Unterabtheilung (stand) scheduled for a cut in 1878–89. Headings inside the table
+      set keys:
+
+      ''Revier Schönau.'' / ''Revier St. Oswald.'' / ''Revier Klingenbrunn.'' set revier; ''Hauptnutzungen'' /
+
+      ''Zwischennutzungen'' with the cut type ''Angriffshiebe'', ''Nachhauungen'', ''Zufällige Ergebnisse'', ''Durchforstungen'',
+
+      ''Reinigungen'' set key other (value e.g. ''Hauptnutzung: Angriffshiebe''); ''Hochwald im 144jährigen Umtrieb'' is a
+
+      plain heading. Distrikt No. (Roman) and Namen are written once and repeated by ditto marks; Abtheilung No. + Lit.
+
+      identify the stand (sometimes several letters, ''1 abc''). Running numbers may be fractional (''12½'') for inserted
+
+      rows. Rows underlined in red are the more urgent cuts (''Die vordringlicheren Hiebe sind roth unterstrichen''): put
+
+      ''urgent (red underline)'' into the row note. Page sums at the page bottom (''Seite 1,'', ''1. Seite'') are row_type
+      sum;
+
+      at the end of a Revier or cut-type block the earlier page sums are repeated (''Seite 2,'', ''„ 1,'') as carry_over
+
+      rows, followed by ''Sa Schönau'', ''Sa Angriffshiebe'', ''Sa Reinigungen'' (sum). ''Zusammenstellung'' blocks
+
+      (Angriffshiebe, Nachhiebe, Auszugshauungen, Zuf. Ergebnisse; Hauptnutzung, Zwischennutzung, Summa Summarum) are
+
+      sums. Material-Anfall im Ganzen ≈ Fläche × Ertrag per Hektar, rounded to 10 Ster (a product, not a sum). In the
+
+      Nachhauungen, Durchforstungen, Reinigungen and zufällige Ergebnisse many rows give only keys and Material-Anfall
+
+      (area, species, age, yield empty). Instructions written across the table (on Nachhauungen, zufällige Ergebnisse,
+
+      Durchforstungen, ''Anmerkung'' with class areas) are row_type note. Remarks use abbreviations: D = Durchforstung,
+
+      R = Reinigung, ''Angriff III. P.'' = regeneration attack planned for period III, Z. E. = zufällige Ergebnisse. In the
+
+      copies (positions 33–48) some figures are struck through and replaced: give the valid (not struck) value and put
+
+      the struck one into the row note.
+
+      '
+    columns:
+    - id: no_curr
+      label: No. curr.
+      type: label
+      meaning: running number of the stand row
+    - id: district_no
+      label: Der Distrikte › No.
+      type: key
+      key: district_no
+    - id: district_name
+      label: Der Distrikte › Namen
+      type: key
+      key: district_name
+    - id: compartment_no
+      label: Der Abtheilungen u. Unterabtheilungen › No.
+      type: key
+      key: compartment_no
+    - id: subcompartment
+      label: Der Abtheilungen u. Unterabtheilungen › Lit.
+      type: key
+      key: subcompartment
+    - id: area
+      label: Der Abtheilungen u. Unterabtheilungen › Fläche › Tagwerk/Hektar
+      type: pair_major
+      unit: ha
+      variable: area
+      meaning: area of the stand scheduled for the cut; printed 'Tagwerk', values are hectares (often corrected to 'Hektar')
+    - id: area_dec
+      label: Der Abtheilungen u. Unterabtheilungen › Fläche › Dez.
+      type: pair_minor
+      of: area
+      mode: digits
+    - id: species
+      label: Vorherrschende Holzart
+      type: text
+      meaning: dominant tree species in order of importance, e.g. 'Buchen, Tannen, Fichten'
+    - id: age
+      label: Alter
+      type: number
+      unit: Jahre
+      variable: age
+    - id: yield_per_ha
+      label: Ertrag per Tagwerk/Hektar › Ster
+      type: number
+      unit: Ster
+      variable: yield_per_area
+      meaning: expected yield of the cut per hectare (Raummeter)
+    - id: yield_faggots_per_ha
+      label: Ertrag per Tagwerk/Hektar › Wellen-Hundert
+      type: number
+      unit: Hundert Wellen
+      variable: yield_faggots_per_area
+      meaning: faggots per hectare, in hundreds; usually '.'
+    - id: harvest
+      label: Material-Anfall im Ganzen › Ster
+      type: number
+      unit: Ster
+      variable: planned_harvest
+      meaning: planned harvest of the stand for 1878–89
+    - id: harvest_faggots
+      label: Material-Anfall im Ganzen › Wellen-Hundert
+      type: number
+      unit: Hundert Wellen
+      variable: planned_harvest_faggots
+    - id: remarks
+      label: Bemerkungen
+      type: text
+      describe: true
+      meaning: treatment instructions and stand notes (Schlagstellung, Vorwuchs, Freistellung, Samenbäume, Sturmgefahr)
+    observations:
+      scope_keys:
+      - revier
+  wp7_ausz:
+    name: Form No. VII – Auszugshauungen (with current growing stock and stand closure)
+    description: 'Same printed form, used for the Auszugshauungen (removal of over-mature, declining old trees; suspended
+      in part by
+
+      the Regierung order of 12 Dec 1880, text at the top of position 18). The yield column ''Ertrag per Tagwerk'' is
+
+      altered in red ink to ''Derzeitiger Holzvorrath im Ganzen'' = current total growing stock of the stand (Ster);
+
+      ''Material-Anfall im Ganzen'' is the planned removal. Alter is written as a range with the mean age under a line
+
+      (''60–180 / 129''): give the mean as value and keep the range in the row note. The Bemerkungen page is divided by a
+
+      hand-ruled line into ''Derzeitiger Bestandsschluß'' (canopy closure, e.g. ''4/5 ziemlich vollkommen, 1/5 lückig W K'';
+
+      legend on position 18: W = Windstürme, K = Käferfraß, P = bisherige Plenterung und Nutzung, Reinigung etc.) and free
+
+      remarks; at the right edge stands a Roman numeral without header, underlined in red (''II P.'', ''III.''). Keys as in
+
+      wp7: ''Revier Schönau'' headings set revier, Distrikt No./Namen with ditto marks, Abtheilung No. + Lit. Page sums
+
+      (''1. Seite'', ''2. Seite'') are sums; their repetition at the end of a Revier (carry_over) is followed by ''Summa
+
+      Revier …'' (sum); position 23 and 45 end with ''Summa Revier Klingenbrunn'', ''Hiezu St. Oswald / Schönau'' (carry_over)
+
+      and ''Summa Auszugshauungen'' (sum). In the copy on positions 42–45 the original Material figures are struck
+
+      through next to the valid ones (e.g. 40850 struck, 25390 valid) and red figures stand in the Wellen-Hundert
+
+      column: give the valid black value, put struck values into the row note and red ones into red.
+
+      '
+    columns:
+    - id: no_curr
+      label: No. curr.
+      type: label
+      meaning: running number; renumbered in red in the second copy
+    - id: district_no
+      label: Der Distrikte › No.
+      type: key
+      key: district_no
+    - id: district_name
+      label: Der Distrikte › Namen
+      type: key
+      key: district_name
+    - id: compartment_no
+      label: Der Abtheilungen u. Unterabtheilungen › No.
+      type: key
+      key: compartment_no
+    - id: subcompartment
+      label: Der Abtheilungen u. Unterabtheilungen › Lit.
+      type: key
+      key: subcompartment
+    - id: area
+      label: Der Abtheilungen u. Unterabtheilungen › Fläche › Tagwerk/Hektar
+      type: pair_major
+      unit: ha
+      variable: area
+    - id: area_dec
+      label: Der Abtheilungen u. Unterabtheilungen › Fläche › Dez.
+      type: pair_minor
+      of: area
+      mode: digits
+    - id: species
+      label: Vorherrschende Holzart
+      type: text
+      meaning: dominant species, abbreviated ('Ficht. Tann. Buch.', 'Aufichten')
+    - id: age
+      label: Alter
+      type: number
+      unit: Jahre
+      variable: age
+      meaning: age range von–bis with the mean age under the line; value = mean age
+    - id: stock
+      label: Derzeitiger Holzvorrath im Ganzen (rot statt 'Ertrag per Tagwerk') › Ster
+      type: number
+      unit: Ster
+      variable: growing_stock
+      meaning: current total growing stock of the stand
+    - id: stock_faggots
+      label: Derzeitiger Holzvorrath im Ganzen › Wellen-Hundert
+      type: number
+      unit: Hundert Wellen
+      variable: growing_stock_faggots
+    - id: harvest
+      label: Material-Anfall im Ganzen › Ster
+      type: number
+      unit: Ster
+      variable: planned_harvest
+      meaning: planned removal of old trees 1878–89
+    - id: harvest_faggots
+      label: Material-Anfall im Ganzen › Wellen-Hundert
+      type: number
+      unit: Hundert Wellen
+      variable: planned_harvest_faggots
+    - id: stand_closure
+      label: Bemerkungen › Derzeitiger Bestandsschluß
+      type: text
+      describe: true
+      meaning: current canopy closure with damage letters W (Windstürme), K (Käferfraß), P (Plenterung/Nutzung)
+    - id: remarks
+      label: Bemerkungen
+      type: text
+      describe: true
+      meaning: stand notes, e.g. 'Den Stürmen ausgesetzt', 'Mit einzelnen sehr starken Stämmen'
+    - id: period_mark
+      label: '(ohne Kopf, rechter Rand: römische Ziffer, z. B. ''II P.'')'
+      type: text
+      meaning: probably the period (II., III.) in which the regeneration attack of the stand is planned
+    observations:
+      scope_keys:
+      - revier
+notes: 'Headers checked on the scans of positions 2, 3, 18, 19, 21, 25, 31, 33, 42, 45 and on header contact sheets of all
+
+  table pages: every table page is the same printed Form No. VII; the only variant is the Auszugshauungen block
+
+  (positions 18–23 and 42–45) with the red-corrected stock column and the hand-ruled Bestandsschluß column. The HTR
+
+  misreads the unit headers (''Stamm'', ''Kord'', ''Masse'' = Ster; ''Gümpert'', ''Gündert'' = Wellen-Hundert), species (''Kiefer''
+
+  for Buchen) and splits large numbers over the Ster | Wellen columns (e.g. 13832 | 18 = 1383218 Ster). Doubtful: the
+
+  meaning of the Roman numeral at the right edge of the Auszugshauungen pages (assumed Angriffsperiode); whether the
+
+  areas on pages with unstruck ''Tagwerk'' are really hectares (the Anmerkung on position 30 and the sums, e.g. 2275,198 ha
+
+  Auszugshauungen, say yes). Folios 133 and 140 are not in the unit but the page numbering is continuous; folios 147,
+
+  149–160 and 170–182 (rest of the further copies) are not in the unit. Rows of positions 33–48 duplicate stands of
+
+  positions 2–31 – beware of double counting when aggregating.
+
+  '

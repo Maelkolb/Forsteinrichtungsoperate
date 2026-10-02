@@ -1,0 +1,71 @@
+unit: I-00
+title: Erörternde Darstellung
+summary: |
+  Bound volume (cover label dated 1891) with the "Erörternde Darstellung der Resultate der umfassenden
+  Waldstandsrevision für den Ilzertriftkomplex, Term. a quo 1891", the discursive report that closes the period
+  1878–1890 of the 1878 plan and introduces the new plan 1891/1902 for the k. Forstämter Klingenbrunn, St. Oswald and
+  Schönau (signed Landshut, December 1892). Chapters present: cover and list of the 26 Beilagen; Einleitung (history of
+  the revisions since 1837/38, delay after the storm of October 1870 and the bark-beetle years); I. results of the
+  fellings: 1. Haupt-, Zwischen- and Gesamtnutzung against the Etat per Forstamt, Nutzholz share, prices and net
+  revenue; 2. execution of Nachhiebe, Auszugshiebe, Angriffshiebe and Durchforstungen against the estimates; 3. the
+  realised felling and regenerated area since 1837/38; 4a. management history (glassworks, Trift, Plenter- and
+  Kahlhiebe, beech–fir–spruce mixture, successful and failed regenerations) and 4b. site description (boundaries,
+  waters, altitudes, climate, geology, Rachelsee, soils, ground vegetation). After a gap in the volume follow the end of
+  the road-building chapter (1878 road network, Lokalbahn Zwiesel–Grafenau, new Wegebauplan per Forstamt),
+  VII. timber-floating structures and the new Triftbauplan, and VIII. other matters (forest rights, grazing, litter
+  use). Units: Ster, Rm, Vfm/cbm, ha, Mark; historical figures in Tagwerk and fl.
+default_profile: text
+pages:
+  1:
+    role: title
+    note: "Front cover with title label: 1891 Ilzertriftcomplex. Erörternde Darstellung der Resultate der Waldstandsrevision."
+  2:
+    role: other
+    note: "List of the 26 Beilagen to the report (footnote: Höhenkurven Klingenbrunn (11a) fehlen); 1878/90 at the bottom."
+  3:
+    note: "First manuscript page: full title heading and start of the Einleitung."
+  4:
+    note: "From here on every image is a double-page spread with two manuscript pages (here pp. 2-3)."
+  27:
+    note: "Manuscript pp. 48-49 (end of the soil/vegetation description). Pages 50-123 are not in this unit."
+  28:
+    note: "Manuscript pp. 124-125, starting in the middle of the road-building chapter."
+  37:
+    note: "Last text page (pp. 142-143): end of VIII, place and date Landshut im Dezember 1892, signature of the K. Forstrat."
+  38:
+    role: empty
+    profile: skip
+    note: "Back cover, blank."
+segments:
+  - [1, 4]
+  - [5, 7]
+  - [8, 10]
+  - [11, 13]
+  - [14, 17]
+  - [18, 20]
+  - [21, 24]
+  - [25, 27]
+  - [28, 30]
+  - [31, 33]
+  - [34, 37]
+notes: |
+  Reading order: the annotation order ended 71, 74, 73, 72; the real order is the volume order (positions 35-38 =
+  scans 71, 72, 73, 74). Scan 71 (p. 138) ends with "Triftbauplan des J. A. 1891/1902 schließt ab mit:" and a table;
+  scan 72 (p. 140) continues with the rest of that table and "Mit dieser Ersparung können die beantragten
+  Wegeausbauten ..." and ends "keine Änderung ergeben"; scan 73 (p. 142) continues the forest-rights/grazing discussion
+  and ends with "Landshut im Dezember 1892"; scan 74 is the blank back cover. No reading_order needed.
+  Segments break at the headings: Einleitung [1-4], I.1 comparison with the Etat [5-7], I.2 execution of the fellings
+  [8-10], I.3 realised area and start of I.4 [11-13], I.4a history [14-17] and results of the last period [18-20],
+  I.4b site [21-24, 25-27], road building [28-30, 31-33], road costs + VII Trift + VIII other matters [34-37].
+  Gap: the manuscript jumps from p. 49 (pos 27) to p. 124 (pos 28) although archive scans 63/64 are consecutive, so
+  pp. 50-123 were not photographed or are filed elsewhere (they contain the rest of I.4b and chapters II to VI; the
+  text refers to "Ziff. III 3 Seite 117"). Archive scan A 385 40 is missing too, but without a text gap (pos 4 =
+  pp. 2-3, pos 5 = pp. 4-5).
+  The text is heavily revised: red and blue ink corrections, strike-outs and interlinear insertions; use the
+  corrected reading. Marginal comments by the reviewing authority (e.g. "Referat ...", "gehört nicht hierher!
+  uninteressant!!", "R.") are later remarks, not report text. HTR misreadings: "f. A. Reichenhall", "Ellingrbr.",
+  "Klotzenbrunn", "[?]langruben" = F.A. Klingenbrunn; "Illertiss-", "Pfarrhof-", "Ihgertrift-", "Ilzerstift-komplex" =
+  Ilzertriftkomplex; "Flunitz-", "Planitzkomplex" = Flanitz(trift)komplex; "Kieferfraß" = Käferfraß; heading I.3
+  "Erörterungen über die wertheste Liebesbriefe" = "Erörterungen über die realisirte Hiebsfläche". Inline tables
+  (Etat comparison per Forstamt, Nutzholz percentages, area accounts, lists of successful regenerations, road and
+  Trift costs) are handled by the text extraction.

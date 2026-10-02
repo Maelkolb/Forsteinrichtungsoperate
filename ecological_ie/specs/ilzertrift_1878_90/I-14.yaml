@@ -1,0 +1,45 @@
+unit: I-14
+title: Änderungen in der Waldeinteilung
+summary: |
+  Beilage I. 14 (Forstamt Schönberg, 7 May 1879): changes of the forest division (Waldeintheilung) made at the
+  Waldstandsrevision at the beginning of 1878. One row per transferred piece of land: the Distrikt and Abtheilung it
+  now belongs to ("Theil von …"), the Distrikt and Abtheilung it formerly belonged to ("Früherer Theil von"), its
+  area (Hekt | Dez.) and the reason (a path or road adopted as compartment or district boundary). Only Revier
+  Schönau has changes; St. Oswald and Klingenbrunn report "Hat sich keine Veränderung ergeben". No scan available.
+default_profile: table
+default_form: changes
+forms:
+  changes:
+    name: Aenderungen an der Waldeintheilung bei der Revision des Waldstandes zu Anfang 1878
+    description: |
+      Revier headings ("Revier Schönau.", "Revier St Oswald.", "Revier Klingenbrunn.") are group_header rows (sets_key
+      revier). Each data row is one piece of land; the words "Theil von" often stand on a line of their own just above
+      the row (first line of a two-line name cell): treat them as part of the next row's Distrikt name, not as a
+      separate row. Ditto marks (") repeat the names. The sentence "Hat sich keine Veränderung ergeben" under St.
+      Oswald and Klingenbrunn is a note row. A red figure "1, 587" in the area column above the last Schönau row is a
+      red-ink annotation (put it as red content). Area: Hekt | Dez. with three decimal digits.
+    columns:
+      - {id: district_no, label: "District › Num.", type: key, key: district_no,
+         meaning: "district the piece belongs to now"}
+      - {id: district_name, label: "District › Name", type: key, key: district_name}
+      - {id: unclear_col, label: "(Spalte ohne lesbaren Kopf)", type: text,
+         meaning: "narrow column without readable header; the HTR reads 'v' in the first rows"}
+      - {id: compartment_no, label: "Abtheilg. › Num.", type: key, key: compartment_no}
+      - {id: subcompartment, label: "Abtheilg. › Lett.", type: key, key: subcompartment}
+      - {id: former_district_no, label: "Früherer Theil von › District › Num.", type: text,
+         meaning: "district the piece belonged to before 1878"}
+      - {id: former_district_name, label: "Früherer Theil von › District › Name", type: text}
+      - {id: former_compartment_no, label: "Früherer Theil von › Abth. › Num.", type: text}
+      - {id: former_subcompartment, label: "Früherer Theil von › Abth. › Lett.", type: text}
+      - {id: area, label: "Maasse › Inhalt › Hekt.", type: pair_major, unit: ha, variable: area_transferred,
+         meaning: "area of the transferred piece"}
+      - {id: area_dec, label: "Maasse › Inhalt › Dez.", type: pair_minor, of: area, mode: digits}
+      - {id: cause, label: "Ursache der Veränderung", type: text,
+         meaning: "reason of the change (path or road adopted as boundary)"}
+    observations:
+      scope_keys: [revier, district_no, compartment_no, subcompartment]
+      scope: changes made at the Waldstandsrevision 1878
+notes: |
+  No image of A 384 II 116 – transcript only; the header levels are reconstructed from the HTR. Unclear: the third
+  column (no header, entries "v") – perhaps part of the name column or a misplaced letter; check against the scan
+  when available. The red "1, 587" may be a subtotal (0,865 + 0,712 = 1,577).

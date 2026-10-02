@@ -1,0 +1,88 @@
+unit: II-06
+title: Zusammenstellung der Resultate der Bestandsauszählungen
+summary: |
+  Beilage II. 6 (Form 20 Abth. II, printed "F. No. XX"): "Zusammenstellung der Resultate der Bestandesauszählungen"
+  for the Reviere Schönau, St. Oswald and Klingenbrunn, state at the beginning of 1878. The words
+  "Probeflaechenaufnahmen und" and "Ilzertrift-Complex" are crossed out. Page 1 is the title with "Allgemeine
+  Bemerkungen": the counts cover only the Nachhieb material still standing at the end of 1877 in the existing regular
+  fellings, and stand remnants broken by storm. They were made in autumn 1877 and in 1878.
+  The table pages are double pages. One row is one counted Unterabtheilung (Lfd. No. 1–60 in red ink, all in Revier
+  St. Oswald). Only two columns are filled: the total stem number and the total volume (in Ster; the printed
+  "pro Tagw." and "Klafter" are crossed out). All other columns hold only dots. Page sums are "Suma I"–"IV"; the last
+  page has the recap and "Suma St. Oswald".
+default_profile: table
+default_form: xx
+pages:
+  1:
+    role: title
+    profile: text
+    note: "Title + 'Allgemeine Bemerkungen' (scope and date of the counts; felled 1878 material to be given under Bemerkungen)"
+  5:
+    note: "Last rows 50–60, then 'Suma IV', recap 'Suma III, II, I' and 'Suma St. Oswald'"
+forms:
+  xx:
+    name: "F. No. XX – Zusammenstellung der Resultate der Bestandesauszählungen (Stand Anfang 1878)"
+    description: |
+      Double page: left page = running No., keys, plot area, area of the whole Unterabtheilung, Boden, Lage,
+      Holzbestand; right page = Bonitätsklasse, Wachsthumsgang, stem numbers, volumes, increment, Bemerkungen.
+      Read each row across both pages.
+      "Revier St. Oswald" at the top of the first table page is a group_header (sets_key revier). The running number
+      ("der Bestands-Aufnahme No.", 1–60) is written in red ink: give it as red content of that cell. The Distrikt
+      No. (Roman) is repeated on every row; the name is given once and then as ditto marks (").
+      In practice only "Stammzahl › in Summa" and "Massengehalt › in Summa" are filled; the other cells hold a dot
+      ("."), which counts as empty. The volume values are underlined in red; this is only a check mark, not red
+      content. Each Massengehalt and Zuwachs column has a narrow unlabelled sub-column for decimals; it is unused, so
+      read the value as one whole number (e.g. "2605.").
+      The bottom row of each page, "Suma I" / "II" / "III" / "IV" (label in the Holzbestand column), is row_type sum.
+      On the last page the rows "Suma III, II, I" repeat the earlier page sums (row_type carry_over), and
+      "Suma St. Oswald" is the total (row_type sum). A remark like "Später die Ausscheidung geändert, Dispos.
+      ungültig" stands in Bemerkungen.
+    columns:
+      - {id: survey_no, label: "der Bestands-Aufnahme No.", type: number,
+         meaning: "running number of the counting (1–60), red ink"}
+      - {id: district_no, label: "der Distrikte › No.", type: key, key: district_no}
+      - {id: district_name, label: "der Distrikte › Namen", type: key, key: district_name}
+      - {id: compartment_no, label: "Abtheilungs-Nummer", type: key, key: compartment_no}
+      - {id: subcompartment, label: "Unterabtheilungs-Litt.", type: key, key: subcompartment}
+      - {id: plot_area, label: "Größe der Probe-Fläche › Tagw.", type: pair_major, unit: Tagwerk,
+         variable: sample_plot_area}
+      - {id: plot_area_dec, label: "Größe der Probe-Fläche › Dz.", type: pair_minor, of: plot_area, mode: digits}
+      - {id: subcompartment_area, label: "Fläche der ganzen Unterabtheilung › Tagw.", type: number, unit: Tagwerk,
+         variable: area}
+      - {id: soil, label: "Boden", type: text, describe: true}
+      - {id: site, label: "Lage", type: text, describe: true}
+      - {id: stand, label: "Holzbestand", type: text, describe: true}
+      - {id: site_class, label: "Bonitäts-Klasse", type: text, meaning: "site quality class"}
+      - {id: growth_course, label: "Wachsthumsgang des dominirenden (?) Bestandes", type: text,
+         meaning: "growth course of the dominant stand; header partly uncertain"}
+      - {id: stems_main, label: "Stammzahl (pro Tagw. gestrichen) › des Hauptbestandes", type: number, unit: Stück,
+         variable: stem_count_main}
+      - {id: stems_secondary, label: "Stammzahl (pro Tagw. gestrichen) › des Nebenbestandes", type: number,
+         unit: Stück, variable: stem_count_secondary}
+      - {id: stems_total, label: "Stammzahl (pro Tagw. gestrichen) › in Summa", type: number, unit: Stück,
+         variable: stem_count, meaning: "number of stems counted in the Unterabtheilung (total, not per Tagwerk)"}
+      - {id: volume_main, label: "Massengehalt (pro Tagw. gestrichen) › des Hauptbestandes › Klafter (gestrichen) / Ster",
+         type: number, unit: Ster, variable: volume_main}
+      - {id: volume_secondary, label: "Massengehalt (pro Tagw. gestrichen) › des Nebenbestandes › Klafter (gestrichen) / Ster",
+         type: number, unit: Ster, variable: volume_secondary}
+      - {id: volume_total, label: "Massengehalt (pro Tagw. gestrichen) › in Summa › Klafter (gestrichen) / Ster",
+         type: number, unit: Ster, variable: volume,
+         meaning: "wood volume of the counted stems in the Unterabtheilung (total, not per Tagwerk)"}
+      - {id: increment, label: "durchschnittl. Zuwachs des Hauptbestandes", type: number, unit: Ster,
+         variable: increment}
+      - {id: remarks, label: "Bemerkungen", type: text,
+         meaning: "remarks; according to the Allgemeine Bemerkungen also the material already felled for 1878"}
+    row_sums:
+      - {target: stems_total, of: [stems_main, stems_secondary]}
+      - {target: volume_total, of: [volume_main, volume_secondary]}
+    observations:
+      scope_keys: [revier]
+notes: |
+  Reading order = position order (archive A 384 II 200, 204–207; running numbers 1–60 continue across the pages).
+  Archive pages 201–203 are not in the unit. All 60 rows belong to Revier St. Oswald, so the counts for Schönau and
+  Klingenbrunn named in the title are not in this unit (blank or missing).
+  The printed header is the same on all four table pages; the HTR variants ("Größe der Kulturfläche", "Jahr der
+  Verwandlung", "Werthformklasse", "Kubikmeter", "Kübik-Fuß / Wagner-Holz", "Festm. / Ster") are misreadings.
+  Doubtful headers: the first column ("der Bestands-Aufnahme No.") and "Wachsthumsgang des dominirenden (?) Bestandes".
+  Under Massengehalt, a printed unit (Kubik-…? / Klafter) is crossed out and "Ster" is written. The unit of the
+  increment column is not printed; Ster is assumed. The increment column is empty.

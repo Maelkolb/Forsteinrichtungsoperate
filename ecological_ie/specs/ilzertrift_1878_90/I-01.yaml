@@ -1,0 +1,48 @@
+unit: I-01
+title: Grundlagenprotokoll
+summary: |
+  Copy (Abschrift, Beil. Heft I.1) of the protocol of the meeting at St. Oswald on 15 October 1877 at which the
+  Regierungs- und Kreisforstrat, Forstmeister Plaß (Forstamt Schönberg), the Oberförster Janke and Kühlwein and
+  Forstamtsassistent Rosenbeck agreed the principles (Grundlagen) of the comprehensive Waldstandsrevision of the
+  Reviere Klingenbrunn, St. Oswald and Schönau (Ilzertrift complex) with terminus a quo 1 January 1878. It reviews the
+  earlier revisions (1837/38, 1848/49, 1859/60), the storm of 26 October 1870 and the bark beetle of 1874-76, and then
+  sets out points I-IX: district and compartment formation, boundary marking, abolition of the separate Hochwald
+  (Plenterwald) working class with the 144-year rotation kept, assessment of growing stock and yield, silviculture
+  (spruce with fir and beech, fir sowing on windthrow areas, a dissenting vote of Forstmeister Plaß for beech groups, sparing seed-bearing
+  maples), a systematic road network, a Triftbauplan for 1878/89, and litter use (Rechstreu); signatures follow.
+  Position 14 is the circulation note of 18 October 1877 to the three Reviere; position 15 is the first page of a
+  different document, the protocol of 14 July 1879 on the inspection of the projected road network.
+default_profile: text
+pages:
+  1:
+    role: title
+    note: "Heading (Abschrift, Beil. Heft I.1, fol. 1), place and date St. Oswald 15 Oct 1877, list of those present, then the history of the earlier revisions."
+  6:
+    note: "The left column holds a later insertion (caution in regeneration, keep the moss cover); the main text continues in the right column (end of IV, V Holzvorrath und Haubarkeitsertrag)."
+  13:
+    note: "End of VIII, IX Streunutzung, closing formula and signatures."
+  14:
+    role: other
+    note: "Circulation note: protocol sent to the Reviere Schönau, St. Oswald and Klingenbrunn for copying, with receipt and dispatch dates (Schönberg, 18 Oct 1877, Forstmeister Plaß)."
+  15:
+    role: other
+    note: "Different document: first page of the Protocoll über die örtliche Prüfung des projektirten Wegnetzes, Klingenbrunn 14 July 1879 (barometric survey of 1231 points); its continuation is not in this unit."
+segments:
+  - [1, 3]
+  - [4, 6]
+  - [7, 9]
+  - [10, 13]
+  - [14, 15]
+notes: |
+  Reading order = volume order (A 384 II 77-91); every page join was checked, e.g. 78 "Staatswaldcomplex des Reviers
+  Klingenbrunn" -> 79 "mit der ...anlage vereinigt worden ist"; 80 "Waldhäuser im Reviere Schön-" -> 81 "au";
+  82 "in keiner den Haubarkeitsertrag beeinträchtigenden Weise" -> 83 "beschädigt worden sind"; 83 "ist der" -> 84
+  "Meinung"; 88 "Rinnsohlen" -> 89 "geeignet ... Bedacht zu nehmen". Segments: introduction and I [1-3], I-V [4-6],
+  V-VII [7-9], VII-IX and signatures [10-13], appended pages [14-15].
+  The HTR garbles the section numerals and headings: "Z." = I (Distriktsbildung), "Angebote" = II (Abtheilungen),
+  "T." = III (Vermarkung), "II." on pos 7 = VI (Kulturbetrieb und Wirthschaftsweise), "Bekanntmachung" = VII
+  (Waldwegbauten), "Leichtbautein" = VIII (Triftbauten), "Neunutzung" = IX (Streunutzung). Other misreadings:
+  "Thalricht-", "Stadtricht-", "Thiericht-Complex" = Ilzertrift-Complex; "Teichtbauten" = Triftbauten;
+  "Harzausnützung", "Harzsäue", "Dienstfrau", "Scheuerquanten" = Rechstreunutzung, Rechstreu, Nadelstreu,
+  Streuquanten; "Formeister Raab" = Forstmeister Plaß (verified on the scan). Marginal notes in other hands (pos 2, 4, 7, 8, 13) are
+  later remarks of the Regierung/Ministerium on the protocol, not part of the agreed text.

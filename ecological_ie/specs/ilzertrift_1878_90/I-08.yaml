@@ -1,0 +1,24 @@
+unit: I-08
+title: Triftübersichtskarte
+summary: |
+  Triftübersichtskarte (overview map of the timber-floating system), Beilage I.8 of the 1878 Waldstandsrevision: a
+  large folded printed topographic base map (cadastral sheet grid 55-63 along the top and bottom margins, Roman row
+  numbers at the sides) covering the upper Ilz catchment between Grafenau (bottom centre) and the Bohemian border
+  ("Königreich Böhmen", top), i.e. the Ilzertrift complex around St. Oswald, Klingenbrunn and Schönau and the
+  neighbouring Wolfstein forests to the east. A handwritten title in a box at the top right reads approximately "Das
+  Triftgebiet der Ilz und ihrer Seitenwässer in den oberen Talgründen der F.A. ..., Spiegelau, St. Oswald u.
+  Schönberg". The floating streams and canals are traced in blue with blue circles at the Klausen (splash dams); red
+  lines and some red place names mark roads or annotations, and green dashed lines mark forest boundaries. Pencil
+  notes run along the bottom margin; the scale is about 1:25 000.
+default_profile: map
+map:
+  expected: "Triftübersichtskarte: overview map of the timber-floating (Trift) network of the upper Ilz; printed topographic/forest base map with hand-drawn blue Trift waters and Klausen, red roads/annotations and green boundaries."
+  title: "Handwritten in a box at the top right, small and only partly legible at 1200 px: 'Das Triftgebiet der Ilz und ihrer Seitenwässer in den oberen Talgründen der F.A. [Klingenbrunn? HTR: Elsenthal], Spiegelau, St. Oswald u. Schönberg'. Small printed label outside the frame top left (St. Oswald?)."
+  scale: "HTR reads 'Maßstab 1 : 25 000, 1 cm = 250 m' at the bottom centre next to a short scale bar; not legible at 1200 px, but consistent with the nine cadastral sheet columns (about 21 km) across the map."
+  grid: "Margins carry Bavarian cadastral sheet numbers 55-63 (top and bottom; 'N. 59 | O. 60' at the meridian) and Roman row numbers on the left and right edges. These are grid labels, not toponyms."
+  legend: "No printed legend visible. Blue lines = floating streams and canals; blue circles = Klausen/reservoirs; red lines and red labels (e.g. Grafenau, St. Oswald, Waldhäuser) = roads and hand annotations; green dashed lines = forest/administrative boundaries; dotted black line at the top = state border with Bohemia; pencil notes bottom left and bottom centre; stamp or number note bottom right."
+  toponyms: "Königreich Böhmen, Grafenau, St. Oswald, Klingenbrunn, Spiegelau, Riedlhütte, Guglöd, Waldhäuser, Neuhütte, Althütte, Klostermühle, Rachel, Lusen, Rachelsee, Große Ohe, Kleine Ohe, Sagwasser, Reschbach, Wolfsteiner Ohe, Ilz; Distrikt names in capitals (e.g. Auwald, Vorwald, Waldhütte, Plattenhausen, Spitzberg, Rehwald) and in the east the Wolfstein compartments (HTR: Abth. I Mitterkeil ... XIV Hatzberg). Spellings from the HTR, unverified."
+  resolution: "Not sufficient: the sheet (about 20 x 15 km) is only 1200 x 901 px, so ordinary labels are 3-5 px high. Only the largest capitals, the grid numbers and Grafenau are legible, the title only partly. Toponym extraction needs a high-resolution master scan (6000 px or more); upscaling the 1200 px tiles will not recover the text."
+notes: |
+  From volume A 383 I (scan 6), not from the operat volumes A 383 II / A 384 II. The HTR description lists many
+  labels that cannot be checked at this resolution; treat them as hypotheses.

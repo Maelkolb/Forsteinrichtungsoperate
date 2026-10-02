@@ -1,0 +1,117 @@
+unit: I-19
+title: Generelle Übersicht der Triftbaukosten 1861/77
+summary: |
+  Beilage I. 19 (Form. I. 28½, Forstamt Schönberg, September 1879): general overview of the costs of the
+  timber-rafting (Trift) structures built 1860/61–1877 in the Reviere Schönau, St. Oswald, Klingenbrunn and Schönberg
+  with the forest-office rafting stretch (Cap. 3 § 3 Tit. 1 b "Fabrikation und Verbringung des Triftholzes"). One row
+  per year of use (all Reviere together): costs of chutes (Riesen) and timber yards (Lagerplätze), of rafting
+  equipment, stream clearing, weir and bank protection works and Klausen (splash dams), the total cash expense of the
+  state and contributions (Prästationen) of private parties in money and in kind. Printed heads say M. | Pf., but the
+  years 1860/61–1875 are written in Gulden | Kreuzer; their sum is converted into Mark and 1876–1877 are in Mark.
+  Page 3 (no scan, December 1879) is a separate list of the staked-out road lines in the three Reviere with lengths
+  in metres.
+default_profile: table
+default_form: trift
+pages:
+  1:
+    role: title
+    profile: text
+  3:
+    form: roads
+    note: Verzeichnis der ausgesteckten Weglinien (A 384 II 133, no image), Schönberg December 1879
+forms:
+  trift:
+    name: Generelle Uebersicht der Kosten der 1860/61–77 ausgeführten Triftbauten (Cap. 3 § 3 Tit. 1 b)
+    description: |
+      Double page; one row per year in the first column "Reviere" (1860/61 … 1866/67, 1868 … 1877; no 1867). Directly
+      under the printed "M. ₰." heads the first data line carries the hand-written unit marks "fl. kr." (heading row,
+      sets_key unit = fl): the years 1860/61–1875 are in Gulden | Kreuzer (kr. with fractions ½ ¼ ¾). After 1875: "Sa."
+      (sum in fl.), a line "M. ₰." and the converted sums (carry_over, sets_key unit = M); 1876 and 1877 are in
+      Mark | Pfennig; the last row "Summa" is the grand total in Mark (sum). Dots "." are empty cells; the columns
+      Riesen (Meter, cost) and Lagerplätze (Hektar) are empty throughout. The "in natura" block has a text column
+      (Bezeichnung) and its money value. A red correction digit in the total of 1869 is red content of that cell.
+    columns:
+      - {id: year, label: "Reviere", type: period, meaning: "year of use (the column holds years, not Reviere)"}
+      - {id: chute_length, label: "bb.) Riesen u. sonstige Bringwerke › α) Riesen › Meter", type: number,
+         unit: Meter, variable: timber_chute_length}
+      - {id: chute_cost, label: "bb.) Riesen u. sonstige Bringwerke › α) Riesen › Baarer Aufwand › M.",
+         type: pair_major, unit: fl, variable: timber_chute_cost, meaning: "fl. until 1875, M. from 1876"}
+      - {id: chute_cost_pf, label: "bb.) Riesen u. sonstige Bringwerke › α) Riesen › Baarer Aufwand › ₰.",
+         type: pair_minor, of: chute_cost, mode: currency}
+      - {id: yard_area, label: "bb.) Riesen u. sonstige Bringwerke › β) Lagerplätze › Hektar", type: number,
+         unit: ha, variable: timber_yard_area}
+      - {id: yard_cost, label: "bb.) Riesen u. sonstige Bringwerke › β) Lagerplätze › Baarer Aufwand › M.",
+         type: pair_major, unit: fl, variable: timber_yard_cost}
+      - {id: yard_cost_pf, label: "bb.) Riesen u. sonstige Bringwerke › β) Lagerplätze › Baarer Aufwand › ₰.",
+         type: pair_minor, of: yard_cost, mode: currency}
+      - {id: bb_total, label: "Summa bb.) › M.", type: pair_major, unit: fl, variable: chutes_yards_cost}
+      - {id: bb_total_pf, label: "Summa bb.) › ₰.", type: pair_minor, of: bb_total, mode: currency}
+      - {id: equipment, label: "dd.) Triftbäche und Wasserbauten › α) Geräthschaften › M.", type: pair_major,
+         unit: fl, variable: rafting_equipment_cost}
+      - {id: equipment_pf, label: "dd.) Triftbäche und Wasserbauten › α) Geräthschaften › ₰.", type: pair_minor,
+         of: equipment, mode: currency}
+      - {id: stream_clearing, label: "dd.) Triftbäche und Wasserbauten › β) Bachräumungen › M.", type: pair_major,
+         unit: fl, variable: stream_clearing_cost, meaning: "clearing of the rafting streams"}
+      - {id: stream_clearing_pf, label: "dd.) Triftbäche und Wasserbauten › β) Bachräumungen › ₰.",
+         type: pair_minor, of: stream_clearing, mode: currency}
+      - {id: bank_protection, label: "dd.) Triftbäche und Wasserbauten › γ) Wehr- und Uferschutzbauten › M.",
+         type: pair_major, unit: fl, variable: weir_bank_protection_cost}
+      - {id: bank_protection_pf, label: "dd.) Triftbäche und Wasserbauten › γ) Wehr- und Uferschutzbauten › ₰.",
+         type: pair_minor, of: bank_protection, mode: currency}
+      - {id: klausen, label: "dd.) Triftbäche und Wasserbauten › δ) Klausenbauten › M.", type: pair_major,
+         unit: fl, variable: splash_dam_cost, meaning: "construction of Klausen (splash dams for rafting)"}
+      - {id: klausen_pf, label: "dd.) Triftbäche und Wasserbauten › δ) Klausenbauten › ₰.", type: pair_minor,
+         of: klausen, mode: currency}
+      - {id: dd_total, label: "Summa dd.) › M.", type: pair_major, unit: fl, variable: rafting_waterworks_cost}
+      - {id: dd_total_pf, label: "Summa dd.) › ₰.", type: pair_minor, of: dd_total, mode: currency}
+      - {id: total, label: "Total-Summa Tit. 1 b. zugleich baarer Aufwand des Ärars › M.", type: pair_major,
+         unit: fl, variable: rafting_structures_cost_total, meaning: "total cash expense of the state"}
+      - {id: total_pf, label: "Total-Summa Tit. 1 b. zugleich baarer Aufwand des Ärars › ₰.", type: pair_minor,
+         of: total, mode: currency}
+      - {id: private_money, label: "Prästationen von Privaten › in Geld › Betrag › M.", type: pair_major, unit: fl,
+         variable: private_contribution_money}
+      - {id: private_money_pf, label: "Prästationen von Privaten › in Geld › Betrag › ₰.", type: pair_minor,
+         of: private_money, mode: currency}
+      - {id: private_kind, label: "Prästationen von Privaten › in natura › Bezeichnung", type: text,
+         meaning: "kind of the contribution in kind"}
+      - {id: private_kind_value, label: "Prästationen von Privaten › in natura › im Geld angeschlagen › M.",
+         type: pair_major, unit: fl, variable: private_contribution_in_kind_value}
+      - {id: private_kind_value_pf, label: "Prästationen von Privaten › in natura › im Geld angeschlagen › ₰.",
+         type: pair_minor, of: private_kind_value, mode: currency}
+      - {id: private_total, label: "Prästationen von Privaten › Summa › M.", type: pair_major, unit: fl,
+         variable: private_contribution_total}
+      - {id: private_total_pf, label: "Prästationen von Privaten › Summa › ₰.", type: pair_minor, of: private_total,
+         mode: currency}
+      - {id: remarks, label: "Bemerkungen", type: text}
+    row_sums:
+      - {target: bb_total, of: [chute_cost, yard_cost]}
+      - {target: dd_total, of: [equipment, stream_clearing, bank_protection, klausen]}
+      - {target: total, of: [bb_total, dd_total]}
+      - {target: private_total, of: [private_money, private_kind_value]}
+    observations:
+      scope: Reviere Schönau, St. Oswald, Klingenbrunn and Schönberg with the rafting stretch, together
+  roads:
+    name: Verzeichnis der in den Revieren Klingenbrunn, St. Oswald und Schönau ausgesteckten Weglinien
+    description: |
+      One row per staked-out road line: running number, Revier (written once at the first line of each Revier, then
+      empty or ditto), name of the road (e.g. "Oberer Weg: Schwerberg-", "Mittlerer Weg: Häuslwig-", "Nebenwege:
+      Brennersteig-"; ditto marks repeat the road class), length in metres with decimal comma, remark on parts already
+      built and variants. At the end: "Summa" (sum of the lengths), "Varianten" (sum of the variant lengths, note)
+      and the grand total 76078,7 m with "hievon 2787,8 m bereits gebaut" (note).
+    columns:
+      - {id: running_no, label: "Lauf. Num.", type: label}
+      - {id: revier, label: "Revier", type: key, key: revier}
+      - {id: road_name, label: "Name des Weges", type: key, key: other,
+         meaning: "road class (Oberer/Mittlerer/Unterer Weg, Nebenweg) and name"}
+      - {id: length, label: "Länge m.", type: number, unit: Meter, variable: road_line_length,
+         meaning: "length of the staked-out road line"}
+      - {id: remarks, label: "Bemerkung", type: text, meaning: "parts already built, variants"}
+    observations:
+      scope_keys: [revier, other]
+      scope: planned wood-haulage roads staked out by 1879
+notes: |
+  Header read from the scan of page 2 (the HTR has "Gerällschaften", "Uferschutzbauten" and "Gelder" for the vertical
+  "Hektar" of the Lagerplätze). Column Meter under α) Riesen and the β) Lagerplätze area are empty in all years.
+  Sum check on the scan: 1861/62 dd.) 119|17 + 2304|42½ + 635|52 = 3059|51½ and total 114 + 3059|51½ = 3173|51½ →
+  base 60, i.e. Gulden/Kreuzer until 1875; Sa. 3759 fl 7 kr = 6444,20 M (× 12/7). Page 3 (A 384 II 133) has no image: transcript only; its
+  relation to Beilage I. 19 is loose (it lists planned roads, cf. the road map in I-18).

@@ -1,62 +1,77 @@
-# Ecological information extraction (IE) from the transcriptions
+# Structured extraction from the Forsteinrichtungsoperate
 
-`Forsteinrichtung_Ecological_IE_Gemini.ipynb` is a Colab proof of concept that extracts the most
-important **ecological information** from the Markdown transcriptions produced by the pipeline in
-this repository (`run.py --doc-type text|table`). It works on the `md/*.md` files only, never on the scans.
+`ecological_ie` turns the Gemini transcriptions and page scans of the Forsteinrichtungsoperate into a verifiable,
+publishable data set. The current target is the 24 TOC items of the Waldstandsrevision 1878/90 of the
+Ilzertrift-Komplex that are linked to pages in the TOC UI. The workflow and its reasoning are in [`PLAN.md`](PLAN.md);
+the format of the unit specs is in [`SPEC.md`](SPEC.md).
 
-Model: **Gemini 3.5 Flash** (`gemini-3.5-flash`, structured JSON output, `thinking_level`).
+## Setup
 
-## Test set
+```bash
+pip install -r requirements.txt
+export GEMINI_API_KEY="..."      # or GOOGLE_API_KEY, a .env file (--env-file), or the Colab secret LST_Gemini
+```
 
-`testset/` holds 20 text pages and 20 table pages (plus `manifest.csv`) selected from the
-`Forsteinrichtungsoperate_combined` output for ecological richness and format diversity:
+## Workflow
 
-* text: Erörternde Darstellung / Waldstandsrevision (10), Protokolle (4), Schreiben (3), gedruckter/typed text (3)
-* tables: Periodentabelle (5), Bestandsauszählungen (3), Altersklassen (2), Kulturplan (2), Wirtschaftsplan (2),
-  Probeflächenaufnahmen, Streunutzungsplan, Forstnebennutzungen, Wirtschaftsbuch, Betriebsplan, Übersicht der Forstverbesserungen
+```bash
+# 0 collect the annotated pages into units (transcript + image per page)
+python -m ecological_ie prepare --dump Forsteinrichtungsoperate_Gemini_combined.zip \
+    --toc-ui Forsteinrichtung_TOC_UI.html --annotations Inhaltsverzeichnis-Zuordnung.json \
+    --out work/units [--scans FOLDER_WITH_SCANS]
 
-Zip the folder (`zip -r Forsteinrichtung_IE_testset.zip testset`) and upload it in the notebook, or point the
-notebook at a Drive / local copy.
+# 1 unit specs: drafts from the transcript headers, then spec.yaml written/reviewed by Claude Code and you
+python -m ecological_ie draft-specs
+python -m ecological_ie spec-check
 
-## What the workflow does
+# 2–4 extraction, validation and targeted re-reads (results cached per page in work/runs/main)
+python -m ecological_ie run tables recheck describe text maps      # or: run all
+python -m ecological_ie run tables --section I-11 --positions 3 4  # a single unit / pages
 
-1. **Setup** – installs `google-genai`, reads the API key from the Colab secret `LST_Gemini` (fallback:
-   `GEMINI_API_KEY`), creates the client, checks that `gemini-3.5-flash` is visible.
-2. **Data + pre-processing** – loads `manifest.csv`, parses the YAML front matter of every md file, cuts
-   marginalia blockquotes that degenerated into repetition loops, joins line-end hyphenation (`-`/`=`) in text
-   pages so that quotes are contiguous, and collapses the indentation of the HTML tables (30–40 % fewer tokens).
-   The cleaned text is what the model sees and what quotes are verified against.
-3. **Schemas and prompts** – two JSON schemas and two prompts (see below), both with a glossary of local
-   terms and abbreviations (Fi/Ta/Bu, Auen, Filze, Hochwald, Duftbruch, WZ, Tagwerk, Klafter, …).
-4. **Extraction** – one Gemini call per page with `response_json_schema`; retries with back-off; automatic
-   fallback to plain JSON mode with the schema embedded in the prompt if the API rejects the schema;
-   results cached as one JSON per page in `output/raw/` (re-runs skip finished pages); 4 parallel workers;
-   token usage and cost estimate.
-5. **Results** – flat CSVs (`text_findings`, `text_species`, `text_locations`, `table_records`,
-   `table_species`, `table_damage`, `table_culture`, `table_non_timber_use`, `table_history`),
-   verification that every quote / description appears verbatim in the input, a standalone
-   `review_viewer.html` (source text with highlighted quotes next to the extracted items) and a
-   `scoring_sheet.csv` for manual evaluation; everything zipped for download.
-6. **Scaling notes** – priority and skip lists for the table categories of the full corpus and a cell that
-   enumerates the corpus and estimates the token volume.
+# 5 rebuild derived tables, publish the data package, write the review site
+python -m ecological_ie derive
+python -m ecological_ie publish
+python -m ecological_ie review
+```
 
-## How Gemini is used for the IE
+Model options for `run`: `--model` (default `gemini-3.8-flash`), `--thinking`, `--recheck-model`, `--rounds`,
+`--workers`, `--image-resolution` (default `ultra_high`), `--force`. Every stage appends model, token counts and cost
+to `work/runs/<run>/runs.jsonl`.
 
-* **Text pages** → prompt asks for a flat list of *findings*, each with a `category` from a fixed enum
-  (`tree_species`, `stand_structure`, `site_conditions`, `ground_vegetation`, `climate_weather`,
-  `damage_event`, `regeneration`, `silvicultural_measure`, `non_timber_use`, `wildlife`,
-  `land_use_hydrology`, `quantity`, `other_ecological`), a normalised German `entity`, `value`/`unit`,
-  `date`, `location`, `status` (planned / executed / prohibited / observed / ended), `confidence` and a
-  **verbatim quote** (≤ 40 words). Page level: document type, summary, forest offices, dates, a list of
-  locations (Distrikt / Abteilung / Unterabteilung / toponym with area) and a list of tree species with
-  role and share as a 0–1 fraction (8/10 → 0.8, WZ 0,7 → 0.7).
-* **Tables** → prompt asks the model to (a) identify the form and list the flattened column headers,
-  (b) resolve rowspan / ditto / group-header context, (c) merge values split over unit columns
-  (Hektar | Ar → 18.60), (d) copy the free-text description cell verbatim and decompose it into
-  `site` (Lage, Boden), `stand` (species with shares, age, stocking, structure, health, regeneration,
-  volume, increment, stem counts), `damage`, `management` (planned cut, period, transition code, harvest
-  history), `culture` (planting/sowing/drainage with species and quantities) and `non_timber_use`
-  (Streu, Weide, Torf, Harz), (e) mark carry-over/summary rows, red-ink corrections and uncertain rows.
-* The schemas are passed as `response_json_schema`, so the output is guaranteed-valid JSON that flattens
-  directly into tables; the verbatim quotes make every extracted item auditable against the transcription
-  and, via the pipeline's region JSON, against the scan.
+| stage | what Gemini gets | what comes back |
+|---|---|---|
+| `tables` | scan + two zoomed halves + transcript + form description and canonical columns | faithful grid: page columns mapped to canonical ids, rows with type and box, cells as written, red ink, corrections |
+| `recheck` | crop of the rows behind each failed sum + column zoom + current readings | re-read cells; stored as overrides with before/after |
+| `describe` | batches of free-text description cells | site, stand, damage, management, culture and use attributes with evidence |
+| `text` | page scan + transcript (proofreading), then the whole proofread unit as context per segment | corrections; atomic statements and events with verbatim quotes and page anchors |
+| `maps` | whole sheet (overview), then overlapping zoomed tiles | title, legend, regions; every label with class and box in sheet coordinates |
+
+Code does the rest: number formats, ditto marks, value pairs (`Tagw | Dez`, `fl | kr`, `M | Pf`), unit and currency
+headings, key propagation, column totals, row sums, carry-overs, stand keys, tidy observations.
+
+## Outputs (`work/runs/<run>/`)
+
+* `derived/*.jsonl` – all tables of the faithful and interpreted layer
+* `package/` – Frictionless data package (`datapackage.json`, `data/*.csv`, `map_labels.geojson`, README with codebook)
+* `review/index.html` – one page per unit: scan with row or label boxes next to the reconstructed grid (failed checks
+  red, re-read cells yellow) or the proofread text with its corrections and statements
+
+## Other commands
+
+* `testset` – the earlier proof of concept: 40 transcript pages, generic text/table schemas
+* `extract` – the same generic schemas on prepared units, with images (baseline)
+* `corpus` – enumerate the whole corpus and estimate its token volume
+
+Tests: `python -m pytest tests`.
+
+## Modules
+
+| module | content |
+|---|---|
+| `dump.py`, `toc.py`, `images.py`, `units.py` | dump access (folder or zip, NFC paths), TOC UI and annotations, page images, unit preparation |
+| `spec.py`, `html_tables.py` | spec schema, validation, page plans, drafts from transcript headers |
+| `grid.py`, `normalize.py`, `checks.py`, `recheck.py`, `pipeline.py` | table grids, normalisation, arithmetic checks, re-reads, stage runner |
+| `textdoc.py`, `maps.py`, `describe.py`, `stages.py` | text, map and description stages |
+| `publish.py`, `viewer.py` | data package, review site |
+| `gemini.py`, `config.py` | Gemini client (structured output, image parts, retries, cost ledger), models and prices |
+| `pages.py`, `schemas.py`, `prompts.py`, `extract.py`, `results.py`, `review.py`, `testset.py`, `corpus.py` | proof-of-concept path |

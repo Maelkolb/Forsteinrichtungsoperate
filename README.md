@@ -111,6 +111,8 @@ Open `Forsteinrichtungsoperate_pipiline_colab.ipynb` in Colab. It will:
 
 ## Ecological information extraction
 
-`ecological_ie/` contains a Colab notebook that extracts ecological information (species, site, damage,
-regeneration, management, non-timber uses …) from the md transcriptions with Gemini 3.5 Flash structured
-output, plus a 40-page test set. See `ecological_ie/README.md`.
+`ecological_ie/` is a Python package for the structured extraction of the transcribed Operate with Gemini
+(transcript + page scan per call). It collects the pages annotated in the TOC UI into document units, reads tables as
+faithful grids checked against the documents' own sums, proofreads text pages against the scans and extracts
+statements and events, reads maps tile by tile, and publishes a Frictionless data package and a review site.
+See `ecological_ie/README.md` (commands), `ecological_ie/PLAN.md` (workflow) and `ecological_ie/SPEC.md` (unit specs).

@@ -1,0 +1,150 @@
+unit: I-11
+title: Periodentabelle
+summary: |
+  Beilage I. 11, Form F. No. 6 "Uebersicht des Material-Ertrages in den verschiedenen Wirthschafts-Perioden"
+  (Periodentabelle) of the Waldstandsrevision for the Ilzertrift-Komplex, Forstamt Schönberg. Every scan shows a whole
+  opened spread. The left page has the keys, the area and the stand description. The middle page and the fold-out
+  right page have age, growing stock, increment, expected final yield and six 22-year periods (I. 1883/1904 …
+  VI. 1993/2014), each with the cut area (Angriffsfläche, Tagw. | Dz.) and Haubarkeitsertrag in Klafter.
+  One row is one Unterabtheilung (Litt. a, b, c …). The long description (Lage, Boden, Holzbestand,
+  Bewirthschaftung) is written once per Abtheilung. Only Revier St. Oswald is in the unit: a separate 3-page block
+  (Seite 1–3, Distrikte I Seewald and IV Plattenhausen, Summe 893 Tagw. 47 Dez.), then the main block Seite 1–31
+  (Distrikte II, III, V–VIII, total 7323 Tagw. 82 Dez.), and finally the closing "Zusammenstellung der 3 Reviere des
+  Ilzertrift-Complexes" signed by the Königl. Forstamt Schönberg.
+default_profile: table
+default_form: f6
+reading_order: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+                28, 29, 30, 31, 32, 33, 34, 35, 36]
+pages:
+  1:
+    role: title
+    profile: text
+    note: "Title page 'F. No. 6. Uebersicht des Material-Ertrages in den verschiedenen Wirthschafts-Perioden' (A 383 II 3)"
+  2:
+    note: "Block A, Seite 1: heading 'Revier Sct. Oswald', Distrikt I Seewald"
+  4:
+    note: "Block A, Seite 3: last data rows (IV Plattenhausen), then recap 'Seite 3 / 2 / 1' and 'Summe' 893 | 47 'Sct. Oswald'"
+  5:
+    note: "Block B, Seite 1: heading 'Revier Sct. Oswald', Distrikt II Seebachberg (A 383 II 41; block B = archive pages 41–71 = Seite 1–31)"
+  34:
+    note: "Seite 30: last data rows (VIII Auwald Abth. 21), then recap rows 'Seite 30' … 'Seite 16' and 'S. I'"
+  35:
+    note: "Recap page: rows 'Seite 15' … 'Seite 1', 'S. II', 'S. I' and 'S. Tot.' 7323 | 82 'Revier Sct. Oswald'; no data rows"
+  36:
+    role: table
+    note: "Closing summary (A 383 II 105): 'Zusammenstellung der 3 Reviere des Ilzertrift-Complexes', one row per Revier, totals, 'Zwischen-Nutzungen', signature Königl. Forstamt Schönberg"
+forms:
+  f6:
+    name: "F. No. 6 – Uebersicht des Material-Ertrages in den verschiedenen Wirthschafts-Perioden (Periodentabelle)"
+    description: |
+      Whole double spread in one image: left page = keys, area, narrow area column and "Beschreibung des
+      Holzbestandes"; middle page = ages, growing stock, increment, Haubarkeitsertrag per Tagw. and periods I–III;
+      right (fold-out) page = periods IV–VI. Read each row straight across all three parts.
+      Rows: "Revier Sct. Oswald" at the top of the first page of each block is a group_header (sets_key revier).
+      The Distrikt No. (Roman) and name are written once at the first Abtheilung of the Distrikt; the Abtheilung No.
+      once at its first line. The description text belongs to the Abtheilung line (compartment without Litt.). The
+      Unterabtheilungen a, b, c … follow below it, each with its own area and period entries. Give each Unterabtheilung
+      as its own data row and repeat the keys.
+      Short texts next to an Unterabtheilung ("Filz", "Wiese", "Blöße", "Wechselwiese") describe non-wooded parts. Their
+      area is written as Tagw.Dz. in one cell of the narrow column right of "Fläche". The small number written in the
+      left margin / district columns beside the last Unterabtheilung (e.g. "163,30", "140,22") is the total area of
+      the Abtheilung, NOT a district number: put it into the row note. An asterisk (*) before some Litt. also goes
+      into the note.
+      Period I has an extra sub-block (header read as "Weg-Räumungen (?)") with "Bezeichnung" (letters N, P or R)
+      and "Material-Anfall" in Klafter. When a row has several letter lines (N / P / R), give each further line as its
+      own data row with the same keys and only these two cells filled.
+      Bottom of each page: "Seite N" row with the page sums (row_type sum). Page 3 of block A and pages 30/31 of
+      block B carry recap rows "Seite 3, 2, 1" / "Seite 30 … 1" (row_type carry_over) and totals "Summe",
+      "S. I", "S. II", "S. Tot." (row_type sum).
+      Closing page (A 383 II 105): rows for Reviere Schönau, St. Oswald, Klingenbrunn (area in up to three lines,
+      Material-Anfall split into N / P / R lines), a Summa row, a split of the Summa into two classes (labels hard to
+      read), the corrected totals and "Zwischen-Nutzungen" (planned thinning yields per period, in the
+      Haubarkeitsertrag columns). Crossed-out numbers with corrected numbers above or below appear there: give the
+      valid (not struck) value and mention the struck one in the note.
+    columns:
+      - {id: district_no, label: "der Revier-Distrikte › No.", type: key, key: district_no}
+      - {id: district_name, label: "der Revier-Distrikte › Namen", type: key, key: district_name}
+      - {id: compartment_no, label: "der Abtheilungen u. Unterabtheilungen › No.", type: key, key: compartment_no}
+      - {id: subcompartment, label: "der Abtheilungen u. Unterabtheilungen › Litt.", type: key, key: subcompartment}
+      - {id: area, label: "der Abtheilungen u. Unterabtheilungen › Fläche › Tagw.", type: pair_major, unit: Tagwerk,
+         variable: area}
+      - {id: area_dec, label: "der Abtheilungen u. Unterabtheilungen › Fläche › Dz.", type: pair_minor, of: area,
+         mode: digits}
+      - {id: nonwooded_area, label: "[schmale Spalte, gedrehter Kopf unleserlich] (Tagw. Dz.)", type: number,
+         unit: Tagwerk, variable: nonwooded_area,
+         meaning: "area of non-wooded parts (Filz, Wiese, Blöße) of the Unterabtheilung, written as Tagw.Dz in one cell (e.g. 1.60, 4.20); header could not be read"}
+      - {id: description, label: "Beschreibung des Holzbestandes", type: text, describe: true,
+         meaning: "stand description per Abtheilung with the paragraphs Lage, Boden, Holzbestand (species, age, growth) and Bewirthschaftung (planned treatment and period)"}
+      - {id: age_now, label: "ist alt", type: number, unit: Jahre, variable: age,
+         meaning: "present age of the stand"}
+      - {id: age_at_cut, label: "wird alt", type: number, unit: Jahre, variable: harvest_age,
+         meaning: "age the stand will have when it is cut in its period"}
+      - {id: stock_per_tagw, label: "dermaliger Holzvorrath › per Tagw. › Klftr.", type: number, unit: Klafter,
+         variable: growing_stock_per_area, meaning: "present growing stock per Tagwerk"}
+      - {id: stock_total, label: "dermaliger Holzvorrath › im Ganzen › Klftr.", type: number, unit: Klafter,
+         variable: growing_stock, meaning: "present growing stock of the Unterabtheilung"}
+      - {id: increment_per_tagw, label: "[Gegenwärtiger?] Durchschnitts-Zuwachs per Tagw.", type: number,
+         unit: Klafter, variable: increment,
+         meaning: "mean annual increment per Tagwerk; first word of the rotated header uncertain"}
+      - {id: final_yield_per_tagw, label: "Haubarkeits-Ertrag per Tagw. › Klftr.", type: number, unit: Klafter,
+         variable: final_yield_per_area, meaning: "expected yield per Tagwerk at the time of the final cut"}
+      - {id: p1_cut_area, label: "I. Periode 1883/1904 › Angriffsfläche › Fläche › Tagw.", type: pair_major,
+         unit: Tagwerk, variable: cut_area, period: "I. Periode 1883/1904"}
+      - {id: p1_cut_area_dec, label: "I. Periode 1883/1904 › Angriffsfläche › Fläche › Dz.", type: pair_minor,
+         of: p1_cut_area, mode: digits}
+      - {id: p1_yield, label: "I. Periode 1883/1904 › Angriffsfläche › Haubarkeitsertrag › Klftr.", type: number,
+         unit: Klafter, variable: planned_yield, period: "I. Periode 1883/1904",
+         meaning: "planned final-cut yield of the area cut in this period"}
+      - {id: p1_extra_code, label: "I. Periode 1883/1904 › Weg-Räumungen (?) › Bezeichnung", type: text,
+         period: "I. Periode 1883/1904",
+         meaning: "letter N, P or R for the kind of additional felling (probably Nachhieb, Plenterung, Räumung/Reinigung)"}
+      - {id: p1_extra_yield, label: "I. Periode 1883/1904 › Weg-Räumungen (?) › Material-Anfall › Klftr.",
+         type: number, unit: Klafter, variable: planned_secondary_yield, period: "I. Periode 1883/1904",
+         meaning: "wood expected from these additional fellings outside the Angriffsfläche in period I"}
+      - {id: p2_cut_area, label: "II. Periode 1905/26 › Angriffs-Fläche › Tagw.", type: pair_major, unit: Tagwerk,
+         variable: cut_area, period: "II. Periode 1905/26"}
+      - {id: p2_cut_area_dec, label: "II. Periode 1905/26 › Angriffs-Fläche › Dz.", type: pair_minor, of: p2_cut_area,
+         mode: digits}
+      - {id: p2_yield, label: "II. Periode 1905/26 › Haubarkeitsertrag › Klftr.", type: number, unit: Klafter,
+         variable: planned_yield, period: "II. Periode 1905/26"}
+      - {id: p3_cut_area, label: "III. Periode 1927/48 › Angriffs-Fläche › Tagw.", type: pair_major, unit: Tagwerk,
+         variable: cut_area, period: "III. Periode 1927/48"}
+      - {id: p3_cut_area_dec, label: "III. Periode 1927/48 › Angriffs-Fläche › Dz.", type: pair_minor, of: p3_cut_area,
+         mode: digits}
+      - {id: p3_yield, label: "III. Periode 1927/48 › Haubarkeitsertrag › Klftr.", type: number, unit: Klafter,
+         variable: planned_yield, period: "III. Periode 1927/48"}
+      - {id: p4_cut_area, label: "IV. Periode 1949/70 › Angriffs-Fläche › Tagw.", type: pair_major, unit: Tagwerk,
+         variable: cut_area, period: "IV. Periode 1949/70"}
+      - {id: p4_cut_area_dec, label: "IV. Periode 1949/70 › Angriffs-Fläche › Dz.", type: pair_minor, of: p4_cut_area,
+         mode: digits}
+      - {id: p4_yield, label: "IV. Periode 1949/70 › Haubarkeitsertrag › Klftr.", type: number, unit: Klafter,
+         variable: planned_yield, period: "IV. Periode 1949/70"}
+      - {id: p5_cut_area, label: "V. Periode 1971/92 › Angriffs-Fläche › Tagw.", type: pair_major, unit: Tagwerk,
+         variable: cut_area, period: "V. Periode 1971/92"}
+      - {id: p5_cut_area_dec, label: "V. Periode 1971/92 › Angriffs-Fläche › Dz.", type: pair_minor, of: p5_cut_area,
+         mode: digits}
+      - {id: p5_yield, label: "V. Periode 1971/92 › Haubarkeitsertrag › Klftr.", type: number, unit: Klafter,
+         variable: planned_yield, period: "V. Periode 1971/92"}
+      - {id: p6_cut_area, label: "VI. Periode 1993/2014 › Angriffs-Fläche › Tagw.", type: pair_major, unit: Tagwerk,
+         variable: cut_area, period: "VI. Periode 1993/2014"}
+      - {id: p6_cut_area_dec, label: "VI. Periode 1993/2014 › Angriffs-Fläche › Dz.", type: pair_minor,
+         of: p6_cut_area, mode: digits}
+      - {id: p6_yield, label: "VI. Periode 1993/2014 › Haubarkeitsertrag › Klftr.", type: number, unit: Klafter,
+         variable: planned_yield, period: "VI. Periode 1993/2014"}
+    observations:
+      scope_keys: [revier]
+notes: |
+  Reading order: the position order (= archive order A 383 II 3, 6–8, 41–71, 105) is the real order and is set
+  explicitly. The annotation order (3, 6, 7, 8, 41–49, 105, 71→64, 50–63) was wrong. The "Seite" numbers run 1–3 on
+  archive pages 6–8 (block A) and 1–31 on 41–71 (block B; Seite N = archive page − 40, page 71 is the recap). Page 105
+  is the closing summary.
+  Block A (Distrikte I Seewald, IV Plattenhausen; 893 Tagw. 47 Dez.) is NOT part of the St. Oswald total 7323 | 82 used
+  in the Ilzertrift summary on p. 105. It is probably a separate management unit of Revier St. Oswald. Archive pages
+  4–5, 9–40 and 72–104 (presumably Reviere Schönau and Klingenbrunn) are not in this unit.
+  Doubtful headers (low-resolution scans): the period years are read as 18 83/04, 19 05/26, 19 27/48, 19 49/70,
+  19 71/92 and "18" corrected to 19/20 93/14, i.e. 22-year periods 1883–2014; the digits are tiny, but the sequence
+  83, 05, 27, 49, 71, 93 is consistent. The HTR readings "18 33/42", "1855/64" etc. are wrong. Other doubtful headers:
+  the narrow rotated column after "Fläche" (unreadable; it holds the areas of Filz/Wiese/Blöße); "dermaliger" (HTR:
+  "damaliger"); the first word of the rotated increment header; the period-I sub-block "Weg-Räumungen (?)" (HTR:
+  "Wege-Räumungen", "Wege-Bauungen") and the meaning of its letters N / P / R. "Haubarkeitsertrag" is garbled in the
+  HTR as "Grubenhiebe", "Grüber Ertrag" or "Hauerertrag".

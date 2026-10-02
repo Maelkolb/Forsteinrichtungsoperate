@@ -1,0 +1,41 @@
+unit: I-13
+title: Verzeichnis der nicht eingereihten Flächen
+summary: |
+  Beilage I. 13 (Forstamt Schönberg, 18 February 1879): list of the forest areas that were not assigned to an age
+  class or period in the 1878 Waldstandsrevision ("nicht eingereihte Flächen"), grouped by Revier (Schönau,
+  St. Oswald, Klingenbrunn). One row per Abtheilung/Unterabtheilung: Distrikt number and name, Abtheilung number and
+  letters, area in Hektar | Dez. and a description – mainly wind-throw and bark-beetle clearings in high altitude that
+  are hard to reforest, service and lease land of the foresters, meadows and pasture clearings (Weideschachten). The
+  total of 194,602 ha is carried into Beilage I. 12. No scan available; the area figures are in red ink in the
+  transcript.
+default_profile: table
+default_form: list
+forms:
+  list:
+    name: Verzeichniß der nicht eingereihten Flächen
+    description: |
+      One row per Abtheilung (or group of Unterabtheilungen, e.g. "ade", "bc fgh"). Revier group headings
+      ("Revier Schönau", "Revier St Oswald.", "Revier Klingenbrunn.") stand in the description column: group_header,
+      sets_key revier. Distrikt number/name and the description are often repeated with ditto marks ("). A
+      description can run over two or three rows (e.g. "Windbruch u. Käferblößen in sehr hoher Lage und / sehr
+      schwierig zum Aufforsten"); copy each part in its row. Sum rows: "Sa Schönau.", "Sa St Oswald.",
+      "Sa Klingenbrunn." (sum, one per Revier) and "Sa nicht eingereihte Flächen." (sum of the Revier sums). The area
+      figures are written in red ink; a red-ink addition also stands in the description of Klingenbrunn III 2–4 (put
+      it as red content of that cell). Areas: Hekt | Dez. with three decimal digits.
+    columns:
+      - {id: district_no, label: "der Districte › No.", type: key, key: district_no}
+      - {id: district_name, label: "der Districte › Namen", type: key, key: district_name}
+      - {id: compartment_no, label: "der Abtheilungen u. Unterabtheilungen › No.", type: key, key: compartment_no}
+      - {id: subcompartment, label: "der Abtheilungen u. Unterabtheilungen › Lit.", type: key, key: subcompartment}
+      - {id: area, label: "Fläche › Hekt.", type: pair_major, unit: ha, variable: area_not_assigned,
+         meaning: "area excluded from the age-class/period tables"}
+      - {id: area_dec, label: "Fläche › Dez.", type: pair_minor, of: area, mode: digits}
+      - {id: description, label: "Nähere Bezeichnung", type: text, describe: true,
+         meaning: "kind of area and why it is not managed: wind-throw and beetle clearings, service/lease land, meadows, pastures"}
+    observations:
+      scope_keys: [revier, district_no, compartment_no, subcompartment]
+      scope: state 1878 (Waldstandsrevision)
+notes: |
+  No image of A 384 II 117 – transcript only. HTR check of the Revier sums: St. Oswald adds up exactly (96,817);
+  Schönau rows give 64,921 against "Sa" 66,222 and Klingenbrunn 31,522 against 31,562, so some row values are
+  probably misread. Total 194,602 ha agrees with "Nicht eingereiht 194,602" in Beilage I. 12.

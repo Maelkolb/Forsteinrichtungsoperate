@@ -1,0 +1,32 @@
+unit: I-16
+title: Abschluß der jährlichen Materialergebnisse 1861/77
+summary: |
+  One page (Beilage I. 16, Forstamt Schönberg): closing summary of the yearly harvest (Materialergebnisse) of the
+  whole Ilzertrift-Komplex (Reviere Schönau, St. Oswald, Klingenbrunn) for the period 1860/61–1877, one row per
+  year of use. Years 1860/61–1871 are in Klafter, followed by their sum and its conversion into Ster; 1872–1877 are
+  in Ster (metric units from 1872). At the bottom: the final sum, the Etat (planned yield) for the whole period and
+  the resulting over-cut (Mehrfällung). Marginal notes explain small rounding differences of the conversion.
+default_profile: table
+default_form: F16
+forms:
+  F16:
+    name: Abschluß der summarischen Zusammenstellung der jährlichen Materialergebnisse 1860/61–1877
+    description: |
+      One row per year of use. The headings "Klafter." (top) and "= Ster" (after the first sum) set the unit of the
+      rows below them (sets_key unit). "Su" rows are sums (row_type sum). The row "= Ster" with the Klafter sum
+      converted into Ster is a carry_over; small numbers in brackets under it, e.g. "(+5,04)", are corrections –
+      put them into the row note. The rows "Etat für den ganzen Zeitabschnitt" and "Demnach Mehrfällung" are
+      row_type note (values only in the Gesamtnutzung column).
+    columns:
+      - {id: year, label: "Jahr der Nutzung", type: period}
+      - {id: main_use, label: "Hauptnutzung", type: number, unit: Klafter, variable: harvest_main_use,
+         meaning: "yield of the final fellings (Hauptnutzung)"}
+      - {id: intermediate_use, label: "Zwischennutzung", type: number, unit: Klafter, variable: harvest_intermediate_use,
+         meaning: "yield of thinnings, clearings and accidental fellings (Zwischennutzung)"}
+      - {id: total_use, label: "Gesamt-Nutzung", type: number, unit: Klafter, variable: harvest_total,
+         meaning: "Hauptnutzung + Zwischennutzung"}
+      - {id: remarks, label: "Bemerkungen", type: text}
+    row_sums:
+      - {target: total_use, of: [main_use, intermediate_use]}
+    observations:
+      scope: Ilzertrift-Komplex (Reviere Schönau, St. Oswald, Klingenbrunn)

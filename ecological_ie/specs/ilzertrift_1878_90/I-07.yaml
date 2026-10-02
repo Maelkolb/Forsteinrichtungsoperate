@@ -1,0 +1,25 @@
+unit: I-07
+title: Wirtschaftskarten (3 Blätter)
+summary: |
+  One of the three Wirtschaftskarten (forest management maps) of Beilage I.7 of the 1878 Waldstandsrevision: a
+  lithographed, hand-coloured stand map of Revier St. Oswald with the printed header "Niederbayern Compl. No. XXVIII
+  Bl. 204" and a later blue-pencil note "FA. Spiegelau 1878". It covers the Große Ohe valley from the Rachel and the
+  Seewand above the Rachelsee in the north to Riedlhütte in the south, divided into Distrikte (Roman numerals, spaced
+  capitals), Abteilungen (Arabic numbers with names) and Unterabteilungen (letters a-e); the stands are coloured in
+  shades of green, grey-green and grey-violet, while the adjoining areas of the neighbouring Reviere are left
+  uncoloured. Red-brown hand-drawn lines and handwritten red-brown numbers (about 4-45) are later additions. The
+  other two sheets (presumably Klingenbrunn and Schönau) are not in this unit.
+default_profile: map
+map:
+  expected: "Wirtschaftskarte (forest management / stand map), lithographed base with hand colouring; one of three sheets, this one Revier St. Oswald (Große Ohe valley, Rachel to Riedlhütte)."
+  title: "Printed top right: 'Niederbayern Compl. No. XXVIII Bl. 204.' Later blue pencil, top right: 'FA. Spiegelau 1878'. Faint pencil word top left; tiny printed credits bottom left ('... gez.') and bottom right (with a date, probably 1878)."
+  scale: "No scale statement or bar legible at 1200 px. The sheet height spans about 9 km (Rachelsee to Riedlhütte), i.e. roughly 1:10 000; the 1879 protocol and the 1891 report speak of 10/m (probably 1:10 000) Wirtschaftskarten."
+  legend: "No legend on this sheet. Stand polygons are filled in dark blue-green, medium green, light green, pale grey-green and grey-violet; white = outside the coloured Revier or unstocked. The colours most likely encode age classes or period allotment (dark = old, light = young); report them as colours and do not assign meanings without a legend."
+  labels: "Distrikte: Roman numeral + name in spaced capitals (e.g. III HOHE STEIN, IV² PLATTENHAUSEN, VI RANFELSBERG, VII VORWALD (Gr. Steinerau), VIII AUWALD (?), IV OHHAENG, V BERGER WIESE). Abteilungen: Arabic number + name (e.g. '2. Ob. Seebuchet', '3. Steinschachten', '10. Jägerau'). Unterabteilungen: small italic letters a-e inside the polygons. Handwritten red-brown numbers (about 4-45) and red-brown lines are later additions (plan or felling numbering)."
+  toponyms: "Rachel, Rachelhütte, Seewand, Seehang, Ob./Unt. Seebuchet, Hochfeichtet, Steinschachten, Hochseigen, Mühlbuchet, Westl./Östl. Mühlbuchethang, Hohe Stein, Seebachhaeng, Plattenhausen, Plattenhausenriegel, Bärnlochriegel, Ob. Forellenbuchet, Wilde Hast, Grubenau, Gfällreute, Feistenberg, Lärchenberg, Hüttenriegel, Jägerau, Schachtenebene, Schachtenruck, Schachtenbachhaeng, Eschenhang, Weitau, Weitauhang, Brandfleck, Klitzlauhang, Sternschuß, Siebenruck, Wasserriegel, Westl./Östl. Föhrau, Bocklöcher, Hirschlacken, Gr. Ebene, Eckhübel, Aubuchet, Kugelöderriegel, Rotherberg, Hirschkopf, Thomasau, Wasserhübel, Hammerwald, Hohe Scheitstatt, Ob./Unt. Kohlstatthäng, Ob./Unt. Stadlerruck, Ob./Unt. Neubruck, Schindlau, Gr. Filz, Hint./Vord. Oswalderforst, Langbruckau, Gr. Au, Rothbachlau, Schönbaum, Schönauerebene, Kl. Au, Stadtschneiderin, Riedlhütte (village, bottom left). Spellings from the HTR and the 1200 px scan, partly uncertain."
+  resolution: "At 1200 px (1200 x 1789) the Distrikt names and most Abteilung names are readable on upscaled tiles; the Unterabteilung letters, small brook/road/house labels, the red-brown numbers and the credits at the bottom are blurred. A higher-resolution master scan is needed for those."
+notes: |
+  Only one sheet (A 383 II 113) of the three announced in the title is in this unit. The blue-pencil "FA. Spiegelau"
+  is a later archival/administrative note; the content (Rachelsee, Hohe Stein, Plattenhausen, Riedlhütte) matches
+  the Revier (later Forstamt) St. Oswald named in I-00 and I-21. The sheet is mounted on linen in 3 x 3 panels; fold
+  lines cross some labels.

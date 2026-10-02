@@ -1,0 +1,190 @@
+unit: I-15
+title: Zusammenstellung des 1861/77 angefallenen Materials
+summary: |
+  One page (Beilage I.15, A 384 II 115, printed yield form No. XI used for a summary; Forstamt Schönberg, 18 August
+  1878): total harvest of the Ilzertrift-Komplex during the period 1860/61–1877, one row per Revier (Schönau,
+  St. Oswald, Klingenbrunn), split into Hauptnutzung and Zwischennutzung by assortment: Bau-, Nutz- u. Werkholz,
+  Scheit- u. Prügelholz and their sum (Summa des Stammholzes), Stock- u. Lagerholz, all in Ster, and Wellen in
+  hundreds. Below the three Revier rows: the sum row and, under a bracket, a grand total of Haupt- plus Zwischennutzung
+  per assortment. Values are written in black with two decimals in a narrow sub-column and underlined in red.
+default_profile: table
+default_form: f11
+forms:
+  f11:
+    name: Form XI (Materialanfall) – Zusammenstellung des im Ilzertrift-Complexe 1860/77 angefallenen Materiales
+    description: |
+      A printed single-stand yield form (top line "Distr. No. – Abtheil. No. – Unterabtheilung lit. – Tagw.", left unused;
+      form number "XI." at the top right) used for a summary. The title "Zusammenstellung des im Ilzertrift-Complexe während
+      des Zeitabschnittes 1860/77 angefallenen Materiales" is written across the body (heading row). Data rows: Schönau,
+      St. Oswald, Klingenbrunn – the Revier names stand in the first column ("Jahre der Nutzung"). The next row (after a
+      ruled line) is the sum of the three Reviere (row_type sum). The last row, under a bracket spanning both blocks,
+      gives Hauptnutzung + Zwischennutzung per assortment, written in the Hauptnutzung columns (row_type note, label
+      "Haupt- + Zwischennutzung"), e.g. 651038.05 + 14105.47 = 665143.52. Every value column has a narrow decimal
+      sub-column: "198151 62" = 198151.62. Columns Ordnungs-Nummer, Spezielle Hiebsart and Angriffsfläche are empty.
+      Red strokes under the numbers are check marks. Signature block (Schönberg, 18. August 1878, Kgl. Forstamt; red
+      marginal note of the Forstmeister) is outside the table. Summa des Stammholzes = Bau-, Nutz- u. Werkholz +
+      Scheit- u. Prügelholz in both blocks (198151.62 + 379158.80 = 577310.42).
+    columns:
+    - id: revier
+      label: Jahre der Nutzung
+      type: key
+      key: revier
+      meaning: printed for the year of use; here it holds the Revier names Schönau, St. Oswald, Klingenbrunn
+    - id: order_no
+      label: Ordnungs-Nummer der Betriebsvorschreibung (?)
+      type: label
+      meaning: number of the prescription in the management plan (empty here)
+    - id: felling_type
+      label: Spezielle Hiebsart
+      type: text
+      meaning: kind of felling (empty here)
+    - id: cut_area
+      label: Hauptnutzung › Angriffs-Fläche › Tagw.
+      type: pair_major
+      unit: Tagwerk
+      variable: cut_area
+      meaning: area cut in the final fellings (empty here)
+      period: 1860/61–1877
+    - id: cut_area_dec
+      label: Hauptnutzung › Angriffs-Fläche › Dez.
+      type: pair_minor
+      of: cut_area
+      mode: digits
+    - id: main_timber
+      label: Hauptnutzung › Bau-, Nutz- u. Werkholz (Zusatz „Soll.“?) › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_main_timber
+      meaning: construction, utility and work timber
+      period: 1860/61–1877
+    - id: main_timber_dec
+      label: Hauptnutzung › Bau-, Nutz- u. Werkholz (Zusatz „Soll.“?) › Ster › (Dezimalen)
+      type: pair_minor
+      of: main_timber
+      mode: digits
+    - id: main_fuelwood
+      label: Hauptnutzung › Scheit- u. Prügelholz › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_main_fuelwood
+      meaning: split and round fuelwood
+      period: 1860/61–1877
+    - id: main_fuelwood_dec
+      label: Hauptnutzung › Scheit- u. Prügelholz › Ster › (Dezimalen)
+      type: pair_minor
+      of: main_fuelwood
+      mode: digits
+    - id: main_stemwood
+      label: Hauptnutzung › Summa des Stammholzes › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_main_stemwood_total
+      meaning: Bau-/Nutzholz + Scheit- u. Prügelholz
+      period: 1860/61–1877
+    - id: main_stemwood_dec
+      label: Hauptnutzung › Summa des Stammholzes › Ster › (Dezimalen)
+      type: pair_minor
+      of: main_stemwood
+      mode: digits
+    - id: main_stumpwood
+      label: Hauptnutzung › Stock- u. Lagerholz (Lesung unsicher) › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_main_stumpwood
+      meaning: stump wood (and lying wood?)
+      period: 1860/61–1877
+    - id: main_stumpwood_dec
+      label: Hauptnutzung › Stock- u. Lagerholz (Lesung unsicher) › Ster › (Dezimalen)
+      type: pair_minor
+      of: main_stumpwood
+      mode: digits
+    - id: main_faggots
+      label: Hauptnutzung › Wellen › 100
+      type: pair_major
+      unit: Hundert Wellen
+      variable: harvest_main_faggots
+      meaning: brushwood bundles in hundreds
+      period: 1860/61–1877
+    - id: main_faggots_dec
+      label: Hauptnutzung › Wellen › 100 › (Dezimalen)
+      type: pair_minor
+      of: main_faggots
+      mode: digits
+    - id: intermediate_timber
+      label: Zwischennutzung › Bau- u. Nutzholz › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_intermediate_timber
+      meaning: construction, utility and work timber
+      period: 1860/61–1877
+    - id: intermediate_timber_dec
+      label: Zwischennutzung › Bau- u. Nutzholz › Ster › (Dezimalen)
+      type: pair_minor
+      of: intermediate_timber
+      mode: digits
+    - id: intermediate_fuelwood
+      label: Zwischennutzung › Scheit- u. Prügelholz › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_intermediate_fuelwood
+      meaning: split and round fuelwood
+      period: 1860/61–1877
+    - id: intermediate_fuelwood_dec
+      label: Zwischennutzung › Scheit- u. Prügelholz › Ster › (Dezimalen)
+      type: pair_minor
+      of: intermediate_fuelwood
+      mode: digits
+    - id: intermediate_stemwood
+      label: Zwischennutzung › Summa des Stammholzes › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_intermediate_stemwood_total
+      meaning: Bau-/Nutzholz + Scheit- u. Prügelholz
+      period: 1860/61–1877
+    - id: intermediate_stemwood_dec
+      label: Zwischennutzung › Summa des Stammholzes › Ster › (Dezimalen)
+      type: pair_minor
+      of: intermediate_stemwood
+      mode: digits
+    - id: intermediate_stumpwood
+      label: Zwischennutzung › Stock- u. Lagerholz (Lesung unsicher) › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_intermediate_stumpwood
+      meaning: stump wood (and lying wood?)
+      period: 1860/61–1877
+    - id: intermediate_stumpwood_dec
+      label: Zwischennutzung › Stock- u. Lagerholz (Lesung unsicher) › Ster › (Dezimalen)
+      type: pair_minor
+      of: intermediate_stumpwood
+      mode: digits
+    - id: intermediate_faggots
+      label: Zwischennutzung › Wellen › 100
+      type: pair_major
+      unit: Hundert Wellen
+      variable: harvest_intermediate_faggots
+      meaning: brushwood bundles in hundreds
+      period: 1860/61–1877
+    - id: intermediate_faggots_dec
+      label: Zwischennutzung › Wellen › 100 › (Dezimalen)
+      type: pair_minor
+      of: intermediate_faggots
+      mode: digits
+    row_sums:
+    - target: main_stemwood
+      of:
+      - main_timber
+      - main_fuelwood
+    - target: intermediate_stemwood
+      of:
+      - intermediate_timber
+      - intermediate_fuelwood
+    observations:
+      scope_keys:
+      - revier
+      scope: Ilzertrift-Komplex per Revier, total of the period 1860/61–1877
+notes: |
+  The HTR misreads several numbers (e.g. St. Oswald Zwischennutzung 2591.04 | 36007.45 | 38598.49 | 583.21, Klingenbrunn
+  Hauptnutzung 187771.04, Zwischennutzung 10042.71 | 67274.72 | 77317.43 | 262.34) – check against the scan.
+  Header doubts: "Stock- u. Lagerholz" (HTR "Lese-holz"), "Ordnungs-Nummer der Betriebsvorschreibung", and the word
+  "Soll." in the unit row under the Hauptnutzung assortments (printed "Soll. … Ster").

@@ -1,0 +1,414 @@
+unit: I-20
+title: Weidenschafts- und Streunutzung 1861/87
+summary: 'Beilage I. 20 (Forstamt Schönberg, 12 April 1879): grazing (Weidenschaft, p. 148) and litter use (Streunutzung,
+  p. 149) in the Reviere Schönau, St. Oswald and Klingenbrunn, one row per year of use 1860/61–1877, the three Reviere as
+  side-by-side column blocks. Areas are in Tagwerk (heading ''Tgw.''), money in Gulden/Kreuzer until 1875 and in Mark/Pfennig
+  for 1876–1877 (heading ''M. Pf.'' after the conversion of the sums). Red numbers under the black values are later additions
+  of the Forstamt.'
+default_profile: table
+default_form: weide
+pages:
+  1:
+    role: title
+    profile: text
+  3:
+    form: streu
+forms:
+  weide:
+    name: Weidenschaft (grazing) 1860/61–1877
+    description: 'Year rows 1860/61–1877; each Revier block: pasture area (Tgw. | Dez.), numbers of cows, oxen and young cattle
+      driven into the forest, money (full value, actual revenue split into two columns; fl. | kr. until 1875). Each year row
+      has a second line in red ink with additional numbers: give them as red content of that year''s row (not as a separate
+      row). A ''Su'' row after 1875 sums the Gulden values; the row below it (''= M. Pf.'') converts them into Mark (carry_over,
+      sets_key unit = M); 1876 and 1877 are in Mark. Bottom: ''Su'' (sum) and ''jährlicher Durchschnitt'' (yearly average,
+      row_type note).'
+    columns:
+    - id: year
+      label: Jahr der Nutzung
+      type: period
+    - id: schoenau_area
+      label: Schönau › Weidefläche › (Tgw. / Hektar)
+      type: pair_major
+      unit: Tagwerk
+      variable: grazing_area
+      scope: Schönau
+      meaning: pasture area; heading 'Tgw.' over the first rows
+    - id: schoenau_area_dec
+      label: Schönau › Weidefläche › Dez.
+      type: pair_minor
+      of: schoenau_area
+      mode: digits
+    - id: schoenau_cows
+      label: Schönau › Kühe
+      type: number
+      unit: Stück
+      variable: grazing_cows
+      scope: Schönau
+    - id: schoenau_oxen
+      label: Schönau › Ochsen
+      type: number
+      unit: Stück
+      variable: grazing_oxen
+      scope: Schönau
+    - id: schoenau_young_cattle
+      label: Schönau › Jungrinder
+      type: number
+      unit: Stück
+      variable: grazing_young_cattle
+      scope: Schönau
+    - id: schoenau_full_value_fl
+      label: Schönau › Geld-Betrag › Voller Werth › fl./M.
+      type: pair_major
+      unit: fl
+      variable: grazing_fee_full_value
+      scope: Schönau
+      meaning: Gulden until 1875, Mark from 1876
+    - id: schoenau_full_value_kr
+      label: Schönau › Geld-Betrag › Voller Werth › kr./Pf.
+      type: pair_minor
+      of: schoenau_full_value_fl
+      mode: currency
+    - id: schoenau_reduction_fl
+      label: Schönau › Geld-Betrag › Wirkl. Erlös › Nachlass (?) › fl./M.
+      type: pair_major
+      unit: fl
+      variable: grazing_fee_reduction
+      scope: Schönau
+      meaning: Gulden until 1875, Mark from 1876
+    - id: schoenau_reduction_kr
+      label: Schönau › Geld-Betrag › Wirkl. Erlös › Nachlass (?) › kr./Pf.
+      type: pair_minor
+      of: schoenau_reduction_fl
+      mode: currency
+    - id: schoenau_revenue_fl
+      label: Schönau › Geld-Betrag › Wirkl. Erlös › Auf Verkauf (?) › fl./M.
+      type: pair_major
+      unit: fl
+      variable: grazing_fee_revenue
+      scope: Schönau
+      meaning: Gulden until 1875, Mark from 1876
+    - id: schoenau_revenue_kr
+      label: Schönau › Geld-Betrag › Wirkl. Erlös › Auf Verkauf (?) › kr./Pf.
+      type: pair_minor
+      of: schoenau_revenue_fl
+      mode: currency
+    - id: oswald_area
+      label: St. Oswald › Weidefläche › (Tgw. / Hektar)
+      type: pair_major
+      unit: Tagwerk
+      variable: grazing_area
+      scope: St. Oswald
+      meaning: pasture area; heading 'Tgw.' over the first rows
+    - id: oswald_area_dec
+      label: St. Oswald › Weidefläche › Dez.
+      type: pair_minor
+      of: oswald_area
+      mode: digits
+    - id: oswald_cows
+      label: St. Oswald › Kühe
+      type: number
+      unit: Stück
+      variable: grazing_cows
+      scope: St. Oswald
+    - id: oswald_oxen
+      label: St. Oswald › Ochsen
+      type: number
+      unit: Stück
+      variable: grazing_oxen
+      scope: St. Oswald
+    - id: oswald_young_cattle
+      label: St. Oswald › Jungrinder
+      type: number
+      unit: Stück
+      variable: grazing_young_cattle
+      scope: St. Oswald
+    - id: oswald_full_value_fl
+      label: St. Oswald › Geld-Betrag › Voller Werth › fl./M.
+      type: pair_major
+      unit: fl
+      variable: grazing_fee_full_value
+      scope: St. Oswald
+      meaning: Gulden until 1875, Mark from 1876
+    - id: oswald_full_value_kr
+      label: St. Oswald › Geld-Betrag › Voller Werth › kr./Pf.
+      type: pair_minor
+      of: oswald_full_value_fl
+      mode: currency
+    - id: oswald_reduction_fl
+      label: St. Oswald › Geld-Betrag › Wirkl. Erlös › Nachlass (?) › fl./M.
+      type: pair_major
+      unit: fl
+      variable: grazing_fee_reduction
+      scope: St. Oswald
+      meaning: Gulden until 1875, Mark from 1876
+    - id: oswald_reduction_kr
+      label: St. Oswald › Geld-Betrag › Wirkl. Erlös › Nachlass (?) › kr./Pf.
+      type: pair_minor
+      of: oswald_reduction_fl
+      mode: currency
+    - id: oswald_revenue_fl
+      label: St. Oswald › Geld-Betrag › Wirkl. Erlös › Auf Verkauf (?) › fl./M.
+      type: pair_major
+      unit: fl
+      variable: grazing_fee_revenue
+      scope: St. Oswald
+      meaning: Gulden until 1875, Mark from 1876
+    - id: oswald_revenue_kr
+      label: St. Oswald › Geld-Betrag › Wirkl. Erlös › Auf Verkauf (?) › kr./Pf.
+      type: pair_minor
+      of: oswald_revenue_fl
+      mode: currency
+    - id: klingenbrunn_area
+      label: Klingenbrunn › Weidefläche › (Tgw. / Hektar)
+      type: pair_major
+      unit: Tagwerk
+      variable: grazing_area
+      scope: Klingenbrunn
+      meaning: pasture area; heading 'Tgw.' over the first rows
+    - id: klingenbrunn_area_dec
+      label: Klingenbrunn › Weidefläche › Dez.
+      type: pair_minor
+      of: klingenbrunn_area
+      mode: digits
+    - id: klingenbrunn_cows
+      label: Klingenbrunn › Kühe
+      type: number
+      unit: Stück
+      variable: grazing_cows
+      scope: Klingenbrunn
+    - id: klingenbrunn_oxen
+      label: Klingenbrunn › Ochsen
+      type: number
+      unit: Stück
+      variable: grazing_oxen
+      scope: Klingenbrunn
+    - id: klingenbrunn_young_cattle
+      label: Klingenbrunn › Jungrinder
+      type: number
+      unit: Stück
+      variable: grazing_young_cattle
+      scope: Klingenbrunn
+    - id: klingenbrunn_full_value_fl
+      label: Klingenbrunn › Geld-Betrag › Voller Werth › fl./M.
+      type: pair_major
+      unit: fl
+      variable: grazing_fee_full_value
+      scope: Klingenbrunn
+      meaning: Gulden until 1875, Mark from 1876
+    - id: klingenbrunn_full_value_kr
+      label: Klingenbrunn › Geld-Betrag › Voller Werth › kr./Pf.
+      type: pair_minor
+      of: klingenbrunn_full_value_fl
+      mode: currency
+    - id: klingenbrunn_reduction_fl
+      label: Klingenbrunn › Geld-Betrag › Wirkl. Erlös › Nachlass (?) › fl./M.
+      type: pair_major
+      unit: fl
+      variable: grazing_fee_reduction
+      scope: Klingenbrunn
+      meaning: Gulden until 1875, Mark from 1876
+    - id: klingenbrunn_reduction_kr
+      label: Klingenbrunn › Geld-Betrag › Wirkl. Erlös › Nachlass (?) › kr./Pf.
+      type: pair_minor
+      of: klingenbrunn_reduction_fl
+      mode: currency
+    - id: klingenbrunn_revenue_fl
+      label: Klingenbrunn › Geld-Betrag › Wirkl. Erlös › Auf Verkauf (?) › fl./M.
+      type: pair_major
+      unit: fl
+      variable: grazing_fee_revenue
+      scope: Klingenbrunn
+      meaning: Gulden until 1875, Mark from 1876
+    - id: klingenbrunn_revenue_kr
+      label: Klingenbrunn › Geld-Betrag › Wirkl. Erlös › Auf Verkauf (?) › kr./Pf.
+      type: pair_minor
+      of: klingenbrunn_revenue_fl
+      mode: currency
+    observations:
+      scope: per Revier (column scope)
+  streu:
+    name: Streunutzung (litter use) 1860/61–1877
+    description: 'Same row order as the grazing page, but the page has NO year column: the data rows are the years 1860/61
+      … 1877 in order. Each Revier block: area (Tgw. | Dez.), Laubstreu, Nadelstreu and a third kind of litter in Fuder (à
+      144 c''), money (full value, actual revenue; fl. | kr. until 1875, then M. | Pf.). Sum rows after 1871 and after 1875
+      with conversion rows (''= Ster'', ''= M. Pf.''), final sum and yearly average (row_type note).'
+    columns:
+    - id: schoenau_area
+      label: Schönau › Nutzungsfläche › (Tgw. / Hektar)
+      type: pair_major
+      unit: Tagwerk
+      variable: litter_area
+      scope: Schönau
+    - id: schoenau_area_dec
+      label: Schönau › Nutzungsfläche › Dez.
+      type: pair_minor
+      of: schoenau_area
+      mode: digits
+    - id: schoenau_leaf_litter
+      label: Schönau › Laubstreu (Fuder à 144 c')
+      type: number
+      unit: Fuder
+      variable: litter_leaf
+      scope: Schönau
+    - id: schoenau_needle_litter
+      label: Schönau › Nadelstreu (Fuder)
+      type: number
+      unit: Fuder
+      variable: litter_needle
+      scope: Schönau
+    - id: schoenau_other_litter
+      label: Schönau › dritte Streuart, Kopf unsicher (Farn-/Grasstreu?) (Fuder)
+      type: number
+      unit: Fuder
+      variable: litter_other
+      scope: Schönau
+    - id: schoenau_full_value_fl
+      label: Schönau › Geld-Betrag › Voller Werth › fl./M.
+      type: pair_major
+      unit: fl
+      variable: litter_fee_full_value
+      scope: Schönau
+      meaning: Gulden until 1875, Mark from 1876
+    - id: schoenau_full_value_kr
+      label: Schönau › Geld-Betrag › Voller Werth › kr./Pf.
+      type: pair_minor
+      of: schoenau_full_value_fl
+      mode: currency
+    - id: schoenau_revenue_fl
+      label: Schönau › Geld-Betrag › Wirklicher Erlös › fl./M.
+      type: pair_major
+      unit: fl
+      variable: litter_fee_revenue
+      scope: Schönau
+      meaning: Gulden until 1875, Mark from 1876
+    - id: schoenau_revenue_kr
+      label: Schönau › Geld-Betrag › Wirklicher Erlös › kr./Pf.
+      type: pair_minor
+      of: schoenau_revenue_fl
+      mode: currency
+    - id: oswald_area
+      label: St. Oswald › Nutzungsfläche › (Tgw. / Hektar)
+      type: pair_major
+      unit: Tagwerk
+      variable: litter_area
+      scope: St. Oswald
+    - id: oswald_area_dec
+      label: St. Oswald › Nutzungsfläche › Dez.
+      type: pair_minor
+      of: oswald_area
+      mode: digits
+    - id: oswald_leaf_litter
+      label: St. Oswald › Laubstreu (Fuder à 144 c')
+      type: number
+      unit: Fuder
+      variable: litter_leaf
+      scope: St. Oswald
+    - id: oswald_needle_litter
+      label: St. Oswald › Nadelstreu (Fuder)
+      type: number
+      unit: Fuder
+      variable: litter_needle
+      scope: St. Oswald
+    - id: oswald_other_litter
+      label: St. Oswald › dritte Streuart, Kopf unsicher (Farn-/Grasstreu?) (Fuder)
+      type: number
+      unit: Fuder
+      variable: litter_other
+      scope: St. Oswald
+    - id: oswald_full_value_fl
+      label: St. Oswald › Geld-Betrag › Voller Werth › fl./M.
+      type: pair_major
+      unit: fl
+      variable: litter_fee_full_value
+      scope: St. Oswald
+      meaning: Gulden until 1875, Mark from 1876
+    - id: oswald_full_value_kr
+      label: St. Oswald › Geld-Betrag › Voller Werth › kr./Pf.
+      type: pair_minor
+      of: oswald_full_value_fl
+      mode: currency
+    - id: oswald_revenue_fl
+      label: St. Oswald › Geld-Betrag › Wirklicher Erlös › fl./M.
+      type: pair_major
+      unit: fl
+      variable: litter_fee_revenue
+      scope: St. Oswald
+      meaning: Gulden until 1875, Mark from 1876
+    - id: oswald_revenue_kr
+      label: St. Oswald › Geld-Betrag › Wirklicher Erlös › kr./Pf.
+      type: pair_minor
+      of: oswald_revenue_fl
+      mode: currency
+    - id: klingenbrunn_area
+      label: Klingenbrunn › Nutzungsfläche › (Tgw. / Hektar)
+      type: pair_major
+      unit: Tagwerk
+      variable: litter_area
+      scope: Klingenbrunn
+    - id: klingenbrunn_area_dec
+      label: Klingenbrunn › Nutzungsfläche › Dez.
+      type: pair_minor
+      of: klingenbrunn_area
+      mode: digits
+    - id: klingenbrunn_leaf_litter
+      label: Klingenbrunn › Laubstreu (Fuder à 144 c')
+      type: number
+      unit: Fuder
+      variable: litter_leaf
+      scope: Klingenbrunn
+    - id: klingenbrunn_needle_litter
+      label: Klingenbrunn › Nadelstreu (Fuder)
+      type: number
+      unit: Fuder
+      variable: litter_needle
+      scope: Klingenbrunn
+    - id: klingenbrunn_other_litter
+      label: Klingenbrunn › dritte Streuart, Kopf unsicher (Farn-/Grasstreu?) (Fuder)
+      type: number
+      unit: Fuder
+      variable: litter_other
+      scope: Klingenbrunn
+    - id: klingenbrunn_full_value_fl
+      label: Klingenbrunn › Geld-Betrag › Voller Werth › fl./M.
+      type: pair_major
+      unit: fl
+      variable: litter_fee_full_value
+      scope: Klingenbrunn
+      meaning: Gulden until 1875, Mark from 1876
+    - id: klingenbrunn_full_value_kr
+      label: Klingenbrunn › Geld-Betrag › Voller Werth › kr./Pf.
+      type: pair_minor
+      of: klingenbrunn_full_value_fl
+      mode: currency
+    - id: klingenbrunn_revenue_fl
+      label: Klingenbrunn › Geld-Betrag › Wirklicher Erlös › fl./M.
+      type: pair_major
+      unit: fl
+      variable: litter_fee_revenue
+      scope: Klingenbrunn
+      meaning: Gulden until 1875, Mark from 1876
+    - id: klingenbrunn_revenue_kr
+      label: Klingenbrunn › Geld-Betrag › Wirklicher Erlös › kr./Pf.
+      type: pair_minor
+      of: klingenbrunn_revenue_fl
+      mode: currency
+    row_periods:
+    - 1860/61
+    - 1861/62
+    - 1862/63
+    - 1863/64
+    - 1864/65
+    - 1865/66
+    - 1866/67
+    - '1868'
+    - '1869'
+    - '1870'
+    - '1871'
+    - '1872'
+    - '1873'
+    - '1874'
+    - '1875'
+    - '1876'
+    - '1877'
+    observations:
+      scope: per Revier (column scope)

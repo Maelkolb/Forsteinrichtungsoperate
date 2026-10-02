@@ -1,0 +1,135 @@
+unit: I-04
+title: Wegbauplan
+summary: |
+  Beilage I. 4 (Forstamt Schönberg): special road building plan (Spezieller Wegbauplan) of the Reviere Klingenbrunn,
+  St. Oswald and Schönau for the period 1878/89, with two explanatory texts. The table (hand-ruled, pages 1–11, signed
+  Schönberg 15 September 1880) has one row per road project – projecting of the road network, new timber-haulage roads
+  (Holzabfuhrwege), their maintenance, skid trails (Ziehbahnen), forest footpaths (Waldbegangsteige) and their
+  maintenance – with the compartments the road crosses, length in metres, cost per metre and total cost in Mark/Pfennig,
+  remarks on necessity and the execution record. The texts 'Erläuterungen zur Begründung des speziellen Wegebauplans'
+  (8 May 1880, positions 10–20) and 'Erläuterungen' (20 September 1880, positions 25–35) argue for the roads with the
+  timber market (Trift losses on Ilz and Regen, railway Plattling–Eisenstein with station Zwiesel, planned line
+  Zwiesel–Passau), the Distriktsstraße Klingenbrunn–Frauenau and list the timber quantities (Ster) from the stands of the
+  felling plan that each planned road will carry.
+default_profile: text
+default_form: wb
+reading_order: [1, 2, 3, 4, 5, 6, 7, 8, 9, 21, 22, 23, 24, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+pages:
+  1:
+    role: title
+    profile: text
+    note: title 'Spezieller Wegbauplan … Zeitabschnitt 1878/89, mit Erörterungen zur Begründung des Wegbauplanes'
+  2:
+    profile: table
+    note: table page 1 – Wegnetzprojectirung 1878/79 with the actual costs per Forstamt and Revier
+  3:
+    profile: table
+    note: table page 2 – Holzabfuhrwege, Neubauten, Revier Klingenbrunn
+  4:
+    profile: table
+    note: table page 3
+  5:
+    role: other
+    profile: skip
+    note: second photograph of table page 3 (= position 4) with a pasted revision slip covering the Bemerkungen
+      ('5) Dieser Weg erscheint zur Zeit nicht nöthig', '6) …'); rows identical to position 4, skipped to avoid double rows
+  6:
+    profile: table
+    note: table page 4 – end of Neubauten (sum), Unterhaltung der Holzabfuhrwege begins
+  7:
+    profile: table
+    note: table page 5
+  8:
+    profile: table
+    note: table page 6 – Summa Holzabfuhrwege (Unterhaltung, Neubauten); pasted slip with note 12)
+  9:
+    profile: table
+    note: table page 7 – Ziehbahnen
+  10:
+    note: start of 'Erläuterungen zur Begründung des speziellen Wegebauplans' (8 May 1880)
+  18:
+    note: small lists of timber quantities (Ster) per planned road and Distrikt.Abtheilung (HTR reads 'Thlr.' for Ster)
+  19:
+    note: lists of timber quantities per road (continued)
+  20:
+    note: last list, sums per Revier (St. Oswald 157814 Ster, Klingenbrunn 350046 Ster); signed Schönberg 8 May 1880
+  21:
+    profile: table
+    note: table page 8 – Waldbegangsteige, Neubauten; no image, transcript only
+  22:
+    profile: table
+    note: table page 9; no image, transcript only
+  23:
+    profile: table
+    note: table page 10 – Unterhaltung der Begehungswege; no image, transcript only
+  24:
+    profile: table
+    note: table page 11 – Zusammenstellung, signed Schönberg 15 Sept 1880; no image, transcript only
+  25:
+    note: start of the second 'Erläuterungen' (railway lines, Holzladestellen, cases I–III)
+  35:
+    note: list of timber quantities (Ster) per planned road; signed Schönberg 20 Sept 1880
+forms:
+  wb:
+    name: Spezieller Wegbauplan 1878/89 (hand-ruled table)
+    description: |
+      One row per road project (new construction, correction or maintenance). Section headings inside the table set key
+      other: 'Wegnetzprojectirung', 'Holzabfuhrwege – Neubauten', 'Unterhaltung der Holzabfuhrwege', 'Ziehbahnen'
+      (width 1,20–1,50 m), 'Waldbegangsteige – Neubauten', 'Begehungswege – Unterhaltung', 'Zusammenstellung'. Red
+      headings 'Revier Klingenbrunn', 'Revier St. Oswald', 'Revier Schoenau' set revier. The Distr./Abtheilung cells list
+      all compartments a road crosses on several lines (Roman Distrikt number on the first of its lines, Abtheilung
+      numbers and names below): keep them in one cell, lines joined with '; '. The road name and the construction details
+      (width, Grundbau, Gefälle) are in 'Auszuführende Wege'. Kosten im Ganzen = Länge × Kosten einzeln (cost per metre;
+      a product, not a sum); maintenance lines without length give only the total. Money in Mark | Pfennig (M. | Pf.).
+      Page sums at the bottom ('1. Seite', '2. Seite') sum the length and the total cost (row_type sum); summary blocks
+      repeat earlier page sums ('3. Seite', '2. „', '1. „' → carry_over) and give 'Summa Holzabfuhrwege Unterhaltung /
+      Neubauten', 'Summa Ziehbahnen', 'Sa Waldbegehungswege' (sum). Bemerkungen give the necessity of the road and refer
+      to numbered notes '1)'…'12a)'; pasted slips carry later revision notes (red or pencil additions → red / row note).
+      The Ausführung columns record the year and actual cost of execution; on table page 1 the actual costs of the
+      Wegnetzprojectirung are listed per Forstamt and Revier with 'in Sa.' (note rows with values in exec_cost, then sum).
+    columns:
+      - {id: run_no, label: "Lauf. Nummer", type: label, meaning: "running number of the road project"}
+      - {id: protocol_no, label: "Nummer des Wegprotokolls", type: text,
+         meaning: "number of the road in the commission protocol of 14 July 1879 (e.g. 'II. 5.', 'A. 3.')"}
+      - {id: levelling_no, label: "Ziffer der Nivellementstabelle", type: text,
+         meaning: "number of the road line in the levelling tables of the road-network survey 1878/79"}
+      - {id: district_nos, label: "Distr. Nummer", type: text,
+         meaning: "Distrikt numbers (Roman) crossed by the road, one per line"}
+      - {id: compartment_nos, label: "Abtheilung › Nummer", type: text,
+         meaning: "Abtheilung numbers crossed by the road, several per Distrikt"}
+      - {id: compartment_names, label: "Abtheilung › Name", type: text,
+         meaning: "names of the Abtheilungen crossed by the road"}
+      - {id: length, label: "Länge in Metern", type: number, unit: m, variable: road_length}
+      - {id: works, label: "Auszuführende Wege (Wegbauten)", type: text,
+         meaning: "road name and kind of work: new road, correction, maintenance; width, foundation, gradient"}
+      - {id: unit_cost, label: "Kosten › einzeln › M.", type: pair_major, unit: M, variable: road_cost_per_metre,
+         meaning: "cost per running metre"}
+      - {id: unit_cost_pf, label: "Kosten › einzeln › Pf.", type: pair_minor, of: unit_cost, mode: base100}
+      - {id: total_cost, label: "Kosten › im Ganzen › M.", type: pair_major, unit: M, variable: road_cost,
+         meaning: "planned total cost for the period"}
+      - {id: total_cost_pf, label: "Kosten › im Ganzen › Pf.", type: pair_minor, of: total_cost, mode: base100}
+      - {id: remarks, label: "Bemerkungen", type: text,
+         meaning: "necessity and justification of the road, execution notes, references to numbered notes"}
+      - {id: exec_year, label: "Ausführung › Jahr", type: year}
+      - {id: exec_cost, label: "Ausführung › Kosten › M.", type: pair_major, unit: M, variable: road_cost_actual,
+         meaning: "actual cost of the executed work"}
+      - {id: exec_cost_pf, label: "Ausführung › Kosten › Pf.", type: pair_minor, of: exec_cost, mode: base100}
+    observations: {scope_keys: [revier]}
+segments:
+  - [1, 12]
+  - [13, 17]
+  - [18, 20]
+  - [25, 27]
+  - [28, 32]
+  - [33, 35]
+notes: |
+  Reading order: the table pages carry the page numbers 1–11 (positions 2–4, 6–9 = pages 1–7; positions 21–24 = pages
+  8–11, folios 379–382), so the reading order puts them together before the texts; the first Erläuterungen (folios
+  368–378) are bound between table pages 7 and 8. Both texts read in ascending folio order (368→378 and 383→393, checked
+  by the continuing sentences across page breaks); the annotated order (393 down to 376, then 368–375) is wrong.
+  Positions 21–24 have no image – rely on the transcript. Position 5 duplicates position 4 (same opening photographed
+  with a pasted slip) and is skipped. The headers are handwritten and faint: 'Nummer des Wegprotokolls' and 'Ziffer der
+  Nivellementstabelle' (two narrow columns between Lauf. Nummer and Distr. Nummer) are read with some doubt; the HTR
+  turns M. | Pf. into 'fl. | kr.' on some pages – the whole plan is in Mark. On Begangsteige pages the cost per metre
+  is only Pfennig (13, 15, 20 Pf). Roads are described in terms of compartments, not stands: no description column.

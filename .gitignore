@@ -34,3 +34,7 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Ecological IE working data (units, extraction results)
+work/
+ie_work/

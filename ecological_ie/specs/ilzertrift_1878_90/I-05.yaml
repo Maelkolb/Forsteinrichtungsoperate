@@ -1,0 +1,90 @@
+unit: I-05
+title: Triftbauplan
+summary: |
+  Beilage I. 5 (printed Form 70 I, Forstamt Schönberg, signed September 1879): special plan of the works for timber
+  floating (Spezieller Triftbauplan) of the Reviere Schönau, St. Oswald, Klingenbrunn and the Revier Schönberg with the
+  Forstamt's floating section of the Ilz, for the period 1878/89. One row is one planned work item – tools, clearing of
+  floating streams and feeder channels, weirs, rakes and flood gates at mills, floating barriers, bank protection
+  (Uferschutzbauten), Triftklausen and emergency sills, timber yards, floating paths – with the stream or structure, a
+  description (stream lengths, gradients, widths and numbers of pieces are written in the text), the cost per unit and
+  the cost shares of private parties and of the state (k. Aerar) in Mark/Pfennig. Cost per unit is per year for
+  maintenance items and per running metre or piece for bank protection; the shares are totals for the whole period
+  (12 × the yearly amount). The right-hand page (record of execution) is almost empty; the last page is the
+  Schlusszusammenstellung (Summa Triftbauten 131077,45 M).
+default_profile: table
+default_form: f70
+pages:
+  1:
+    role: title
+    profile: text
+    note: title written on a Form 70 I sheet (only the right-hand header printed); references to the Triftübersichtskarte
+      1:100000 and 3 Triftkarten 1:10000; pencil note at the bottom
+  3:
+    note: Bachräumungen begin; instruction text on the right page (do not loosen the stream bed, remove only loose stones)
+      and a pencil note
+  28:
+    note: Schlusszusammenstellung, signed Schönberg Sept. 1879, Kgl. Forstamt Schönberg; 'in calculo rev.' in red
+forms:
+  f70:
+    name: Form 70 I – Spezieller Triftbauplan 1878/89
+    description: |
+      One row per work item, numbered continuously (No. 1–120). Section headings set key other: 'Geräthschaften
+      (Neuanschaffung und Ausbesserung)', 'Bachräumungen' with '1. Triftbäche' and '2. Grieß- u. Zuleitungskanäle',
+      'Wehren, Triftrechen u. Floßschleußen' with '1. Wehren' and '2. Triftrechen u. Floßablässe', 'Triftsperren',
+      'Uferschutzbauten' ('Neue Anlagen', 'Unterhaltung'), 'Triftklausen u. Nothschwellen' ('Neubauten', 'Bauliche
+      Unterhaltung von Klausen und Schwellen'), 'Lagerplätze', 'Triftstege u. einige Triftzugänge' (reading uncertain),
+      'Schlusszusammenstellung'. A curly bracket may join several rows to one amount (e.g. Nos. 97–99 with the sills
+      100–102: 100 | 1200 for Revier Schönau): give the amount on the first row of the group and name the group in the
+      row note. Headings 'Revier
+      Schönau', 'Revier St. Oswald', 'Revier Klingenbrunn', 'Revier Schönberg mit der forstamtlichen Triftstrecke' set
+      revier; in several sections the Revier names stand in the Bezeichnung column of one data row per Revier. Column 2
+      names the stream, stream section, mill, Klause or site, repeated by ditto marks or left empty for continuation rows.
+      Cost per unit and shares: maintenance items give the yearly amount under 'pro Einheit' (handwritten 'jährlich' /
+      'für ein Jahr im Durchschnitt') and the total for the period under the Aerar share ('im Ganzen', 'für den ganzen
+      Z. A.'); bank protection gives the price per running metre or per Pfahlhecke/Schwelle and the totals split between
+      der Privaten and des k. Aerars (e.g. 1405 m × 1,50 M = 702,50 Privaten + 1405,00 Aerar). In the Bachräumungen the
+      stream rows (with lengths in km in the text) have no amounts: the line 'Summa Revier Schönau 30,50 Km' carries the
+      cost of those streams – treat it as a data row; the recap lines 'Hiezu …' / '„ …' that repeat earlier Revier or
+      section amounts are carry_over, 'Summe …' / 'Summa …' are sums. Page sums 'Seite 1.', 'Seite 2.' (sum) are repeated
+      before 'Summe Revier …' (carry_over); 'Vort.' at a page bottom marks a carry-over. Multi-line calculations inside the
+      Bezeichnung (lengths × price, number of Pfahlhecken = length / spacing) belong to the row's text, only the amounts
+      in the money columns are values. The right page (No., Nachweisung der geschehenen Ausführung, Kostenantheil,
+      Bemerkungen) is mostly empty; where it has text it holds instructions or technical rules (spacing of Pfahlhecken by
+      gradient).
+    columns:
+      - {id: item_no, label: "No", type: label, meaning: "running number of the work item"}
+      - {id: site, label: "Triftbach, dann Bachstrecke oder Oertlichkeit oder Bauobjekt", type: text,
+         meaning: "stream, stream section, mill, Klause or other structure the work refers to"}
+      - {id: works, label: "Bezeichnung der auszuführenden Arbeiten oder des Baues", type: text,
+         meaning: "description of the work with stream lengths, gradients, widths, numbers and unit prices"}
+      - {id: unit_cost, label: "Kosten › pro Einheit › M.", type: pair_major, unit: M, variable: cost_per_unit,
+         meaning: "per year for maintenance items, per running metre or piece for bank protection"}
+      - {id: unit_cost_pf, label: "Kosten › pro Einheit › Pf.", type: pair_minor, of: unit_cost, mode: base100}
+      - {id: private_share, label: "Kostenantheil › der Privaten › M.", type: pair_major, unit: M,
+         variable: cost_share_private, meaning: "share paid by private parties (riparian owners, mill owners)"}
+      - {id: private_share_pf, label: "Kostenantheil › der Privaten › Pf.", type: pair_minor, of: private_share,
+         mode: base100}
+      - {id: state_share, label: "Kostenantheil › des k. Aerars › M.", type: pair_major, unit: M,
+         variable: cost_share_state, meaning: "share of the state for the whole period 1878/89"}
+      - {id: state_share_pf, label: "Kostenantheil › des k. Aerars › Pf.", type: pair_minor, of: state_share,
+         mode: base100}
+      - {id: exec_no, label: "[rechte Seite] No", type: label}
+      - {id: execution, label: "Nachweisung der geschehenen Ausführung", type: text,
+         meaning: "record of the executed works; here mostly empty or instructions"}
+      - {id: exec_private, label: "[rechte Seite] Kostenantheil › der Privaten › M.", type: pair_major, unit: M,
+         variable: cost_actual_private}
+      - {id: exec_private_pf, label: "[rechte Seite] Kostenantheil › der Privaten › Pf.", type: pair_minor,
+         of: exec_private, mode: base100}
+      - {id: exec_state, label: "[rechte Seite] Kostenantheil › des k. Aerars › M.", type: pair_major, unit: M,
+         variable: cost_actual_state}
+      - {id: exec_state_pf, label: "[rechte Seite] Kostenantheil › des k. Aerars › Pf.", type: pair_minor,
+         of: exec_state, mode: base100}
+      - {id: remarks, label: "Bemerkungen", type: text}
+    observations: {scope_keys: [revier]}
+notes: |
+  All 27 table pages are the same printed Form 70 I (double page: left cost plan, right execution record); checked on the
+  scans of positions 1, 2, 3, 10, 12, 13, 28. The printed cost-share headers read 'der Privaten' and 'des k. Aerars'
+  (the HTR has 'der Interessenten', 'des Staates', 'für Rechnung des k. R. Aerars'). The HTR often splits whole Mark
+  amounts into M | Pf (e.g. '52 | 80' for 5280) and misreads section titles ('Triftküchen u. Schlafhütten' for
+  Triftklausen u. Nothschwellen, 'Einzäunungen' for Bachräumungen in the Schlusszusammenstellung). No stand descriptions:
+  the texts describe streams and structures, so no column is flagged describe.

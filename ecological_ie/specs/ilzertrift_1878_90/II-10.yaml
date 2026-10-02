@@ -1,0 +1,182 @@
+unit: II-10
+title: Summarische Zusammenstellung der periodischen Materialergebnisse
+summary: |
+  Beilage II.10 (A 384 I 181–248), forms F. XIX a (title) and F. XIX: periodic harvest (Materialergebnisse) of the
+  Revier St. Oswald (Forstamt Schönberg) for the whole past period 1860/61–1877, one page per Abtheilung, Districts
+  I Seewald, II Seebachhaeng, III Hoher Stein, IV Plattenhausen, V Plattenhausenhaeng, VI Schachtenbachhaeng, VII Vorwald
+  and VIII Auwald. The Revier is named only on the title page (page 1, "Revier St. Oswald"); each table page names its
+  District and Abtheilung in the ruled line under the header and holds a single row "1860/61 – 1877" with the yield of
+  the Hauptnutzung (final fellings) and Zwischennutzung (thinnings, incidental fellings) by assortment. Timber,
+  fuelwood, stemwood sum and stump wood are in Ster, Wellen in hundreds; every value column has a narrow ruled
+  sub-column with two decimal places. Numbers are in black ink, underlined in red as check marks.
+default_profile: table
+default_form: f19
+pages:
+  1:
+    role: title
+    profile: text
+    note: 'title page F. XIX a: ''Summarische Zusammenstellung der periodischen Material-Ergebnisse, Revier St. Oswald'' –
+      sets the Revier for all following pages'
+forms:
+  f19:
+    name: F. XIX – Summarische Zusammenstellung der periodischen Materialergebnisse (one Abtheilung per page)
+    description: |
+      Each page is one complete form (not half of a double page): period column, a Hauptnutzung block and a Zwischennutzung
+      block of five columns each. The HTR transcripts show 21 columns where they split the decimal sub-columns and 11 where
+      they merge them ("3656 20"); the scan always has an integer column and a narrow decimal column per value: split a
+      merged "3656 20" into 3656 | 20 (= 3656.20). Below the header a ruled line names the stand, e.g.
+      "District I Seewald ...... Abtheilung 1. Hochschainhart": return it as four group_header rows (same box) setting, in
+      this order, district_no (Roman numeral, "I"), district_name ("Seewald"), compartment_no ("1") and stand_name
+      ("Hochschainhart"). Normally one data row follows: period "1860/61 – 1877" written on two lines (the "– 1877" line
+      sometimes followed by a small red "incl."); it is one row, not two. Rows of dots (". . .") are empty cells, not
+      values. Red strokes under the numbers are check marks, not red values. Some pages have no numbers at all (only dots).
+      The HTR often drops or misplaces digits in the crowded cells: use the rule Summe des Stammholzes = Bau-, Nutz- und
+      Werkholz + Scheit- und Prügelholz (holds in both blocks, e.g. 3656.20 + 6530.36 = 10186.56) to check the reading.
+      The form number at the top right ("F. XIX", sometimes misread as "F. XIV") is outside the table.
+    columns:
+    - id: period
+      label: Zeitabschnitte resp. Jahre derselben
+      type: period
+      meaning: period of use, normally the whole past period 1860/61–1877
+    - id: main_timber
+      label: Hauptnutzung › Bau-, Nutz- und Werkholz › Ster (gedruckt „Kubik-Meter“, meist gestrichen)
+      type: pair_major
+      unit: Ster
+      variable: harvest_main_timber
+      meaning: construction, utility and work timber of the Hauptnutzung (final fellings); the printed unit 'Kubik-Meter'
+        is crossed out and replaced by 'Ster' (the sum column confirms Ster)
+      scope: St. Oswald
+    - id: main_timber_dec
+      label: Hauptnutzung › Bau-, Nutz- und Werkholz › Ster (gedruckt „Kubik-Meter“, meist gestrichen) › (Dezimalen)
+      type: pair_minor
+      of: main_timber
+      mode: digits
+    - id: main_fuelwood
+      label: Hauptnutzung › Scheit- und Prügel-Holz › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_main_fuelwood
+      meaning: split and round fuelwood of the Hauptnutzung (final fellings)
+      scope: St. Oswald
+    - id: main_fuelwood_dec
+      label: Hauptnutzung › Scheit- und Prügel-Holz › Ster › (Dezimalen)
+      type: pair_minor
+      of: main_fuelwood
+      mode: digits
+    - id: main_stemwood
+      label: Hauptnutzung › Summe des Stammholzes › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_main_stemwood_total
+      meaning: sum of the stemwood = Bau-, Nutz- und Werkholz + Scheit- und Prügelholz
+      scope: St. Oswald
+    - id: main_stemwood_dec
+      label: Hauptnutzung › Summe des Stammholzes › Ster › (Dezimalen)
+      type: pair_minor
+      of: main_stemwood
+      mode: digits
+    - id: main_stumpwood
+      label: Hauptnutzung › Stock-Holz › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_main_stumpwood
+      meaning: stump wood
+      scope: St. Oswald
+    - id: main_stumpwood_dec
+      label: Hauptnutzung › Stock-Holz › Ster › (Dezimalen)
+      type: pair_minor
+      of: main_stumpwood
+      mode: digits
+    - id: main_faggots
+      label: Hauptnutzung › Wellen-Hundert (Zusatz „resp. Ster“?, Lesung unsicher)
+      type: pair_major
+      unit: Hundert Wellen
+      variable: harvest_main_faggots
+      meaning: brushwood bundles (Wellen), counted in hundreds
+      scope: St. Oswald
+    - id: main_faggots_dec
+      label: Hauptnutzung › Wellen-Hundert (Zusatz „resp. Ster“?, Lesung unsicher) › (Dezimalen)
+      type: pair_minor
+      of: main_faggots
+      mode: digits
+    - id: intermediate_timber
+      label: Zwischennutzung › Bau-, Nutz- und Werkholz › Ster (gedruckt „Kubik-Meter“, meist gestrichen)
+      type: pair_major
+      unit: Ster
+      variable: harvest_intermediate_timber
+      meaning: construction, utility and work timber of the Zwischennutzung (thinnings, incidental fellings); the printed
+        unit 'Kubik-Meter' is crossed out and replaced by 'Ster' (the sum column confirms Ster)
+      scope: St. Oswald
+    - id: intermediate_timber_dec
+      label: Zwischennutzung › Bau-, Nutz- und Werkholz › Ster (gedruckt „Kubik-Meter“, meist gestrichen) › (Dezimalen)
+      type: pair_minor
+      of: intermediate_timber
+      mode: digits
+    - id: intermediate_fuelwood
+      label: Zwischennutzung › Scheit- und Prügel-Holz › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_intermediate_fuelwood
+      meaning: split and round fuelwood of the Zwischennutzung (thinnings, incidental fellings)
+      scope: St. Oswald
+    - id: intermediate_fuelwood_dec
+      label: Zwischennutzung › Scheit- und Prügel-Holz › Ster › (Dezimalen)
+      type: pair_minor
+      of: intermediate_fuelwood
+      mode: digits
+    - id: intermediate_stemwood
+      label: Zwischennutzung › Summe des Stammholzes › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_intermediate_stemwood_total
+      meaning: sum of the stemwood = Bau-, Nutz- und Werkholz + Scheit- und Prügelholz
+      scope: St. Oswald
+    - id: intermediate_stemwood_dec
+      label: Zwischennutzung › Summe des Stammholzes › Ster › (Dezimalen)
+      type: pair_minor
+      of: intermediate_stemwood
+      mode: digits
+    - id: intermediate_stumpwood
+      label: Zwischennutzung › Stock-Holz › Ster
+      type: pair_major
+      unit: Ster
+      variable: harvest_intermediate_stumpwood
+      meaning: stump wood
+      scope: St. Oswald
+    - id: intermediate_stumpwood_dec
+      label: Zwischennutzung › Stock-Holz › Ster › (Dezimalen)
+      type: pair_minor
+      of: intermediate_stumpwood
+      mode: digits
+    - id: intermediate_faggots
+      label: Zwischennutzung › Wellen-Hundert (Zusatz „resp. Ster“?, Lesung unsicher)
+      type: pair_major
+      unit: Hundert Wellen
+      variable: harvest_intermediate_faggots
+      meaning: brushwood bundles (Wellen), counted in hundreds
+      scope: St. Oswald
+    - id: intermediate_faggots_dec
+      label: Zwischennutzung › Wellen-Hundert (Zusatz „resp. Ster“?, Lesung unsicher) › (Dezimalen)
+      type: pair_minor
+      of: intermediate_faggots
+      mode: digits
+    row_sums:
+    - target: main_stemwood
+      of:
+      - main_timber
+      - main_fuelwood
+    - target: intermediate_stemwood
+      of:
+      - intermediate_timber
+      - intermediate_fuelwood
+    observations:
+      scope_keys:
+      - district_no
+      - compartment_no
+      scope: Revier St. Oswald, per District/Abtheilung, period 1860/61–1877
+notes: |
+  The task brief expected alternating left/right halves (header widths 21 and 11); the scans show that every page is a
+  complete F. XIX form with its own header, and the width difference only comes from the HTR splitting or merging the
+  decimal sub-columns. Only Revier St. Oswald is in this unit (one title page); there is no sum page. The suffix after
+  "Wellen-Hundert" in the header is hard to read ("resp. Ster"?), the unit Hundert Wellen is assumed. Several Abtheilung
+  names are uncertain in the HTR (e.g. p. 5 "Abtheilung 11 Kürchelbachleyrand", p. 29 "Abtheilung 21 Bärenloch").

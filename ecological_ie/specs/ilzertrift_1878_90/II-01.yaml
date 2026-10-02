@@ -1,0 +1,101 @@
+unit: II-01
+title: Summarische Zusammenstellung des Taxations-Soll und Habens
+summary: |
+  Beilage II. 1 (Form No. XIII) "Summarische Zusammenstellung des Taxations-Solls u. Habens" for the complex of the
+  Reviere Schönau, St. Oswald and Klingenbrunn (the words "Ilzertrift Complex" are crossed out on the title page). It
+  is made at the end of the period 1860/77 and signed in Schönberg on 1 Sept 1878 (Königl. Forstamt Schönberg). One
+  row is one Unterabtheilung with an Angriffshieb or Nachhauung. The row compares the estimated yield (Schätzung) with
+  the actual yield (Ergebniß) and gives the surplus (Ueberschuß) or deficit. Areas are in hectares with three decimal
+  digits: the printed "Tagw." is crossed out and replaced by "Hekt." on some pages. Wood is in Ster: the printed
+  "Klafter" is crossed out everywhere. The Wellen columns are empty.
+  Sections:
+  (1) cuts completed in 1860/77: 1.) Angriffshiebe, 2.) Nachhauungen, with Revier groups a. Schönau, b. St. Oswald and
+  c. Klingenbrunn;
+  (2) a cancelled block "Auszugshauungen, Plänterhiebe und zufällige Ergebnisse";
+  (3) "Verstärkende (?) Abgleichung" of unfinished cuts. Here a red/violet second number in the Ergebniß cell gives
+  the material that was marked but is still standing;
+  (4) Zusammenstellungen.
+default_profile: table
+default_form: xiii
+pages:
+  1:
+    role: title
+    profile: text
+    note: "Title page: 'Beilage Heft II. 1', 'XIII', title, 'Complex der Reviere Schoenau, St. Oswald u. Klingenbrunn', 'Ilzertrift Complex' struck out, 'Gefertigt am Ende des Zeitabschnitts 1860/77'"
+  2:
+    note: "Section 1 'Während des Zeitabschnittes 1860/77 vollendete Hiebe': 1.) Angriffshiebe (all Reviere) and 2.) Nachhauungen, Revier a. Schönau"
+  3:
+    note: "Completed Nachhauungen b. St. Oswald and c. Klingenbrunn, Revier sums, 'Su. Nachhauungen'"
+  4:
+    note: "Sums of the completed cuts, then the cancelled block 'Auszugshauungen, Plänterhiebe und zufällige Ergebnisse' (crossed by a diagonal line) with a 'Bemerkung'"
+  5:
+    note: "'Verstärkende (?) Abgleichung' (unfinished cuts), 1) Angriffshiebe, a. Schönau; red note 'Noch vorhandenes, ausgezähltes Material' at top right"
+  8:
+    note: "Zusammenstellung of the unfinished Angriffshiebe per Revier, then '2. Nachhauungen' (unfinished), a. Schönau; archive page 118 (b. St. Oswald) is missing after this page"
+  9:
+    note: "Unfinished Nachhauungen c. Klingenbrunn, sums per Revier, 'Su. 2. Nachhauungen', 'Su. 1. Angriffshiebe', 'Im Ganzen'"
+  10:
+    role: table
+    note: "Final 'Zusammenstellung' (vollendete / unvollendete Angriffs- und Nachhauungen, struck-out Auszugshauungen sum) and signature 'Schönberg den 1. Septbr 1878, Königl. Forstamt Schönberg', stamp, 'an Kreisforstbureau'"
+forms:
+  xiii:
+    name: "Form No. XIII – Summarische Zusammenstellung des Taxations-Solls und Habens 1860/77"
+    description: |
+      One row per Unterabtheilung that was cut. Section headings inside the table are row_type heading:
+      "Während des Zeitabschnittes 1860/77 vollendete Hiebe", "Verstärkende (?) Abgleichung", "Zusammenstellung". The
+      headings "1.) Angriffshiebe" and "2.) Nachhauungen" set the kind of cut for the rows below (sets_key other, value
+      "Angriffshiebe vollendet" / "Nachhauungen vollendet" in the first section, "Angriffshiebe unvollendet" /
+      "Nachhauungen unvollendet" in the Abgleichung section). The headings "a. Schönau", "b. St. Oswald" and
+      "c. Klingenbrunn" are group_header rows (sets_key revier).
+      The Distrikt No. (Roman) is repeated on every row; the name is often given as a ditto mark ("). Names can run
+      over two lines ("Schachten- / bachhäng").
+      In the Abgleichung section (unfinished cuts) the Ergebniß cell has two numbers: the black upper one is the wood
+      cut so far. The red/violet lower one is "noch vorhandenes, ausgezähltes Material" (marked but still standing):
+      put it as red content of the Ergebniß column of the same row, not as a new row.
+      Ueberschuß or Defizit = (black + red Ergebniß) − Schätzung, e.g. 1675 + 1351 = 3026 against 2380 gives
+      Ueberschuß 646. Red and blue underlines and check marks are only checking marks; ignore them.
+      Sum rows "Su. Schönau", "Su. St. Oswald", "Su. Klingenbrunn", "Su. Angriffshiebe", "Su. Nachhauungen", "Summa"
+      and "Im Ganzen" are row_type sum. "Su. für sich" under a single entry is also a sum. A second line under a sum
+      gives the net difference of Ueberschuß and Defizit (e.g. 172 − 154 = 18) or the sum of black + red Ergebniß
+      (e.g. 529052): give it as row_type note.
+      On the page with the "Auszugshauungen, Plänterhiebe und zufällige Ergebnisse" block, the columns are re-used:
+      - Schätzung = "im Zeitabschnitt wirthschaftsplanmäßig beantragte Auszugs- u. Plänterhiebe";
+      - Ergebniß = "Auszugs-, Plänterhiebs-, Windfall- und Käferholz-Anfall";
+      - Ueberschuß = "Überhauung".
+      These rows are per Revier only. The whole block is struck through diagonally and its sum is struck out on the
+      last page: note "cancelled" in the row note. The following "Bemerkung" text is row_type note.
+    columns:
+      - {id: district_no, label: "der Distrikte › No.", type: key, key: district_no}
+      - {id: district_name, label: "der Distrikte › Namen", type: key, key: district_name}
+      - {id: compartment_no, label: "No. der Abtheilung", type: key, key: compartment_no}
+      - {id: subcompartment, label: "Litt. der Unterabtheilung", type: key, key: subcompartment}
+      - {id: area, label: "Fläche › Tagw. (gestrichen; 'Hekt.')", type: pair_major, unit: ha, variable: cut_area,
+         meaning: "area of the cut; hectares with three decimals although some headers still show the printed 'Tagw.'"}
+      - {id: area_dec, label: "Fläche › Dz.", type: pair_minor, of: area, mode: digits}
+      - {id: estimate, label: "Schätzung › Klafter (gestrichen) / Ster", type: number, unit: Ster,
+         variable: harvest_estimate, meaning: "estimated (planned) yield of the cut"}
+      - {id: estimate_bundles, label: "Schätzung › Wellen", type: number, unit: Wellen,
+         variable: harvest_estimate_bundles}
+      - {id: result, label: "Ergebniß › Klafter (gestrichen) / Ster", type: number, unit: Ster,
+         variable: harvest_result,
+         meaning: "actual yield; in the Abgleichung section plus a red second number for marked material still standing"}
+      - {id: result_bundles, label: "Ergebniß › Wellen", type: number, unit: Wellen, variable: harvest_result_bundles}
+      - {id: surplus, label: "Gegen die Schätzung hat sich demnach ergeben › Ueberschuß › Klafter (gestrichen) / Ster",
+         type: number, unit: Ster, variable: harvest_surplus}
+      - {id: surplus_bundles, label: "Gegen die Schätzung hat sich demnach ergeben › Ueberschuß › Wellen-Hunderte",
+         type: number, unit: Hundert Wellen, variable: harvest_surplus_bundles}
+      - {id: deficit, label: "Gegen die Schätzung hat sich demnach ergeben › Defizit › Klafter (gestrichen) / Ster",
+         type: number, unit: Ster, variable: harvest_deficit}
+      - {id: deficit_bundles, label: "Gegen die Schätzung hat sich demnach ergeben › Defizit › Wellen-Hunderte",
+         type: number, unit: Hundert Wellen, variable: harvest_deficit_bundles}
+    observations:
+      scope_keys: [revier]
+notes: |
+  Reading order = position order (archive A 383 I 110–117, 119, 120). Archive page 118 is missing from the unit: it
+  should hold the unfinished Nachhauungen of b. St. Oswald, whose sum (Schätzung 77310) appears on page 119.
+  Area unit: the decimals have three digits (1 | 601 + 2 | 504 + 12 | 641 + 9 | 523 = 26 | 269), so the area is in
+  hectares on all pages, even where the "Tagw." header is not crossed out (pages 3, 7–10).
+  Doubtful headers: "Wellen-Hunderte" (could also be "Wellen-Gebunde"); the section heading "Verstärkende Abgleichung"
+  (could be "Vorläufige"); the HTR reads "Nachreinigungen", but the scan reads "Nachhauungen".
+  Title page: "Zeitabschnitts 1860/77". The digit after "186" is overwritten, and the HTR reads 1868/77. The table
+  heading on page 2 has 1860/77.
