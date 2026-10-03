@@ -145,6 +145,14 @@ def run_stages(args):
         log_run(args.run, stage, args, gemini)
 
 
+def run_layout(args):
+    from .layout import build_layout
+    summary = build_layout(args.units, args.run, args.dump, args.section)
+    print({k: v for k, v in summary.items() if k != "no_transform"})
+    if summary["no_transform"]:
+        print("text pages without a region transform:", ", ".join(summary["no_transform"]))
+
+
 def run_derive(args):
     from .pipeline import check_summary, derive_tables
     from .stages import derive_describe, derive_maps, derive_text
@@ -234,6 +242,12 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--rounds", type=int, default=2, help="re-check rounds")
     add_model_options(run)
     run.set_defaults(func=run_stages)
+
+    layout = commands.add_parser("layout", help="page layout from detected lines and the dump's regions: "
+                                                "table rows aligned to the lines, transcript lines linked to the scan")
+    add_unit_options(layout)
+    layout.add_argument("--dump", type=Path, required=True, help="the dump zip (or folder) with the region files")
+    layout.set_defaults(func=run_layout)
 
     derive = commands.add_parser("derive", help="rebuild all derived tables from cached model outputs")
     add_unit_options(derive, with_sections=False)

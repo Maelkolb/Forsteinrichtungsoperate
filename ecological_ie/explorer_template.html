@@ -159,12 +159,24 @@ input[type="search"] { width: min(300px, 100%); }
 .scroll { overflow: auto; min-height: 0; }
 .scan-pane { background: var(--surface-2); }
 .scan-pane .scroll { position: relative; }
-.scan-inner { position: relative; }
-.scan-inner img { display: block; width: 100%; }
-.scan-band { position: absolute; left: 0; right: 0; background: var(--band); border-top: 1.5px solid var(--redink); border-bottom: 1.5px solid var(--redink); pointer-events: none; }
-.scan-label { position: absolute; border: 1.5px solid var(--redink); border-radius: 2px; background: transparent; padding: 0; cursor: help; }
-.scan-label.dim { opacity: .18; }
-.scan-label.hit { background: var(--band); }
+.facsimile { height: 100%; min-height: 0; }
+.zoom-overlay .band { fill: var(--band); stroke: var(--redink); stroke-width: 1.5; }
+.zoom-overlay .band.selected { fill: var(--band); stroke-width: 2; }
+.zoom-overlay .cell { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.zoom-overlay .line-hl { fill: var(--quote); fill-opacity: .55; stroke: var(--accent); stroke-width: 1.2; }
+.zoom-overlay .passage { fill: var(--quote); fill-opacity: .5; stroke: var(--accent); stroke-opacity: .6; stroke-width: 1; }
+.zoom-overlay .line-outline { fill: none; stroke: var(--accent); stroke-opacity: .45; stroke-width: 1; }
+.zoom-overlay .row-outline { fill: none; stroke: var(--rev-1); stroke-opacity: .55; stroke-width: 1; }
+.zoom-overlay .region { fill: none; stroke: var(--ink-2); stroke-width: 1.2; stroke-dasharray: 6 4; }
+.zoom-overlay .region.Marginalia { stroke: var(--rev-2); }
+.zoom-overlay .region.Title { stroke: var(--rev-1); }
+.zoom-overlay .region.Table { stroke: var(--harvest-main); }
+.zoom-overlay .region.PageNumber, .zoom-overlay .region.Footnote { stroke: var(--muted); }
+.zoom-overlay .label { fill: transparent; stroke: var(--redink); stroke-width: 1.5; pointer-events: all; cursor: help; }
+.zoom-overlay .label.dim { stroke-opacity: .2; }
+.zoom-overlay .label.hit { fill: var(--band); stroke-width: 2.5; }
+.tx .ln.hl, .tx [data-l].hl { background: var(--accent-wash); }
+table.grid tbody tr.hl td { background-color: var(--accent-wash); }
 .x-pane { background: var(--bg); }
 @media (max-width: 1500px) {
   .panes { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); grid-template-rows: minmax(0, 1fr) minmax(0, .6fr); }
@@ -181,7 +193,7 @@ input[type="search"] { width: min(300px, 100%); }
 @media (max-width: 760px) {
   .reader, .reader-main, .panes { display: block; height: auto; }
   .pane { border-right: 0; border-bottom: 1px solid var(--rule); }
-  .scan-pane .scroll { max-height: 70vh; }
+  .facsimile { height: 62vh; }
   .tx-pane .scroll, .x-pane .scroll { overflow: visible; }
 }
 
@@ -350,7 +362,7 @@ table.data tbody tr:hover td { background: var(--accent-wash); }
 .map-tab[aria-pressed="true"] span { color: var(--ink); font-weight: 600; }
 .map-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; }
 @media (max-width: 1000px) { .map-layout { grid-template-columns: minmax(0, 1fr); } }
-.map-view { position: relative; overflow: auto; max-height: 76vh; border: 1px solid var(--rule); background: var(--surface-2); }
+.map-view { height: 76vh; border: 1px solid var(--rule); }
 .map-side { display: grid; gap: 14px; align-content: start; max-height: 76vh; overflow: auto; }
 .label-list { display: grid; font-size: .88rem; }
 .label-list button { border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; padding: 4px 2px; cursor: pointer; display: flex; justify-content: space-between; gap: 8px; }
@@ -375,7 +387,7 @@ table.data tbody tr:hover td { background: var(--accent-wash); }
 .reading dt { color: var(--muted); }
 .reading dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 .as-written { font-family: var(--mono); font-size: .88rem; background: var(--surface-2); padding: 1px 6px; border-radius: 2px; }
-.mini-scan { height: min(50vh, 440px); overflow: auto; border: 1px solid var(--rule); background: var(--surface-2); position: relative; }
+.mini-scan { height: min(52vh, 460px); border: 1px solid var(--rule); }
 @media (prefers-reduced-motion: reduce) { .drawer { transition: none; } }
 </style>
 
@@ -392,6 +404,7 @@ table.data tbody tr:hover td { background: var(--accent-wash); }
 </aside>
 <div class="tip" id="tip" hidden></div>
 <script id="data" type="application/json">__DATA__</script>
+<script>__ZOOM_JS__</script>
 <script>
 const D = JSON.parse(document.getElementById("data").textContent);
 const IMG = "__IMAGE_BASE__";
@@ -514,10 +527,12 @@ function openDrawer(title, body) {
 }
 function miniScan(pg, box) {
   if (!pg || !pg.img) return el("p", { class: "muted" }, "No image of this page.");
-  const inner = el("div", { class: "scan-inner", style: "width:170%" }, el("img", { src: pg.img, alt: `Scan ${pg.pid}` }));
-  if (box && box.length === 4) { const h = Math.max(box[2] - box[0], 14); inner.append(el("div", { class: "scan-band", style: `top:${Math.max(0, box[0] - h * .6) / 10}%;height:${h * 2.2 / 10}%` })); }
-  const view = el("div", { class: "mini-scan" }, inner);
-  inner.querySelector("img").addEventListener("load", () => { if (box) { view.scrollTop = (box[0] + box[2]) / 2000 * inner.offsetHeight - view.clientHeight / 2; view.scrollLeft = (box[1] + box[3]) / 2000 * inner.offsetWidth - view.clientWidth * .6; } });
+  const view = el("div", { class: "mini-scan" });
+  const zoom = new Zoom(view, { src: pg.img, width: pg.w, height: pg.h, alt: `Scan ${pg.pid}`, controls: true });
+  if (box && box.length === 4) {
+    zoom.rect("selected", box, "band selected");
+    setTimeout(() => zoom.show(box, { zoom: "width" }), 260);
+  }
   return view;
 }
 function openValues(indexes, title) {
@@ -661,7 +676,12 @@ function setPressed(e) { for (const b of e.currentTarget.parentElement.children)
 const VIEWS = [["contents", "Contents"], ["reader", "Reader"], ["figures", "Figures"], ["stands", "Stands"], ["statements", "Statements"], ["events", "Events"], ["maps", "Maps"]];
 const viewHost = document.getElementById("view"), tabs = document.getElementById("tabs");
 for (const [id, label] of VIEWS) tabs.append(el("button", { class: "tab", "data-view": id, onclick: () => go(id) }, label));
-const readerState = { u: null, p: null, focus: null, mode: "checked", lines: store("ilz-lines") !== "0", ids: false, zoom: 1 };
+const readerState = { u: null, p: null, focus: null, mode: "checked", lines: store("ilz-lines") !== "0", ids: false, layout: false };
+const labelBox = (l, m) => [l[3] / m.h * 1000, l[2] / m.w * 1000, l[5] / m.h * 1000, l[4] / m.w * 1000];
+function boundsOf(polygons) {
+  const xs = polygons.flatMap(p => p.map(q => q[0])), ys = polygons.flatMap(p => p.map(q => q[1]));
+  return [Math.min(...ys), Math.min(...xs), Math.max(...ys), Math.max(...xs)];
+}
 function go(id) {
   const hash = id === "reader" && readerState.u ? `read-${readerState.u}-${readerState.p}` : id;
   if (location.hash !== "#" + hash) history.replaceState(null, "", "#" + hash);
@@ -773,33 +793,48 @@ function reader() {
   }
 
   /* facsimile */
-  const inner = el("div", { class: "scan-inner" });
-  const scroll = el("div", { class: "scroll" }, inner);
-  const band = el("div", { class: "scan-band", hidden: true });
-  if (pg && pg.img) inner.append(el("img", { src: pg.img, alt: `Scan ${pg.pid}` }), band);
-  else inner.append(el("p", { class: "note" }, "No image of this page in the data set."));
-  const zoomLabel = el("span", { class: "muted num", style: "font-size:.8rem;min-width:40px;text-align:right" });
-  const applyZoom = () => { inner.style.width = (readerState.zoom * 100) + "%"; zoomLabel.textContent = `${Math.round(readerState.zoom * 100)} %`; };
-  applyZoom();
-  const showBand = (box, center) => {
-    if (!box || box.length !== 4 || !pg?.img) { band.hidden = true; return; }
-    const h = Math.max(box[2] - box[0], 12);
-    band.style.top = `${Math.max(0, box[0] - h * .5) / 10}%`; band.style.height = `${h * 2 / 10}%`; band.hidden = false;
-    if (center) scroll.scrollTo({ top: (box[0] + box[2]) / 2000 * inner.offsetHeight - scroll.clientHeight / 2, behavior: "smooth" });
-  };
+  const host = el("div", { class: "facsimile" });
+  const zoom = pg && pg.img ? new Zoom(host, { src: pg.img, width: pg.w, height: pg.h, alt: `Scan ${pg.pid}` }) : null;
+  if (!zoom) host.append(el("p", { class: "note" }, "No image of this page in the data set."));
+  const zoomLabel = el("span", { class: "muted num", style: "font-size:.8rem;min-width:40px;text-align:right" }, "100 %");
+  host.addEventListener("zoomchange", e => { zoomLabel.textContent = `${Math.round(e.detail.relative * 100)} %`; });
   const mapRec = rec.kind === "map" ? D.maps.find(x => x.u === u && x.p === rec.p) : null;
-  if (mapRec && pg?.img) for (const l of mapRec.labels) {
-    const b = el("button", { class: "scan-label", "aria-label": l[0], style: `left:${l[2] / mapRec.w * 100}%;top:${l[3] / mapRec.h * 100}%;width:${(l[4] - l[2]) / mapRec.w * 100}%;height:${(l[5] - l[3]) / mapRec.h * 100}%` });
-    b.addEventListener("pointermove", e => showTip(e, l[0], [{ label: l[1].replace(/_/g, " "), value: "" }])); b.addEventListener("pointerleave", hideTip);
-    inner.append(b);
+  if (mapRec && zoom) for (const l of mapRec.labels) {
+    const shape = zoom.rect("labels", labelBox(l, mapRec), "label");
+    shape.addEventListener("pointermove", e => showTip(e, l[0], [{ label: l[1].replace(/_/g, " "), value: "" }]));
+    shape.addEventListener("pointerleave", hideTip);
   }
+  const layoutBox = el("input", { type: "checkbox", checked: readerState.layout ? true : null, onchange: e => { readerState.layout = e.target.checked; drawLayout(); } });
+  const hasLayout = rec.kind === "table" || (rec.kind === "text" && Object.keys(rec.lines || {}).length);
   const scanPane = el("section", { class: "pane scan-pane", "aria-label": "Facsimile" },
     el("div", { class: "pane-bar" }, el("span", { class: "title" }, "Facsimile"),
-      el("div", { class: "controls" }, zoomLabel, el("div", { class: "seg" },
-        el("button", { "aria-label": "Zoom out", onclick: () => { readerState.zoom = Math.max(1, readerState.zoom - .5); applyZoom(); } }, "−"),
-        el("button", { onclick: () => { readerState.zoom = 1; applyZoom(); } }, "Fit"),
-        el("button", { "aria-label": "Zoom in", onclick: () => { readerState.zoom = Math.min(5, readerState.zoom + .5); applyZoom(); } }, "+")))),
-    scroll);
+      el("div", { class: "controls" },
+        hasLayout && zoom ? el("label", { class: "toggle", title: "Regions and detected lines" }, layoutBox, "Layout") : "",
+        zoomLabel, el("div", { class: "seg" },
+          el("button", { "aria-label": "Zoom out", onclick: () => zoom?.zoomBy(1 / 1.5) }, "−"),
+          el("button", { onclick: () => zoom?.fit(true) }, "Fit"),
+          el("button", { "aria-label": "Zoom in", onclick: () => zoom?.zoomBy(1.5) }, "+")))),
+    host);
+  const reveal = box => { if (zoom && box && zoom.touched && !zoom.visible(box)) zoom.show(box); };
+  const rowBox = tr => tr?.dataset.b ? tr.dataset.b.split(",").map(Number) : null;
+  const markRow = (tr, cell, layer = "hover") => {
+    if (!zoom) return;
+    zoom.clear(layer);
+    const box = rowBox(tr);
+    if (!box) return;
+    zoom.rect(layer, box, layer === "selected" ? "band selected" : "band");
+    const range = cell && cell.colSpan === 1 ? rec.cols?.[tr.closest("table.grid")?.dataset.t]?.[cell.cellIndex] : null;
+    if (range && range[1] > range[0]) zoom.rect(layer, [box[0], range[0], box[2], range[1]], "cell");
+    if (layer === "hover") reveal(box);
+  };
+  const linePolygons = ids => ids.flatMap(l => (rec.lines || {})[l] || []);
+  const markLines = (ids, cls = "line-hl", layer = "hover") => {
+    if (!zoom) return;
+    zoom.clear(layer);
+    const polygons = linePolygons(ids);
+    for (const p of polygons) zoom.polygon(layer, p, cls);
+    if (polygons.length && layer === "hover") reveal(boundsOf(polygons));
+  };
 
   /* apparatus entries for text pages, in reading order */
   const anchorAt = id => { const i = rec.html ? rec.html.indexOf(`data-q="${id}"`) : -1; return i < 0 ? Infinity : i; };
@@ -816,7 +851,43 @@ function reader() {
     for (const n of tx.querySelectorAll("tr.sel")) n.classList.remove("sel");
     tr.classList.add("sel");
     if (center) tr.scrollIntoView({ block: "center", behavior: "smooth" });
-    showBand(tr.dataset.b ? tr.dataset.b.split(",").map(Number) : null, true);
+    markRow(tr, null, "selected");
+    zoom?.clear("hover");
+    if (zoom && rowBox(tr)) zoom.show(rowBox(tr), { zoom: "width" });
+  };
+  const lineIdsOf = node => node.dataset.l != null ? [node.dataset.l] : [...node.querySelectorAll(".la")].map(a => a.dataset.l);
+  const linesOfPassage = id => {
+    const pieces = [...tx.querySelectorAll(`.q[data-q="${id}"]`)];
+    const start = pieces[0] || tx.querySelector(`.qa[data-q="${id}"]`), end = pieces[pieces.length - 1] || tx.querySelector(`.qz[data-q="${id}"]`) || start;
+    if (!start) return [];
+    const anchors = [...tx.querySelectorAll(".la")];
+    const before = anchors.filter(a => a.compareDocumentPosition(start) & Node.DOCUMENT_POSITION_FOLLOWING).pop();
+    const inside = anchors.filter(a => (a.compareDocumentPosition(start) & Node.DOCUMENT_POSITION_PRECEDING) && (a.compareDocumentPosition(end) & Node.DOCUMENT_POSITION_FOLLOWING || end.contains(a)));
+    return [...new Set([before, ...inside].filter(Boolean).map(a => a.dataset.l))];
+  };
+  const drawLayout = () => {
+    if (!zoom) return;
+    zoom.clear("layout");
+    zoom.clear("hits");
+    if (rec.kind === "text") {
+      if (readerState.layout) for (const [kind, box] of rec.regions || []) zoom.rect("layout", box, `region ${kind}`, `${kind} region`);
+      for (const [l, polygons] of Object.entries(rec.lines || {})) for (const p of polygons) {
+        if (readerState.layout) zoom.polygon("layout", p, "line-outline");
+        const hit = zoom.polygon("hits", p, "hit");
+        const target = () => tx.querySelector(`.ln[data-l="${l}"], h1[data-l="${l}"], h2[data-l="${l}"], h3[data-l="${l}"], h4[data-l="${l}"]`);
+        hit.addEventListener("pointerenter", () => { markLines([l], "line-hl", "hover"); target()?.classList.add("hl"); });
+        hit.addEventListener("pointerleave", () => { zoom.clear("hover"); target()?.classList.remove("hl"); });
+        hit.addEventListener("click", () => target()?.scrollIntoView({ block: "center", behavior: "smooth" }));
+      }
+    } else if (rec.kind === "table") {
+      for (const tr of tx.querySelectorAll("tbody tr[data-b]")) {
+        if (readerState.layout) zoom.rect("layout", rowBox(tr), "row-outline");
+        const hit = zoom.rect("hits", rowBox(tr), "hit");
+        hit.addEventListener("pointerenter", () => { markRow(tr); tr.classList.add("hl"); });
+        hit.addEventListener("pointerleave", () => { zoom.clear("hover"); tr.classList.remove("hl"); });
+        hit.addEventListener("click", () => { tr.scrollIntoView({ block: "center", behavior: "smooth" }); selectRow(tr, false); });
+      }
+    }
   };
   const renderTx = () => {
     if (rec.kind === "text") {
@@ -829,6 +900,10 @@ function reader() {
         if (target) target.before(el("sup", { class: "an", "data-q": x.id }, x.n));
       }
       if (readerState.lines) numberLines(tx);
+      for (const node of tx.querySelectorAll(".ln, h1, h2, h3, h4")) {
+        const anchor = node.querySelector(":scope > .la, :scope > * > .la");
+        if (anchor && !anchor.closest(".marg")) node.dataset.l = anchor.dataset.l;
+      }
     } else if (rec.kind === "table") {
       tx.className = `tx-table${readerState.ids ? "" : " hide-ids"}`;
       const formNr = rec.outside.filter(o => o[0] === "form_number"), headings = rec.outside.filter(o => o[0] === "heading");
@@ -838,10 +913,10 @@ function reader() {
         el("div", { html: rec.html }),
         notes.length ? el("div", { class: "page-notes" }, notes.map(o => el("div", {}, el("span", { class: "k" }, OUTSIDE[o[0]]), el("span", { class: "t" }, o[1])))) : "");
       for (const tr of tx.querySelectorAll("tbody tr[data-r]")) {
-        tr.addEventListener("pointerenter", () => showBand(tr.dataset.b ? tr.dataset.b.split(",").map(Number) : null, false));
+        tr.addEventListener("pointerover", e => markRow(tr, e.target.closest("td")));
         tr.addEventListener("click", () => selectRow(tr, false));
       }
-      tx.addEventListener("pointerleave", () => { const sel = tx.querySelector("tr.sel"); if (sel) showBand(sel.dataset.b?.split(",").map(Number), false); else band.hidden = true; });
+      tx.addEventListener("pointerleave", () => zoom?.clear("hover"));
     } else if (rec.kind === "map") {
       tx.className = "tx";
       tx.replaceChildren(mapRec ? el("div", {}, el("h2", { style: "text-align:left;margin-top:0" }, mapRec.title),
@@ -861,6 +936,14 @@ function reader() {
     el("label", { class: "toggle" }, el("input", { type: "checkbox", checked: readerState.lines ? true : null, onchange: e => { readerState.lines = e.target.checked; store("ilz-lines", e.target.checked ? "1" : "0"); renderTx(); } }), "Line breaks"));
   if (rec.kind === "table") txControls.append(el("label", { class: "toggle" }, el("input", { type: "checkbox", checked: readerState.ids ? true : null, onchange: e => { readerState.ids = e.target.checked; renderTx(); } }), "Column ids"));
   renderTx();
+  drawLayout();
+  if (rec.kind === "text") {
+    tx.addEventListener("pointerover", e => {
+      const node = e.target.closest?.(".ln[data-l], h1[data-l], h2[data-l], h3[data-l], h4[data-l], .marg");
+      if (node) markLines(lineIdsOf(node));
+    });
+    tx.addEventListener("pointerleave", () => zoom?.clear("hover"));
+  }
   const txPane = el("section", { class: "pane tx-pane", "aria-label": "Transcription" },
     el("div", { class: "pane-bar" }, el("span", { class: "title" }, rec.kind === "table" ? "Table" : rec.kind === "map" ? "Map" : "Transcription"), txControls),
     el("div", { class: "scroll" }, tx));
@@ -871,11 +954,15 @@ function reader() {
     for (const n of tx.querySelectorAll(".on")) n.classList.remove("on");
     for (const n of x.querySelectorAll(".app.on")) n.classList.remove("on");
     if (window.CSS && CSS.highlights) CSS.highlights.delete("quote");
+    zoom?.clear("passage");
   };
   const highlight = (id, center) => {
     clearHighlight();
     x.querySelector(`.app[data-id="${id}"]`)?.classList.add("on");
     tx.querySelector(`sup.an[data-q="${id}"]`)?.classList.add("on");
+    const ids = linesOfPassage(id);
+    markLines(ids, "passage", "passage");
+    if (center && zoom && linePolygons(ids).length) zoom.show(boundsOf(linePolygons(ids)), { zoom: "width" });
     const spans = tx.querySelectorAll(`.q[data-q="${id}"]`);
     if (spans.length) { for (const s of spans) s.classList.add("on"); if (center) spans[0].scrollIntoView({ block: "center", behavior: "smooth" }); return; }
     const a = tx.querySelector(`.qa[data-q="${id}"]`), z = tx.querySelector(`.qz[data-q="${id}"]`);
@@ -902,7 +989,7 @@ function reader() {
     const total = Object.values(rec.checks || {}).reduce((a, b) => a + b, 0), m = merged(rec.checks || {}), good = (m.ok || 0) + (m.ok_after_recheck || 0);
     const form = (D.forms[u] || {})[rec.form];
     const vals = (OBS_BY_PAGE[`${u}/${rec.p}`] || []).map(obs);
-    const findRow = (t, r) => tx.querySelectorAll("table.grid")[t]?.querySelector(`tbody tr[data-r="${r}"]`);
+    const findRow = (t, r) => tx.querySelector(`table.grid[data-t="${t}"] tbody tr[data-r="${r}"]`);
     x.append(
       el("section", {}, el("h3", {}, "Sums", el("span", {}, total || "")),
         total ? el("div", { class: "sums" }, el("span", { class: "big" }, `${good} of ${total} agree`), statusBar(rec.checks), statusLegend(rec.checks),
@@ -917,7 +1004,7 @@ function reader() {
       })) : "",
       vals.length ? el("section", {}, el("h3", {}, "Values", el("span", {}, nf(vals.length, 0))),
         el("div", { class: "vals-wrap" }, el("table", { class: "vals" }, el("thead", {}, el("tr", {}, el("th", {}, "Row"), el("th", {}, "Variable"), el("th", { style: "text-align:right" }, "Value"), el("th", {}, ""))),
-          el("tbody", {}, vals.slice(0, 400).map(o => el("tr", { onclick: () => { const tr = findRow(o.t, o.r); if (tr) selectRow(tr, true); else showBand(o.box, true); }, onmouseenter: () => showBand(o.box, false) },
+          el("tbody", {}, vals.slice(0, 400).map(o => el("tr", { onclick: () => { const tr = findRow(o.t, o.r); if (tr) selectRow(tr, true); else if (o.box) zoom?.show(o.box, { zoom: "width" }); }, onmouseenter: () => markRow(findRow(o.t, o.r)) },
             el("td", { class: "muted" }, o.st ? o.st.split("|").slice(1).filter(Boolean).join(" ") : (o.per || o.sc || o.r + 1)),
             el("td", {}, varLabel(o.var)), el("td", { class: "n" }, `${nf(o.vs ?? o.v)} ${o.us || ""}`), el("td", {}, statusDot(o.cs)))))))) : "",
       rec.scan_corr.length ? el("section", {}, el("h3", {}, "Read from the facsimile", el("span", {}, rec.scan_corr.length)),
@@ -944,7 +1031,7 @@ function reader() {
       el("button", { class: "btn", disabled: idx >= pages.length - 1 ? true : null, onclick: () => stepPage(1), "aria-label": "Next page" }, "→")));
 
   setTimeout(() => {
-    if (focus.row != null) { const tr = tx.querySelectorAll("table.grid")[focus.table || 0]?.querySelector(`tbody tr[data-r="${focus.row}"]`) || tx.querySelector(`tbody tr[data-r="${focus.row}"]`); if (tr) selectRow(tr, true); }
+    if (focus.row != null) { const tr = tx.querySelector(`table.grid[data-t="${focus.table || 0}"] tbody tr[data-r="${focus.row}"]`) || tx.querySelector(`tbody tr[data-r="${focus.row}"]`); if (tr) selectRow(tr, true); }
     if (focus.q != null) { highlight(focus.q, true); x.querySelector(`.app[data-id="${focus.q}"]`)?.scrollIntoView({ block: "nearest" }); }
     rail.querySelector('.rail-item[aria-current="true"]')?.scrollIntoView({ block: "nearest" });
   }, 0);
@@ -1145,36 +1232,48 @@ function events() {
 
 /* maps */
 function maps() {
-  let cur = 0, zoom = 1, show = true, q = "";
+  let cur = 0, show = true, q = "", zoom = null;
   const tabsRow = el("div", { class: "map-tabs" }), view = el("div", { class: "map-view" }), info = el("div", { style: "display:grid;gap:4px" });
-  const search = el("input", { type: "search", placeholder: "Find a label, e.g. Rachel", "aria-label": "Find a label", oninput: e => { q = e.target.value.trim().toLowerCase(); draw(); } });
+  const search = el("input", { type: "search", placeholder: "Find a label, e.g. Rachel", "aria-label": "Find a label", oninput: e => { q = e.target.value.trim().toLowerCase(); drawLabels(); } });
   const dyn = el("div", { style: "display:grid;gap:14px" });
   const side = el("div", { class: "map-side" },
     el("div", { class: "controls" }, el("div", { class: "seg" },
-      el("button", { "aria-label": "Zoom out", onclick: () => { zoom = Math.max(1, zoom - .5); draw(); } }, "−"), el("button", { onclick: () => { zoom = 1; draw(); } }, "Fit"),
-      el("button", { "aria-label": "Zoom in", onclick: () => { zoom = Math.min(5, zoom + .5); draw(); } }, "+")),
-      el("label", { class: "toggle" }, el("input", { type: "checkbox", checked: true, onchange: e => { show = e.target.checked; draw(); } }), "Label boxes")),
+      el("button", { "aria-label": "Zoom out", onclick: () => zoom?.zoomBy(1 / 1.5) }, "−"), el("button", { onclick: () => zoom?.fit(true) }, "Fit"),
+      el("button", { "aria-label": "Zoom in", onclick: () => zoom?.zoomBy(1.5) }, "+")),
+      el("label", { class: "toggle" }, el("input", { type: "checkbox", checked: true, onchange: e => { show = e.target.checked; drawLabels(); } }), "Label boxes")),
     search, dyn);
-  const focusLabel = l => { const m = D.maps[cur]; zoom = Math.max(zoom, 2.5); q = l[0].toLowerCase(); search.value = l[0]; draw();
-    requestAnimationFrame(() => { const inner = view.firstChild; view.scrollTo({ left: l[2] / m.w * inner.offsetWidth - view.clientWidth / 2, top: l[3] / m.h * inner.offsetHeight - view.clientHeight / 2 }); }); };
-  function draw() {
-    const m = D.maps[cur], pg = page(m.u, m.p);
-    for (const [i, b] of [...tabsRow.children].entries()) b.setAttribute("aria-pressed", i === cur ? "true" : "false");
-    info.replaceChildren(el("div", { class: "section-head" }, el("h2", {}, m.title), el("button", { class: "link", onclick: () => openReader(m.u, m.p) }, "Open in the reader")),
-      el("p", { class: "caption" }, [m.type, m.date, m.scale].filter(Boolean).join(", ")));
-    const inner = el("div", { class: "scan-inner", style: `width:${zoom * 100}%` }, el("img", { src: pg.img, alt: m.title }));
+  const focusLabel = l => {
+    q = l[0].toLowerCase(); search.value = l[0]; drawLabels();
+    zoom?.show(labelBox(l, D.maps[cur]), { zoom: "box" });
+  };
+  function drawLabels() {
+    const m = D.maps[cur];
     const hits = [];
-    m.labels.forEach((l, i) => { const hit = q && l[0].toLowerCase().includes(q); if (hit) hits.push(i); if (!show) return;
-      const b = el("button", { class: `scan-label${q && !hit ? " dim" : ""}${hit ? " hit" : ""}`, "aria-label": l[0], style: `left:${l[2] / m.w * 100}%;top:${l[3] / m.h * 100}%;width:${(l[4] - l[2]) / m.w * 100}%;height:${(l[5] - l[3]) / m.h * 100}%` });
-      b.addEventListener("pointermove", e => showTip(e, l[0], [{ label: l[1].replace(/_/g, " "), value: "" }])); b.addEventListener("pointerleave", hideTip); inner.append(b); });
-    const sc = [view.scrollLeft, view.scrollTop]; view.replaceChildren(inner); view.scrollLeft = sc[0]; view.scrollTop = sc[1];
+    zoom?.clear("labels");
+    m.labels.forEach((l, i) => {
+      const hit = q && l[0].toLowerCase().includes(q);
+      if (hit) hits.push(i);
+      if (!show || !zoom) return;
+      const shape = zoom.rect("labels", labelBox(l, m), `label${q && !hit ? " dim" : ""}${hit ? " hit" : ""}`);
+      shape.addEventListener("pointermove", e => showTip(e, l[0], [{ label: l[1].replace(/_/g, " "), value: "" }]));
+      shape.addEventListener("pointerleave", hideTip);
+    });
     const listed = q ? hits.map(i => m.labels[i]) : m.labels.filter(l => ["settlement", "forest_district", "water", "mountain", "trift_structure"].includes(l[1]));
     dyn.replaceChildren(
       m.legend.length ? el("div", { class: "legend-list" }, el("h3", {}, "Legend"), m.legend.map(([s, meaning]) => el("div", {}, el("span", {}, meaning), el("span", { class: "sym" }, s)))) : "",
       el("h3", {}, q ? `${hits.length} matches` : "Places and waters"),
       el("div", { class: "label-list" }, listed.slice(0, 150).map(l => el("button", { onclick: () => focusLabel(l) }, el("span", {}, l[0]), el("span", { class: "muted" }, l[1].replace(/_/g, " "))))));
   }
-  D.maps.forEach((m, i) => { const pg = page(m.u, m.p); tabsRow.append(el("button", { class: "map-tab", onclick: () => { cur = i; zoom = 1; q = ""; search.value = ""; view.scrollTo(0, 0); draw(); } },
+  function draw() {
+    const m = D.maps[cur], pg = page(m.u, m.p);
+    for (const [i, b] of [...tabsRow.children].entries()) b.setAttribute("aria-pressed", i === cur ? "true" : "false");
+    info.replaceChildren(el("div", { class: "section-head" }, el("h2", {}, m.title), el("button", { class: "link", onclick: () => openReader(m.u, m.p) }, "Open in the reader")),
+      el("p", { class: "caption" }, [m.type, m.date, m.scale].filter(Boolean).join(", ")));
+    view.replaceChildren();
+    zoom = new Zoom(view, { src: pg.img, width: pg.w, height: pg.h, alt: m.title });
+    drawLabels();
+  }
+  D.maps.forEach((m, i) => { const pg = page(m.u, m.p); tabsRow.append(el("button", { class: "map-tab", onclick: () => { cur = i; q = ""; search.value = ""; draw(); } },
     el("img", { src: pg.img, alt: "", loading: "lazy" }), el("span", {}, UNIT[m.u]?.title || m.u))); });
   draw();
   return [el("div", { class: "page" }, el("div", { class: "head" }, el("h1", {}, "Maps"), el("p", { class: "sub" }, "Every label read on overlapping zoomed tiles and placed on the sheet.")),

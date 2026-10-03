@@ -28,6 +28,11 @@ python -m ecological_ie spec-check
 python -m ecological_ie run tables recheck describe text maps      # or: run all
 python -m ecological_ie run tables --section I-11 --positions 3 4  # a single unit / pages
 
+# layout: text lines detected on every scan (kraken on Modal), table rows aligned to them,
+# transcript lines linked to them through the dump's region layout
+uvx modal run ecological_ie/modal_lines.py
+python -m ecological_ie layout --dump Forsteinrichtungsoperate_Gemini_combined.zip
+
 # 5 rebuild derived tables, publish the data package, write the review site and the explorer
 python -m ecological_ie derive
 python -m ecological_ie publish
@@ -40,7 +45,9 @@ The explorer (`explorer.py`, `reader.py`, `edition.py`, `explorer_template.html`
 embedded. It opens on the Operat's table of contents; the reader shows facsimile, transcription and extraction side by
 side: proofread text with source line breaks and line numbers, marginalia, corrections (HTR reading on hover and in the
 apparatus) and numbered passages keyed to the extracted statements, or the table as read with its sums, re-read cells
-and values, each row linked to its band on the facsimile. Figures,
+and values, each row and cell linked to its place on the facsimile. The facsimile zooms (wheel, pinch, buttons) and
+pans; transcript lines and table rows highlight on the scan and back, and a layout overlay shows regions and detected
+lines. Figures,
 stands, statements, events and maps are registers that lead back into the reader. `--fragment` leaves out the
 html/head/body wrapper for hosts that add their own.
 
@@ -82,6 +89,8 @@ Tests: `python -m pytest tests`.
 | `spec.py`, `html_tables.py` | spec schema, validation, page plans, drafts from transcript headers |
 | `grid.py`, `normalize.py`, `checks.py`, `recheck.py`, `pipeline.py` | table grids, normalisation, arithmetic checks, re-reads, stage runner |
 | `textdoc.py`, `maps.py`, `describe.py`, `stages.py` | text, map and description stages |
+| `modal_lines.py`, `layout.py` | line detection on Modal; row alignment (rows as runs of detected lines, matched by the columns that carry ink), region transform and transcript-to-line alignment |
 | `publish.py`, `viewer.py` | data package, review site |
+| `static/zoom.js`, `static/review.js` | zoomable scan viewer with overlays, shared by explorer and review site |
 | `gemini.py`, `config.py` | Gemini client (structured output, image parts, retries, cost ledger), models and prices |
 | `pages.py`, `schemas.py`, `prompts.py`, `extract.py`, `results.py`, `review.py`, `testset.py`, `corpus.py` | proof-of-concept path |

@@ -8,6 +8,7 @@ from tqdm.auto import tqdm
 from .checks import check_unit
 from .gemini import Gemini
 from .grid import read_grid
+from .layout import apply_row_layout, load_layout
 from .normalize import KeyState, normalise_table
 from .recheck import mark_discrepancies
 from .spec import load_spec, load_unit, page_plans
@@ -87,6 +88,7 @@ def derive_tables(units_dir: Path, run_dir: Path, sections=None) -> dict[str, pd
                 state, previous, current_form = KeyState(), {}, plan.form
             grid = apply_overrides(json.loads(path.read_text(encoding="utf-8")),
                                    overrides.get((unit["id"], plan.position), {}))
+            grid = apply_row_layout(grid, load_layout(run_dir, unit["id"], plan.position))
             form = spec.get("forms", {}).get(plan.form, {})
             result = grid["result"]
             for table_index, table in enumerate(result.get("tables", [])):

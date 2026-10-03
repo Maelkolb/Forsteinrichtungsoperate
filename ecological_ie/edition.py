@@ -75,6 +75,13 @@ class Stash:
     def count(self, text: str, kind: str) -> int:
         return sum(1 for m in TOKEN.finditer(text) if self.kinds[int(m.group(1))] == kind)
 
+    def wrappable(self, segment: str) -> bool:
+        """True when a span can enclose the segment: it holds only line anchors and whole correction marks."""
+        kinds = [self.kinds[int(m.group(1))] for m in TOKEN.finditer(segment)]
+        marks = [k for k in kinds if k in ("open", "close")]
+        return (all(k in ("line", "open", "close") for k in kinds)
+                and marks == ["open", "close"] * (len(marks) // 2) and len(marks) % 2 == 0)
+
     def restore(self, text: str) -> str:
         return TOKEN.sub(lambda m: self.tags[int(m.group(1))], text)
 
@@ -141,12 +148,30 @@ def line_breaks(text: str) -> str:
             continue
         joined = lines[0]
         for previous, line in zip(lines, lines[1:]):
-            if re.search(r"\w[-=¬]\s*$", previous) and re.match(r"\s*[a-zäöüß]", line):
+            if re.search(r"\w[-=¬]\s*$", previous) and re.match(r"\s*(?:\d+)*[a-zäöüß]", line):
                 joined = re.sub(r"[-=¬]\s*$", '<span class="hy">-</span>', joined) + '<span class="lb hy"></span>' + line.lstrip()
             else:
                 joined += ' <span class="lb"></span>' + line
         result.append(joined)
     return "".join(result)
+
+
+LINE_PREFIX = re.compile(r"^(\s*(?:#{1,6}\s+|>\s?|[-*+]\s+)?)")
+
+
+def anchor_lines(text: str, stash: Stash) -> str:
+    """Put an empty anchor carrying the source line number at the start of every line of running text."""
+    lines, inside_fence = text.split("\n"), False
+    for index, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            inside_fence = not inside_fence
+            continue
+        if inside_fence or not stripped or stripped.startswith(("<", "|")):
+            continue
+        prefix = LINE_PREFIX.match(line).group(1)
+        lines[index] = prefix + stash.put(f'<span class="la" data-l="{index}"></span>', "line") + line[len(prefix):]
+    return "\n".join(lines)
 
 
 def wrap_first(text: str, needle: str, stash: Stash, before: str, after: str) -> str:
@@ -156,8 +181,9 @@ def wrap_first(text: str, needle: str, stash: Stash, before: str, after: str) ->
     while index >= 0:
         head = text[:index]
         inside_tag = head.rfind("<") > head.rfind(">")
+        inside_token = head.rfind(TOKEN_START) > head.rfind(TOKEN_END)
         inside_mark = stash.count(head, "open") > stash.count(head, "close")
-        if not inside_tag and not inside_mark:
+        if not inside_tag and not inside_token and not inside_mark:
             return head + stash.put(before, "open") + needle + stash.put(after, "close") + text[index + len(needle):]
         index = text.find(needle, index + 1)
     return text
@@ -174,7 +200,7 @@ def plain_with_map(text: str) -> tuple[str, list[int]]:
         if text[i] == TOKEN_START:
             i = text.find(TOKEN_END, i) + 1
             continue
-        hyphen = re.match(r"[-=¬][ \t]*\n[ \t]*(?=[a-zäöüß])", text[i:])
+        hyphen = re.match(r"[-=¬][ \t]*\n[ \t]*(?=(?:\d+)*[a-zäöüß])", text[i:])
         if hyphen and i > 0 and text[i - 1].isalpha():
             i += hyphen.end()
             continue
@@ -223,7 +249,7 @@ def mark_quotes(text: str, quotes: list[tuple[str, str]], stash: Stash) -> str:
         start_anchor = stash.put(f'<span class="qa" data-q="{index}"></span>', "anchor")
         if any(not (b <= x or a >= y) for x, y in taken):
             text = text[:a] + start_anchor + text[a:]
-        elif "<" in segment or ">" in segment or TOKEN_START in segment or "\n\n" in segment:
+        elif "<" in segment or ">" in segment or "\n\n" in segment or not stash.wrappable(segment):
             end_anchor = stash.put(f'<span class="qz" data-q="{index}"></span>', "anchor")
             text = text[:a] + start_anchor + segment + end_anchor + text[b:]
             taken.append((a, b))
@@ -234,9 +260,11 @@ def mark_quotes(text: str, quotes: list[tuple[str, str]], stash: Stash) -> str:
     return text
 
 
-def render_transcript(text: str, corrections: list[dict] | None = None, quotes: list[tuple[int, str]] | None = None) -> str:
+def render_transcript(text: str, corrections: list[dict] | None = None, quotes: list[tuple[int, str]] | None = None,
+                      line_anchors: bool = False) -> str:
     stash = Stash()
-    text = re.sub(r"<!--.*?-->", "", text or "", flags=re.S)
+    text = anchor_lines(text or "", stash) if line_anchors else text or ""
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
     text = re.sub(r"```html\s*\n?(.*?)```", lambda m: "\n\n" + m.group(1).strip() + "\n\n", text, flags=re.S)
     text = re.sub(r"(?m)^```\w*\s*$", "", text)
     for correction in corrections or []:
@@ -333,7 +361,7 @@ def render_grid(grid: dict, form: dict, bad_cells: set, reread: dict, table_offs
                     classes.append("unc-c")
                 tds.append(cell_html(cells[c] if c < len(cells) else "", red.get(c, ""), classes, title))
             body.append(f'<tr class="{kind}" data-r="{r}"{data_box}>{"".join(tds)}</tr>')
-        parts.append(f'<div class="grid-wrap"><table class="grid"><thead>{"".join(head)}<tr class="canon-row">{canon}</tr></thead>'
+        parts.append(f'<div class="grid-wrap"><table class="grid" data-t="{t + table_offset}"><thead>{"".join(head)}<tr class="canon-row">{canon}</tr></thead>'
                      f'<tbody>{"".join(body)}</tbody></table></div>')
     return "".join(parts)
 

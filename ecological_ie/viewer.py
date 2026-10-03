@@ -28,7 +28,8 @@ EVENT_TYPES = {"windthrow": "Windthrow", "bark_beetle": "Bark beetle", "snow_bre
 PROFILE = {"text": "Text", "table": "Table", "map": "Map"}
 ROLE = {"title": "title page", "copy": "copy of another page", "empty": "empty page", "other": "other"}
 OUTSIDE = {"marginalia": "Margin", "signature": "Signature", "stamp": "Stamp", "note": "Note", "other": "Other"}
-BOX_COLORS = {"failed": "#d03b3b", "sum": "#1f5a4e", "row": "#9aa09c"}
+STATIC = Path(__file__).parent / "static"
+SCRIPTS = "\n".join((STATIC / name).read_text(encoding="utf-8") for name in ("zoom.js", "review.js"))
 FONTS = ("https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400"
          "&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap")
 
@@ -76,12 +77,22 @@ p{margin:0}
 .pg-head .kind{color:var(--muted);font-size:.88rem}
 .pg-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:start}
 @media (max-width:980px){.pg-body{grid-template-columns:minmax(0,1fr)}}
-.scan{position:sticky;top:70px;margin:0;max-height:calc(100vh - 86px);overflow:auto;background:var(--surface-2);border:1px solid var(--rule)}
-.scan-inner{position:relative}
-@media (max-width:980px){.scan{position:static;max-height:none}}
-.scan img{display:block;width:100%}
-.scan svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.viewer{position:sticky;top:70px;height:calc(100vh - 90px);border:1px solid var(--rule)}
+@media (max-width:980px){.viewer{position:relative;top:auto;height:70vh}}
+.scan{margin:0;background:var(--surface-2);border:1px solid var(--rule)}
 .scan .none{padding:40px 20px;color:var(--muted);font-style:italic;font-family:var(--serif)}
+.zoom-overlay .row-outline{fill:none;stroke:#9aa09c;stroke-opacity:.7;stroke-width:1}
+.zoom-overlay .row-outline.failed{stroke:#d03b3b;stroke-opacity:1;stroke-width:1.5}
+.zoom-overlay .band{fill:rgba(173,42,32,.1);stroke:var(--redink);stroke-width:1.5}
+.zoom-overlay .cell{fill:none;stroke:var(--accent);stroke-width:2.5}
+.zoom-overlay .line-hl{fill:var(--quote);fill-opacity:.6;stroke:var(--accent);stroke-width:1.2}
+.zoom-overlay .region{fill:none;stroke:var(--ink-2);stroke-width:1;stroke-dasharray:6 4;stroke-opacity:.55}
+.zoom-overlay .label{fill:transparent;stroke:var(--redink);stroke-width:1.2;pointer-events:all;cursor:help}
+.tx .ln{display:block;padding-left:1.5em;text-indent:-1.5em}
+.tx .ln .marg{text-indent:0}
+.tx .ln.hl,.tx [data-l].hl{background:var(--accent-wash)}
+table.grid tbody tr{cursor:pointer}
+table.grid tbody tr.hl td,table.grid tbody tr:hover td{background-color:var(--accent-wash)}
 .content{min-width:0;display:grid;gap:4px;align-content:start}
 .note{color:var(--muted);font-style:italic;font-family:var(--serif)}
 .tx{font-family:var(--serif);font-size:1.02rem;line-height:1.7;max-width:760px}
@@ -166,18 +177,6 @@ def image_src(unit_dir: Path, page: dict, out_dir: Path, copy_images: bool = Fal
     return Path(os.path.relpath(unit_dir / page["image"], out_dir)).as_posix()
 
 
-def overlay(boxes: list[tuple[list, str, str]]) -> str:
-    shapes = []
-    for box, color, title in boxes:
-        if not box or len(box) != 4:
-            continue
-        ymin, xmin, ymax, xmax = box
-        shapes.append(f'<rect x="{xmin / 10:.2f}%" y="{ymin / 10:.2f}%" width="{max(0, xmax - xmin) / 10:.2f}%" '
-                      f'height="{max(0, ymax - ymin) / 10:.2f}%" fill="{color}" fill-opacity="0.05" stroke="{color}" '
-                      f'stroke-width="1"><title>{esc(title)}</title></rect>')
-    return f'<svg xmlns="http://www.w3.org/2000/svg">{"".join(shapes)}</svg>' if shapes else ""
-
-
 def merged_status(counts: dict) -> dict:
     merged = {k: v for k, v in counts.items() if k != "mismatch"}
     merged["mismatch_after_recheck"] = merged.get("mismatch_after_recheck", 0) + counts.get("mismatch", 0)
@@ -243,19 +242,6 @@ def lemmata(pairs: list, label: str) -> str:
                    for lemma, reading, where in pairs)
 
 
-def table_boxes(grid: dict, checks: pd.DataFrame) -> list:
-    failed = {(int(c["table"]), int(c["row"])) for c in checks.to_dict("records")
-              if c["status"] in ("mismatch", "mismatch_after_recheck", "reading_confirmed")}
-    boxes = []
-    for t, table in enumerate(grid["result"].get("tables", [])):
-        for r, row in enumerate(table.get("rows", [])):
-            kind = row.get("row_type", "data")
-            color = BOX_COLORS["failed"] if (t, r) in failed else BOX_COLORS["sum" if kind in ("sum", "carry_over") else "row"]
-            label = next((c for c in row.get("cells", []) if str(c).strip()), "")
-            boxes.append((row.get("box_2d"), color, f"Row {r + 1} {label}"))
-    return boxes
-
-
 def table_content(record: dict) -> str:
     heads = [o for o in record["outside"] if o[0] in ("form_number", "heading")]
     notes = [o for o in record["outside"] if o[0] in OUTSIDE]
@@ -316,8 +302,8 @@ def text_content(record: dict, statements: list, events: list) -> str:
 
 def map_content(map_record: dict) -> tuple[str, list]:
     width, height = map_record["image_size"]
-    boxes = [([l["box_px"][1] / height * 1000, l["box_px"][0] / width * 1000, l["box_px"][3] / height * 1000,
-               l["box_px"][2] / width * 1000], BOX_COLORS["failed"], l["text"]) for l in map_record["labels"]]
+    boxes = [[l["text"], [round(l["box_px"][1] / height * 1000), round(l["box_px"][0] / width * 1000),
+                           round(l["box_px"][3] / height * 1000), round(l["box_px"][2] / width * 1000)]] for l in map_record["labels"]]
     overview = map_record["overview"]
     facts = ", ".join(esc(overview.get(k)) for k in ("map_type", "date_text", "scale_text") if overview.get(k))
     legend = "".join(f'<div class="lemma"><span class="l">{esc(i["meaning"])}</span><span class="r">{esc(i["symbol"])}</span></div>'
@@ -335,7 +321,7 @@ def document(title: str, body: str, pager: str = "") -> str:
             f'<link rel="stylesheet" href="{FONTS}"><style>{STYLE}</style></head><body>'
             f'<header class="top"><div class="top-inner"><a class="brand" href="index.html"><b>Waldstandsrevision Ilzertrift-Komplex</b>'
             f'<span>Review of the extraction</span></a><nav class="pager">{pager}</nav></div></header>'
-            f'<main class="page">{body}</main></body></html>')
+            f'<main class="page">{body}</main><script>{SCRIPTS}</script></body></html>')
 
 
 def write_unit_page(unit: dict, unit_dir: Path, run_dir: Path, out_dir: Path, records: list, checks: pd.DataFrame,
@@ -347,19 +333,21 @@ def write_unit_page(unit: dict, unit_dir: Path, run_dir: Path, out_dir: Path, re
     for record in records:
         position, page = record["p"], pages.get(record["p"])
         src = image_src(unit_dir, page, out_dir, copy_images) if page else ""
-        boxes = []
+        width, height = (page or {}).get("image_size") or [0, 0]
+        view = {"src": src, "alt": f"Scan {page['pid']}" if page else "", "w": width, "h": height}
+        map_file = run_dir / "maps" / unit["id"] / f"p{position:03d}" / "map.json"
         if record["kind"] == "table":
-            grid = json.loads((run_dir / "tables" / "grids" / unit["id"] / f"p{position:03d}.json").read_text(encoding="utf-8"))
-            page_checks = unit_checks[unit_checks["position"] == position] if not unit_checks.empty else unit_checks
-            boxes = table_boxes(grid, page_checks)
             content = table_content(record)
+            view["cols"] = record.get("cols", {})
         elif record["kind"] == "text":
             content = text_content(record, statements, events)
-        elif record["kind"] == "map" and (run_dir / "maps" / unit["id"] / f"p{position:03d}" / "map.json").exists():
-            content, boxes = map_content(json.loads((run_dir / "maps" / unit["id"] / f"p{position:03d}" / "map.json").read_text(encoding="utf-8")))
+            view.update({"lines": record.get("lines", {}), "regions": record.get("regions", [])})
+        elif record["kind"] == "map" and map_file.exists():
+            content, view["labels"] = map_content(json.loads(map_file.read_text(encoding="utf-8")))
         else:
             content = f'<p class="note">{esc(record["note"]) or "Not transcribed."}</p>'
-        scan = (f'<figure class="scan"><div class="scan-inner"><img src="{esc(src)}" loading="lazy" alt="Scan {esc(page["pid"])}">{overlay(boxes)}</div></figure>'
+        data = json.dumps(view, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+        scan = (f'<div class="viewer"></div><script type="application/json" class="page-data">{data}</script>'
                 if src else '<figure class="scan"><p class="none">No image of this page in the data set.</p></figure>')
         failing = any(f[7] != "reading_confirmed" for f in record.get("fails", []))
         jump.append(f'<a href="#p{position}"{" class=flag" if failing else ""}>{esc(page["num"]) if page else position}</a>')

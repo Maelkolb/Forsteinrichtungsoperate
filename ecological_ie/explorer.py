@@ -11,6 +11,7 @@ from .reader import reader_pages, table_of_contents
 from .spec import load_spec, load_unit
 
 TEMPLATE = Path(__file__).parent / "explorer_template.html"
+ZOOM_JS = Path(__file__).parent / "static" / "zoom.js"
 REVIERE = ["Schönau", "St. Oswald", "Klingenbrunn"]
 OBS_COLUMNS = ["unit", "position", "table", "row", "variable", "value", "value_std", "unit_std", "period", "scope",
                "stand_id", "check_status", "raw", "box_2d"]
@@ -306,6 +307,7 @@ def build_explorer(units_dir: Path, run_dir: Path, package: Path, out_file: Path
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     html = TEMPLATE.read_text(encoding="utf-8")
     html = html.replace("__IMAGE_BASE__", image_base).replace("__PACKAGE_LINK__", package_link)
+    html = html.replace("__ZOOM_JS__", ZOOM_JS.read_text(encoding="utf-8"))
     html = html.replace("__DATA__", payload)
     if standalone:
         html = STANDALONE_HEAD + html + STANDALONE_TAIL

@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from .edition import plain_text, render_grid, render_transcript
+from .layout import apply_row_layout, load_layout
 from .pipeline import apply_overrides, load_overrides
 from .publish import text_of
 from .spec import load_spec, load_unit, page_plans
@@ -104,19 +105,25 @@ def reader_pages(units_dir: Path, run_dir: Path, checks: pd.DataFrame, statement
                       "events": [i for i, e in enumerate(events) if e["u"] == unit["id"] and e["p"] == plan.position]}
             proof_path = run_dir / "text" / unit["id"] / "proof" / f"p{plan.position:03d}.json"
             grid_path = run_dir / "tables" / "grids" / unit["id"] / f"p{plan.position:03d}.json"
+            layout = load_layout(run_dir, unit["id"], plan.position) or {}
             if plan.profile == "text" and proof_path.exists():
                 proof = json.loads(proof_path.read_text(encoding="utf-8"))
                 page_quotes = quotes.get((unit["id"], plan.position), [])
                 record.update({
                     "kind": "text",
-                    "html": render_transcript(proof["corrected"], proof["applied"], page_quotes),
+                    "html": render_transcript(proof["corrected"], proof["applied"], page_quotes, line_anchors=True),
                     "htr": render_transcript(proof["text"]),
                     "corr": changed_pairs([c.get("transcript_reads", ""), c.get("image_reads", "")] for c in proof["applied"]
                                           if c.get("status") == "applied"),
-                    "quality": proof["result"].get("page_quality", "")})
+                    "quality": proof["result"].get("page_quality", ""),
+                    "lines": layout.get("lines", {}),
+                    "regions": [[r["type"].removesuffix("Region"), r["box"]] for r in layout.get("regions", [])]})
             elif plan.profile == "table" and grid_path.exists():
                 grid = apply_overrides(json.loads(grid_path.read_text(encoding="utf-8")),
                                        overrides.get((unit["id"], plan.position), {}))
+                grid = apply_row_layout(grid, layout)
+                record["cols"] = {str(t): [c.get("x_range") or [0, 0] for c in table.get("columns", [])]
+                                  for t, table in enumerate(grid["result"].get("tables", []))}
                 form = (spec.get("forms") or {}).get(plan.form, {})
                 these = page_checks(checks, unit["id"], plan.position)
                 bad = {(int(c["table"]), int(c["row"]), c["column"]) for c in these.to_dict("records") if c["status"] in FAILING}
