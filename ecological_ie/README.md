@@ -36,9 +36,12 @@ python -m ecological_ie explore --package work/runs/main/package --out work/rele
     --image-base ../review_site/images/
 ```
 
-The explorer (`explorer.py`, `explorer_template.html`) is one HTML file with the data embedded: overview, harvest and
-use 1860/61–1877, stands, disturbances, statements, maps and sources. Every value opens a drawer with the reading, its
-check status and the page scan. `--fragment` leaves out the html/head/body wrapper for hosts that add their own.
+The explorer (`explorer.py`, `reader.py`, `edition.py`, `explorer_template.html`) is one HTML file with the data
+embedded. It opens on the Operat's table of contents; the reader shows scan, transcription and extraction side by side:
+proofread text with line breaks, marginalia, corrections (HTR draft on hover) and the passages behind each statement,
+or the table as read with its sums, re-read cells and values, each row linked to its band on the scan. Figures,
+stands, statements, events and maps are registers that lead back into the reader. `--fragment` leaves out the
+html/head/body wrapper for hosts that add their own.
 
 Model options for `run`: `--model` (default `gemini-3.8-flash`), `--thinking`, `--recheck-model`, `--rounds`,
 `--workers`, `--image-resolution` (default `ultra_high`), `--force`. Every stage appends model, token counts and cost

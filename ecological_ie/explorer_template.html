@@ -1,258 +1,370 @@
 <title>Ilzertrift-Komplex 1878/90</title>
-<meta name="description" content="Data explorer for the Waldstandsrevision of the Ilzertrift-Komplex (Reviere Schönau, St. Oswald, Klingenbrunn), 1878/90">
+<meta name="description" content="Edition and data of the Waldstandsrevision for the Ilzertrift-Komplex, 1878–1890">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: a ledger page. Sticky register tabs on top, one reading column per view, a source drawer that slides in from the right with the scan behind every number. */
+/* Layout: an edition viewer. A slim header; the Operat's own table of contents as the landing page; a reader with scan, transcription and extraction side by side; figures, stands, statements, events and maps as registers that lead back into the reader. */
 :root {
-  --paper: #eef1ed; --sheet: #fbfcfa; --sheet-2: #f4f6f2; --ink: #1c2327; --ink-2: #4a5459; --muted: #7b8589;
-  --rule: #d8ddd8; --rule-strong: #b9c1bc; --spruce: #2f5d50; --spruce-wash: #e2ebe6;
-  --redink: #b3261e; --focus: #2f5d50;
+  --bg: #f3f4f2; --surface: #ffffff; --surface-2: #f6f7f5; --ink: #181b1d; --ink-2: #50575c; --muted: #81888c;
+  --rule: #e0e3e0; --rule-2: #c8cdca; --accent: #22574c; --accent-wash: #e3ede9;
+  --redink: #ad2a20; --corr: #d99a1e; --corr-wash: #fcf1d8; --quote: #d5eae2; --band: rgba(173, 42, 32, .10);
   --rev-1: #2a78d6; --rev-2: #eb6834; --rev-3: #1baf7a;
   --harvest-main: #2f6b5a; --harvest-inter: #7aaa98; --conifer: #2a6a37; --broadleaf: #b07a20;
-  --ok: #0ca30c; --warn: #fab219; --serious: #ec835a; --crit: #d03b3b; --unchecked: #a7aeab;
-  --grid: #e3e7e3; --axis: #c3c9c4; --shadow: 0 10px 30px rgba(28, 35, 39, .14);
-  --display: "Spectral", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-  --body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --ok: #0ca30c; --warn: #fab219; --serious: #ec835a; --crit: #d03b3b; --crit-wash: #fbe5e2; --unchecked: #a9afac;
+  --grid: #e6e9e6; --axis: #c3c9c4; --shadow: 0 12px 32px rgba(24, 27, 29, .14);
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
-  --radius: 6px;
+  --header: 52px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #111514; --sheet: #191e1d; --sheet-2: #1f2524; --ink: #e7ebe8; --ink-2: #b4bcb8; --muted: #858e8a;
-    --rule: #2b3230; --rule-strong: #3c4542; --spruce: #8cc3ae; --spruce-wash: #1f2c28;
-    --redink: #ef7a70; --focus: #8cc3ae;
+    --bg: #101312; --surface: #181c1b; --surface-2: #1d2221; --ink: #e8ece9; --ink-2: #b2bab6; --muted: #858d89;
+    --rule: #29302e; --rule-2: #3a4340; --accent: #8cc4b0; --accent-wash: #1e2c28;
+    --redink: #f07a6f; --corr: #e8b24a; --corr-wash: #3a3120; --quote: #23423a; --band: rgba(240, 122, 111, .14);
     --rev-1: #3987e5; --rev-2: #d95926; --rev-3: #199e70;
     --harvest-main: #93cbb7; --harvest-inter: #4e8a76; --conifer: #367a42; --broadleaf: #bd8a36;
-    --unchecked: #5d6663; --grid: #262c2b; --axis: #39413f; --shadow: 0 10px 30px rgba(0, 0, 0, .45);
+    --crit-wash: #3a1d1b; --unchecked: #5c6562; --grid: #252b29; --axis: #39413f; --shadow: 0 12px 32px rgba(0, 0, 0, .5);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #111514; --sheet: #191e1d; --sheet-2: #1f2524; --ink: #e7ebe8; --ink-2: #b4bcb8; --muted: #858e8a;
-  --rule: #2b3230; --rule-strong: #3c4542; --spruce: #8cc3ae; --spruce-wash: #1f2c28;
-  --redink: #ef7a70; --focus: #8cc3ae;
+  --bg: #101312; --surface: #181c1b; --surface-2: #1d2221; --ink: #e8ece9; --ink-2: #b2bab6; --muted: #858d89;
+  --rule: #29302e; --rule-2: #3a4340; --accent: #8cc4b0; --accent-wash: #1e2c28;
+  --redink: #f07a6f; --corr: #e8b24a; --corr-wash: #3a3120; --quote: #23423a; --band: rgba(240, 122, 111, .14);
   --rev-1: #3987e5; --rev-2: #d95926; --rev-3: #199e70;
   --harvest-main: #93cbb7; --harvest-inter: #4e8a76; --conifer: #367a42; --broadleaf: #bd8a36;
-  --unchecked: #5d6663; --grid: #262c2b; --axis: #39413f; --shadow: 0 10px 30px rgba(0, 0, 0, .45);
+  --crit-wash: #3a1d1b; --unchecked: #5c6562; --grid: #252b29; --axis: #39413f; --shadow: 0 12px 32px rgba(0, 0, 0, .5);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { background: var(--paper); }
-body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
-a { color: var(--spruce); }
+html { background: var(--bg); }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
 button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
-h1, h2, h3 { font-family: var(--display); font-weight: 600; text-wrap: balance; margin: 0; letter-spacing: -.005em; }
-h1 { font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.08; }
-h2 { font-size: 1.45rem; line-height: 1.2; }
-h3 { font-size: 1.12rem; line-height: 1.3; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
+h1 { font-family: var(--serif); font-size: clamp(1.9rem, 3.2vw, 2.5rem); line-height: 1.12; letter-spacing: -.01em; }
+h2 { font-family: var(--serif); font-size: 1.28rem; line-height: 1.25; }
+h3 { font-size: .9rem; color: var(--ink-2); font-weight: 600; }
 p { margin: 0; }
-.mono { font-family: var(--mono); font-size: .82em; letter-spacing: .01em; }
 .muted { color: var(--muted); }
-.eyebrow { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
+.mono { font-family: var(--mono); font-size: .85em; }
 .num { font-variant-numeric: tabular-nums; }
+::highlight(quote) { background-color: var(--quote); }
 
-/* top bar */
-.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--paper) 92%, transparent);
-  backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
-.top-inner { max-width: 1240px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; gap: 24px; min-height: 56px; }
-.brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; color: var(--ink); white-space: nowrap; }
-.brand b { font-family: var(--display); font-weight: 600; font-size: 1.18rem; }
-.brand span { font-family: var(--mono); font-size: .8rem; color: var(--ink-2); }
-.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
+/* header */
+.top { position: sticky; top: 0; z-index: 20; height: var(--header); background: var(--surface); border-bottom: 1px solid var(--rule); }
+.top-inner { height: 100%; display: flex; align-items: stretch; gap: 28px; padding-inline: 20px; }
+.brand { align-self: center; font-family: var(--serif); font-weight: 600; font-size: 1.06rem; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; min-width: 0; }
 .tabs::-webkit-scrollbar { display: none; }
-.tab { background: none; border: 0; padding: 17px 12px 15px; cursor: pointer; color: var(--ink-2); font-weight: 500; font-size: .95rem;
-  border-bottom: 2px solid transparent; white-space: nowrap; }
+.tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 2px 12px 0; cursor: pointer; color: var(--ink-2); font-weight: 500; font-size: .93rem; white-space: nowrap; }
 .tab:hover { color: var(--ink); }
-.tab[aria-current="page"] { color: var(--ink); border-bottom-color: var(--spruce); }
-@media (max-width: 640px) { .top-inner { flex-wrap: wrap; gap: 0; padding-top: 10px; } .tab { padding: 10px 10px 12px; } }
+.tab[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+@media (max-width: 700px) { .brand { display: none; } .top-inner { padding-inline: 8px; } .tab { padding-inline: 9px; } }
 
-main { max-width: 1240px; margin: 0 auto; padding: 28px 20px 80px; display: grid; gap: 28px; }
-.view-head { display: grid; gap: 10px; max-width: 760px; }
-.view-head p { color: var(--ink-2); font-size: 1.05rem; }
-.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 24px; display: grid; gap: 14px; min-width: 0; }
-@media (max-width: 640px) { .card { padding: 18px 16px; } }
-.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
-.card-head > div { display: grid; gap: 4px; min-width: 0; flex: 1; }
-.card-note { color: var(--ink-2); font-size: .92rem; max-width: 70ch; }
-.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-@media (max-width: 900px) { .grid-2 { grid-template-columns: minmax(0, 1fr); } }
-
-/* overview hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 36px; align-items: end; padding-top: 8px; }
-@media (max-width: 900px) { .hero { grid-template-columns: minmax(0, 1fr); gap: 22px; } }
-.hero .lede { font-size: 1.12rem; color: var(--ink-2); max-width: 60ch; margin-top: 14px; }
-.figure { border-left: 3px solid var(--spruce); padding: 4px 0 4px 22px; display: grid; gap: 6px; }
-.figure .big { font-family: var(--body); font-weight: 600; font-size: clamp(3.2rem, 6vw, 4.6rem); line-height: 1; letter-spacing: -.02em; }
-.figure .what { font-size: 1.05rem; font-weight: 600; }
-.figure .how { color: var(--ink-2); font-size: .95rem; }
-.figure .btn.link { justify-self: start; margin-top: 4px; }
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-.stat { padding: 16px 18px; display: grid; gap: 2px; border-right: 1px solid var(--rule); min-width: 0; }
-.stat:last-child { border-right: 0; }
-.stat .v { font-size: 1.7rem; font-weight: 600; line-height: 1.1; }
-.stat .l { color: var(--ink-2); font-size: .9rem; }
-@media (max-width: 700px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .stat:nth-child(2) { border-right: 0; } .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule); } }
+.page { max-width: 1280px; margin: 0 auto; padding: 36px 20px 72px; display: grid; gap: 28px; }
+.head { display: grid; gap: 8px; max-width: 820px; }
+.head .sub { color: var(--ink-2); font-size: 1.02rem; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 22px 24px; display: grid; gap: 14px; min-width: 0; }
+@media (max-width: 640px) { .page { padding: 24px 16px 56px; } .panel { padding: 18px 16px; } }
+.panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.caption { color: var(--muted); font-size: .86rem; }
+.cols-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 900px) { .cols-2 { grid-template-columns: minmax(0, 1fr); } }
 
 /* controls */
-.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.seg { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px; background: var(--sheet); flex-wrap: wrap; }
-.seg button { border: 0; background: none; padding: 5px 13px; border-radius: 999px; cursor: pointer; font-size: .9rem; color: var(--ink-2); }
-.seg button[aria-pressed="true"] { background: var(--spruce); color: var(--sheet); }
-.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 999px;
-  padding: 3px 11px; font-size: .86rem; cursor: pointer; color: var(--ink-2); }
-.chip[aria-pressed="true"] { border-color: var(--spruce); background: var(--spruce-wash); color: var(--ink); }
-.chip .dot, .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
-.chip .count { color: var(--muted); font-variant-numeric: tabular-nums; }
-input[type="search"], select { font: inherit; font-size: .92rem; color: var(--ink); background: var(--sheet); border: 1px solid var(--rule-strong);
-  border-radius: var(--radius); padding: 6px 10px; min-width: 0; max-width: 100%; }
-input[type="search"] { width: min(320px, 100%); }
-.btn { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: var(--radius); padding: 5px 11px; cursor: pointer; font-size: .88rem; color: var(--ink-2); }
-.btn:hover { border-color: var(--spruce); color: var(--ink); }
-.btn.link { border: 0; background: none; padding: 0; color: var(--spruce); text-decoration: underline; text-underline-offset: 3px; }
-
-/* legend & charts */
-.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .88rem; color: var(--ink-2); }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--rule-2); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.seg button { border: 0; background: none; padding: 3px 11px; cursor: pointer; font-size: .86rem; color: var(--ink-2); }
+.seg button + button { border-left: 1px solid var(--rule-2); }
+.seg button[aria-pressed="true"] { background: var(--accent-wash); color: var(--ink); font-weight: 600; }
+.btn { border: 1px solid var(--rule-2); background: var(--surface); border-radius: 6px; padding: 3px 10px; cursor: pointer; font-size: .86rem; color: var(--ink-2); }
+.btn:hover:not(:disabled) { border-color: var(--accent); color: var(--ink); }
+.btn:disabled { opacity: .4; cursor: default; }
+.toggle { display: inline-flex; align-items: center; gap: 6px; font-size: .86rem; color: var(--ink-2); cursor: pointer; user-select: none; }
+.toggle input { accent-color: var(--accent); margin: 0; }
+input[type="search"], select { font: inherit; font-size: .9rem; color: var(--ink); background: var(--surface); border: 1px solid var(--rule-2); border-radius: 6px; padding: 4px 9px; min-width: 0; max-width: 100%; }
+input[type="search"] { width: min(300px, 100%); }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--rule-2); background: var(--surface); border-radius: 999px; padding: 2px 11px; font-size: .86rem; cursor: pointer; color: var(--ink-2); }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-wash); color: var(--ink); }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .86rem; color: var(--ink-2); }
 .legend > span { display: inline-flex; align-items: center; gap: 7px; }
-.key-rect { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
+.key-rect { width: 11px; height: 11px; border-radius: 2px; display: inline-block; flex: none; }
 .key-line { width: 16px; height: 2px; border-radius: 2px; display: inline-block; flex: none; }
+.status { display: inline-flex; align-items: center; gap: 6px; font-size: .86rem; color: var(--ink-2); }
+.statusbar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; background: var(--grid); gap: 1px; }
+.statusbar span { display: block; height: 100%; }
+.link { border: 0; background: none; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; font-size: .86rem; }
+
+/* contents */
+.title-block { display: grid; gap: 10px; max-width: 900px; }
+.title-block .sub { font-family: var(--serif); font-size: 1.2rem; color: var(--ink-2); line-height: 1.4; }
+.contents { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 290px; gap: 40px; align-items: start; }
+@media (max-width: 1100px) { .contents { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .toc-scan { grid-column: 1 / -1; max-width: 360px; } }
+@media (max-width: 760px) { .contents { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
+.heft h2 { font-size: 1.1rem; padding-bottom: 8px; border-bottom: 1.5px solid var(--ink); }
+.toc-row { display: grid; grid-template-columns: 30px minmax(0, 1fr) 64px; gap: 12px; align-items: baseline; padding: 9px 4px; width: 100%;
+  border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; cursor: pointer; }
+.toc-row:hover { background: var(--surface); }
+.toc-row .nr { font-family: var(--serif); text-align: right; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.toc-row .ti { font-family: var(--serif); font-size: 1.02rem; line-height: 1.35; }
+.toc-row .meta { display: grid; gap: 5px; justify-items: end; font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.toc-row .meta .statusbar { width: 100%; }
+.toc-row:disabled { cursor: default; }
+.toc-row:disabled .ti, .toc-row:disabled .nr { color: var(--muted); }
+.toc-row:disabled:hover { background: none; }
+.toc-scan { display: grid; gap: 8px; margin: 0; }
+.toc-scan img { width: 100%; display: block; border: 1px solid var(--rule); border-radius: 3px; background: var(--surface); }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 36px; font-size: .9rem; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 16px; }
+.facts b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* reader */
+.reader { display: grid; grid-template-columns: 250px minmax(0, 1fr); height: calc(100vh - var(--header)); height: calc(100dvh - var(--header)); }
+.rail { border-right: 1px solid var(--rule); background: var(--surface); overflow: auto; min-height: 0; padding: 10px 0 24px; }
+.rail-item { border: 0; background: none; text-align: left; padding: 6px 16px; width: 100%; cursor: pointer; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 6px;
+  font-size: .87rem; color: var(--ink-2); line-height: 1.3; }
+.rail-item:hover { color: var(--ink); background: var(--surface-2); }
+.rail-item[aria-current="true"] { color: var(--ink); font-weight: 600; background: var(--accent-wash); }
+.rail-item .rid { color: var(--muted); font-weight: 400; font-variant-numeric: tabular-nums; }
+.rail-heft { padding: 14px 16px 4px; font-family: var(--serif); font-size: .92rem; font-weight: 600; color: var(--ink); }
+.pages-list { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 16px 10px 56px; background: var(--accent-wash); }
+.pages-list button { border: 1px solid var(--rule-2); background: var(--surface); border-radius: 4px; min-width: 30px; padding: 1px 6px; font-size: .78rem; cursor: pointer; font-variant-numeric: tabular-nums; color: var(--ink-2); position: relative; }
+.pages-list button[aria-current="true"] { border-color: var(--accent); background: var(--accent); color: var(--surface); }
+.pages-list button.flag::after { content: ""; position: absolute; top: -3px; right: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--crit); box-shadow: 0 0 0 1.5px var(--surface); }
+.reader-main { display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0; min-height: 0; }
+.toolbar { display: flex; align-items: center; gap: 16px; padding: 8px 16px; background: var(--surface); border-bottom: 1px solid var(--rule); min-height: 50px; flex-wrap: wrap; }
+.toolbar .sec { font-family: var(--serif); font-size: 1.06rem; font-weight: 600; min-width: 0; }
+.toolbar .sec span { color: var(--muted); font-weight: 400; margin-right: 10px; }
+.toolbar .where { font-size: .84rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.toolbar .nav { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.toolbar .nav .count { font-size: .84rem; color: var(--ink-2); font-variant-numeric: tabular-nums; min-width: 48px; text-align: center; }
+.toolbar select { display: none; }
+.panes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr) 340px; min-height: 0; }
+.pane { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); min-height: 0; min-width: 0; background: var(--surface); border-right: 1px solid var(--rule); }
+.pane:last-child { border-right: 0; }
+.pane-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 6px 14px; border-bottom: 1px solid var(--rule); min-height: 40px; }
+.pane-bar .title { font-size: .82rem; color: var(--ink-2); font-weight: 600; }
+.scroll { overflow: auto; min-height: 0; }
+.scan-pane { background: var(--surface-2); }
+.scan-pane .scroll { position: relative; }
+.scan-inner { position: relative; }
+.scan-inner img { display: block; width: 100%; }
+.scan-band { position: absolute; left: 0; right: 0; background: var(--band); border-top: 1.5px solid var(--redink); border-bottom: 1.5px solid var(--redink); pointer-events: none; }
+.scan-label { position: absolute; border: 1.5px solid var(--redink); border-radius: 2px; background: transparent; padding: 0; cursor: help; }
+.scan-label.dim { opacity: .18; }
+.scan-label.hit { background: var(--band); }
+@media (max-width: 1500px) {
+  .panes { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); grid-template-rows: minmax(0, 1fr) minmax(0, .62fr); }
+  .scan-pane { grid-row: 1 / span 2; }
+  .x-pane { grid-column: 2; grid-row: 2; border-top: 1px solid var(--rule); border-right: 0; }
+  .tx-pane { border-right: 0; }
+}
+@media (max-width: 1100px) {
+  .reader { grid-template-columns: minmax(0, 1fr); }
+  .rail { display: none; }
+  .toolbar select { display: block; max-width: 280px; }
+  .toolbar .sec { display: none; }
+}
+@media (max-width: 760px) {
+  .reader, .reader-main, .panes { display: block; height: auto; }
+  .pane { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .scan-pane .scroll { max-height: 70vh; }
+  .tx-pane .scroll, .x-pane .scroll { max-height: none; overflow: visible; }
+}
+
+/* transcription */
+.tx-pane { container-type: inline-size; }
+.tx { padding: 28px 36px 64px; font-family: var(--serif); font-size: 1.04rem; line-height: 1.68; color: var(--ink); max-width: 780px; }
+@container (max-width: 520px) { .tx { padding: 18px 18px 40px; } }
+.tx h1, .tx h2, .tx h3, .tx h4 { font-family: var(--serif); font-size: 1.12rem; line-height: 1.4; margin: 1.1em 0 .6em; color: var(--ink); text-align: center; font-weight: 600; }
+.tx p { margin: 0 0 .9em; }
+.tx u { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.tx .red, .grid .red { color: var(--redink); }
+.tx .marg { float: right; clear: right; display: block; width: 32%; margin: .25em 0 .8em 20px; padding-left: 10px; border-left: 2px solid var(--rule-2);
+  font-size: .84rem; line-height: 1.45; color: var(--ink-2); font-style: italic; }
+@container (max-width: 560px) { .tx .marg { float: none; width: auto; margin: .3em 0 .8em; } }
+.tx .lb { display: inline; }
+.tx .hy:not(.lb) { display: none; }
+.tx.lines .lb { display: block; }
+.tx.lines .hy:not(.lb) { display: inline; }
+.tx .unc { font-size: .72em; vertical-align: super; color: var(--accent); font-family: var(--sans); font-weight: 600; padding: 0 1px; }
+.tx .unc-w { text-decoration: underline dotted var(--accent); text-underline-offset: 3px; }
+.tx .ed { font-style: italic; color: var(--muted); font-family: var(--sans); font-size: .86em; }
+.tx .ed::before { content: "⟨"; }
+.tx .ed::after { content: "⟩"; }
+.tx .sup-text { color: var(--muted); }
+.tx del { color: var(--muted); }
+.tx mark.corr { background: var(--corr-wash); color: inherit; border-radius: 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; cursor: help; }
+.tx.plain mark.corr { background: none; }
+.tx .q.on { background: var(--quote); border-radius: 2px; }
+.tx .qa.on::before { content: ""; display: inline-block; width: 3px; height: 1.05em; background: var(--accent); vertical-align: -.15em; margin-right: 2px; }
+.tx table { border-collapse: collapse; margin: .6em 0 1.1em; font: .88rem/1.4 var(--sans); font-variant-numeric: tabular-nums; }
+.tx table th, .tx table td { border: 1px solid var(--rule-2); padding: 3px 7px; vertical-align: top; }
+.tx table th { background: var(--surface-2); font-weight: 600; }
+.note { color: var(--muted); font-style: italic; padding: 28px 36px; font-family: var(--serif); }
+.form-head { display: grid; gap: 4px; margin: 0 0 16px; }
+.form-head .form-nr { justify-self: end; font-size: .84rem; color: var(--ink-2); font-family: var(--serif); }
+.form-head .ttl { font-family: var(--serif); font-size: 1.08rem; line-height: 1.45; white-space: pre-line; text-align: center; }
+.page-notes { margin-top: 18px; display: grid; gap: 10px; }
+.page-notes > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; font-size: .88rem; }
+.page-notes .k { color: var(--muted); }
+.page-notes .t { font-family: var(--serif); font-style: italic; white-space: pre-line; color: var(--ink-2); }
+.tx-table { padding: 20px 20px 60px; }
+.grid-wrap { overflow-x: auto; border: 1px solid var(--rule-2); border-radius: 4px; margin-bottom: 14px; background: var(--surface); }
+table.grid { border-collapse: collapse; font: 12.5px/1.35 var(--sans); font-variant-numeric: tabular-nums; width: max-content; min-width: 100%; }
+table.grid th { background: var(--surface-2); font-weight: 600; color: var(--ink-2); font-size: 11.5px; text-align: center; vertical-align: bottom; padding: 4px 6px; border: 1px solid var(--rule-2); max-width: 150px; }
+table.grid td { padding: 3px 7px; border: 1px solid var(--rule); border-top: 0; vertical-align: top; max-width: 320px; }
+table.grid td.n { text-align: right; white-space: nowrap; }
+table.grid tr.sum td { font-weight: 600; border-top: 1.5px solid var(--ink-2); }
+table.grid tr.carry_over td { font-style: italic; color: var(--ink-2); }
+table.grid tr.group_header td, table.grid tr.heading td { font-weight: 600; background: var(--surface-2); }
+table.grid tr.note td { font-style: italic; color: var(--ink-2); }
+table.grid td.bad { background: var(--crit-wash); box-shadow: inset 0 -2px 0 var(--crit); }
+table.grid td.rr { background: var(--corr-wash); }
+table.grid td.unc-c { text-decoration: underline dotted var(--accent); text-underline-offset: 3px; }
+table.grid tbody tr { cursor: pointer; }
+table.grid tbody tr:hover td, table.grid tbody tr.sel td { background-color: var(--accent-wash); }
+table.grid tr.canon-row th { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--accent); background: var(--surface); }
+.hide-ids table.grid tr.canon-row { display: none; }
+
+/* extraction */
+.x { padding: 16px 16px 48px; display: grid; gap: 22px; align-content: start; }
+.x section { display: grid; gap: 8px; }
+.x h3 { display: flex; justify-content: space-between; gap: 8px; }
+.x h3 span { font-weight: 400; color: var(--muted); font-variant-numeric: tabular-nums; }
+.x-item { display: grid; gap: 2px; padding: 8px 10px; border: 1px solid var(--rule); border-left: 3px solid var(--rule-2); border-radius: 4px; cursor: pointer; background: var(--surface); text-align: left; width: 100%; }
+.x-item:hover, .x-item.on { border-color: var(--accent); background: var(--accent-wash); }
+.x-item.event { border-left-color: var(--harvest-main); }
+.x-item .top-line { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.x-item .s { font-weight: 600; font-size: .92rem; }
+.x-item .c { font-size: .78rem; color: var(--muted); white-space: nowrap; }
+.x-item .v { font-size: .88rem; font-variant-numeric: tabular-nums; }
+.x-item .w { font-size: .8rem; color: var(--muted); }
+.x-item.unplaced { cursor: default; }
+.pairs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px 14px; font-size: .86rem; }
+.pairs .h { font-size: .76rem; color: var(--muted); }
+.pairs .from { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--rule-2); overflow-wrap: anywhere; }
+.pairs .to { overflow-wrap: anywhere; }
+.sums { display: grid; gap: 8px; }
+.sums .big { font-size: 1.02rem; font-weight: 600; }
+.fails { display: grid; gap: 6px; }
+.fail { display: grid; gap: 1px; font-size: .86rem; padding: 6px 9px; border: 0; border-left: 3px solid var(--crit); background: var(--surface-2); cursor: pointer; border-radius: 0 4px 4px 0; text-align: left; width: 100%; }
+.fail.conf { border-left-color: var(--warn); }
+.fail .w { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.vals { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.vals th { text-align: left; font-weight: 600; color: var(--muted); font-size: .76rem; padding: 3px 6px; border-bottom: 1px solid var(--rule-2); position: sticky; top: 0; background: var(--surface); }
+.vals td { padding: 3px 6px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.vals td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.vals tbody tr { cursor: pointer; }
+.vals tbody tr:hover td { background: var(--accent-wash); }
+.colmap { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 4px 12px; font-size: .82rem; margin-top: 8px; }
+.colmap .id { font-family: var(--mono); color: var(--accent); font-size: .76rem; overflow-wrap: anywhere; }
+details summary { cursor: pointer; font-size: .9rem; color: var(--ink-2); font-weight: 600; }
+
+/* charts */
 .chart { width: 100%; position: relative; min-height: 120px; }
 .chart svg { display: block; width: 100%; height: auto; }
-.chart text { fill: var(--muted); font: 12px var(--body); font-variant-numeric: tabular-nums; }
+.chart text { fill: var(--muted); font: 12px var(--sans); font-variant-numeric: tabular-nums; }
 .chart .gridline { stroke: var(--grid); stroke-width: 1; }
 .chart .baseline { stroke: var(--axis); stroke-width: 1; }
 .chart .hit { fill: transparent; cursor: pointer; }
-.chart .hit:focus-visible { outline: none; stroke: var(--focus); stroke-width: 2; }
+.chart .hit:focus-visible { outline: none; stroke: var(--accent); stroke-width: 2; }
 .chart .ann-line { stroke: var(--ink-2); stroke-width: 1; }
 .chart .ann-band { fill: var(--ink); opacity: .05; }
 .chart .ann-text { fill: var(--ink-2); font-size: 11.5px; font-weight: 600; }
 .chart .ref { stroke: var(--ink-2); stroke-width: 1.5; }
 .chart .ref-text { fill: var(--ink-2); font-size: 11.5px; }
 .chart .end-label { fill: var(--ink-2); font-size: 12px; font-weight: 600; }
+.chart .lane-label { fill: var(--ink-2); font-size: 12.5px; }
 .chart .cross { stroke: var(--ink-2); stroke-width: 1; }
-.tablewrap { overflow: auto; max-height: 520px; border: 1px solid var(--rule); border-radius: var(--radius); }
+.tablewrap { overflow: auto; max-height: 520px; border: 1px solid var(--rule); border-radius: 6px; }
 table.data { border-collapse: collapse; width: 100%; font-size: .88rem; }
 table.data th, table.data td { padding: 6px 10px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
-table.data th { font-weight: 600; color: var(--ink-2); background: var(--sheet-2); position: sticky; top: 0; z-index: 1; }
+table.data th { font-weight: 600; color: var(--ink-2); background: var(--surface-2); position: sticky; top: 0; z-index: 1; }
 table.data td.n, table.data th.n { text-align: right; font-variant-numeric: tabular-nums; }
 table.data tbody tr { cursor: pointer; }
-table.data tbody tr:hover td { background: var(--sheet-2); }
-table.data tbody tr[aria-selected="true"] td { background: var(--spruce-wash); }
+table.data tbody tr:hover td { background: var(--surface-2); }
 
-/* tooltip */
-.tip { position: fixed; z-index: 40; pointer-events: none; background: var(--sheet); border: 1px solid var(--rule-strong); border-radius: var(--radius);
-  box-shadow: var(--shadow); padding: 9px 12px; font-size: .86rem; min-width: 160px; max-width: 300px; display: grid; gap: 4px; }
-.tip .t { font-weight: 600; color: var(--ink); }
-.tip .row { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
-.tip .row b { color: var(--ink); font-variant-numeric: tabular-nums; font-weight: 600; margin-left: auto; padding-left: 12px; }
-.tip .hint { color: var(--muted); font-size: .78rem; }
-
-/* status */
-.status { display: inline-flex; align-items: center; gap: 6px; font-size: .84rem; color: var(--ink-2); white-space: nowrap; }
-.status i { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; font-style: normal; font-size: 10px; font-weight: 700; color: #fff; flex: none; }
-.statusbar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: var(--grid); gap: 2px; min-width: 120px; }
-.statusbar span { display: block; height: 100%; }
-
-/* units / sources */
-.units { display: grid; border-top: 1px solid var(--rule); }
-.unit-row { display: grid; grid-template-columns: 64px minmax(0, 2.2fr) minmax(0, 1fr) 160px; gap: 16px; align-items: center; padding: 12px 4px;
-  border-bottom: 1px solid var(--rule); cursor: pointer; }
-.unit-row:hover { background: var(--sheet-2); }
-.unit-row .id { font-family: var(--mono); font-size: .84rem; color: var(--ink-2); }
-.unit-row .t { font-weight: 600; }
-.unit-row .s { color: var(--ink-2); font-size: .86rem; }
-@media (max-width: 760px) { .unit-row { grid-template-columns: 52px minmax(0, 1fr); } .unit-row > :nth-child(n+3) { grid-column: 2; } }
-.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
-.thumb { border: 1px solid var(--rule); border-radius: 4px; background: var(--sheet-2); padding: 0; cursor: pointer; display: grid; gap: 4px; overflow: hidden; }
-.thumb img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; display: block; background: var(--sheet-2); }
-.thumb span { font-family: var(--mono); font-size: .72rem; color: var(--ink-2); padding: 0 6px 6px; text-align: left; }
-
-/* stands */
-.stands-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 20px; align-items: start; }
+/* registers */
+.stands-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
 @media (max-width: 1000px) { .stands-layout { grid-template-columns: minmax(0, 1fr); } }
-.stand-card { position: sticky; top: 76px; max-height: calc(100vh - 96px); overflow: auto; }
+.stand-card { position: sticky; top: calc(var(--header) + 20px); max-height: calc(100vh - var(--header) - 40px); overflow: auto; }
 @media (max-width: 1000px) { .stand-card { position: static; max-height: none; } }
-.kv { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 6px 14px; align-items: baseline; }
-.kv .k { color: var(--ink-2); font-size: .92rem; }
-.kv .v { font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; }
-.kv button { border: 0; background: none; padding: 0; cursor: pointer; }
-.kv button.v:hover { color: var(--spruce); text-decoration: underline; text-underline-offset: 3px; }
-.src-block { display: grid; gap: 8px; padding-top: 12px; border-top: 1px solid var(--rule); }
-.src-block h4 { margin: 0; font-size: .86rem; font-weight: 600; color: var(--ink-2); display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.kv { display: grid; grid-template-columns: minmax(0, 1fr) auto 10px; gap: 5px 14px; align-items: baseline; }
+.kv .k { color: var(--ink-2); font-size: .9rem; }
+.kv .k span { color: var(--muted); margin-left: 8px; }
+.kv button { border: 0; background: none; padding: 0; cursor: pointer; font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; }
+.kv button:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.block { display: grid; gap: 8px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.block h3 { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
 .species { display: flex; flex-wrap: wrap; gap: 6px; }
-.species span { border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 10px; font-size: .86rem; }
-.quote { font-family: var(--display); font-style: italic; font-size: 1.02rem; color: var(--ink); border-left: 2px solid var(--rule-strong); padding-left: 12px; overflow-wrap: anywhere; }
+.species span { border: 1px solid var(--rule-2); border-radius: 999px; padding: 1px 10px; font-size: .86rem; }
+.quote { font-family: var(--serif); font-size: 1rem; line-height: 1.5; color: var(--ink); overflow-wrap: anywhere; }
 .hist-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 @media (max-width: 800px) { .hist-grid { grid-template-columns: minmax(0, 1fr); } }
-
-/* lists */
 .items { display: grid; border-top: 1px solid var(--rule); }
-.item { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 18px; padding: 14px 4px; border-bottom: 1px solid var(--rule); }
-@media (max-width: 700px) { .item { grid-template-columns: minmax(0, 1fr); gap: 6px; } }
-.item .when { font-variant-numeric: tabular-nums; font-weight: 600; }
-.item .sub { color: var(--muted); font-weight: 400; font-size: .84rem; }
-.item .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--ink-2); font-size: .86rem; align-items: center; }
-.item .body { display: grid; gap: 6px; min-width: 0; }
-.tag { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--ink-2); border: 1px solid var(--rule-strong); border-radius: 4px; padding: 0 7px; }
+.item { display: grid; grid-template-columns: 170px minmax(0, 1fr) 150px; gap: 20px; padding: 13px 4px; border-bottom: 1px solid var(--rule); align-items: baseline; }
+@media (max-width: 800px) { .item { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+.item .when { display: grid; gap: 1px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.item .when span { font-weight: 400; color: var(--muted); font-size: .86rem; }
+.item .body { display: grid; gap: 4px; min-width: 0; }
+.item .meta { color: var(--muted); font-size: .84rem; }
+.item .src { text-align: right; }
+@media (max-width: 800px) { .item .src { text-align: left; } }
 .area-row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 80px; gap: 12px; align-items: center; border: 0; background: none; padding: 0; cursor: pointer; text-align: left; width: 100%; }
-.area-row .track { height: 14px; background: var(--grid); border-radius: 4px; overflow: hidden; }
-.area-row .fill { display: block; height: 100%; border-radius: 0 4px 4px 0; }
-
-/* maps */
+.area-row .track { height: 12px; background: var(--grid); border-radius: 3px; overflow: hidden; }
+.area-row .fill { display: block; height: 100%; border-radius: 0 3px 3px 0; }
 .map-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 @media (max-width: 800px) { .map-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.map-tab { border: 1px solid var(--rule); background: var(--sheet); border-radius: var(--radius); padding: 0; cursor: pointer; text-align: left; overflow: hidden; display: grid; }
+.map-tab { border: 1px solid var(--rule); background: var(--surface); border-radius: 6px; padding: 0; cursor: pointer; text-align: left; overflow: hidden; display: grid; }
 .map-tab img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
-.map-tab span { padding: 8px 10px; font-size: .85rem; color: var(--ink-2); }
-.map-tab[aria-pressed="true"] { border-color: var(--spruce); box-shadow: 0 0 0 1px var(--spruce); }
+.map-tab span { padding: 8px 10px; font-size: .9rem; font-family: var(--serif); }
+.map-tab[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 .map-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; }
 @media (max-width: 1000px) { .map-layout { grid-template-columns: minmax(0, 1fr); } }
-.map-view { position: relative; overflow: auto; max-height: 76vh; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--sheet-2); }
-.map-inner { position: relative; }
-.map-inner img { display: block; width: 100%; }
-.map-inner .lab { position: absolute; border: 1.5px solid var(--redink); border-radius: 2px; background: transparent; padding: 0; cursor: pointer; }
-.map-inner .lab.dim { opacity: .15; }
-.map-inner .lab.hit { background: color-mix(in srgb, var(--redink) 22%, transparent); }
-.map-side { display: grid; gap: 14px; align-content: start; max-height: 76vh; overflow: auto; }
-.label-list { display: grid; gap: 2px; font-size: .88rem; }
+.map-view { position: relative; overflow: auto; max-height: 76vh; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface-2); }
+.map-side { display: grid; gap: 12px; align-content: start; max-height: 76vh; overflow: auto; }
+.label-list { display: grid; gap: 1px; font-size: .88rem; }
 .label-list button { border: 0; background: none; text-align: left; padding: 3px 4px; border-radius: 3px; cursor: pointer; display: flex; justify-content: space-between; gap: 8px; }
-.label-list button:hover { background: var(--sheet-2); }
+.label-list button:hover { background: var(--surface-2); }
+.legend-list { display: grid; gap: 6px; font-size: .88rem; }
+.legend-list div { display: grid; gap: 0; }
+.legend-list .sym { color: var(--muted); font-size: .82rem; }
 
-/* drawer */
-.drawer { position: fixed; z-index: 30; top: 0; right: 0; bottom: 0; width: min(560px, 100%); background: var(--sheet); border-left: 1px solid var(--rule);
-  box-shadow: var(--shadow); display: grid; grid-template-rows: auto minmax(0, 1fr); transform: translateX(105%); transition: transform .22s ease; visibility: hidden; }
+/* tooltip & drawer */
+.tip { position: fixed; z-index: 40; pointer-events: none; background: var(--surface); border: 1px solid var(--rule-2); border-radius: 6px; box-shadow: var(--shadow); padding: 8px 11px; font-size: .85rem; min-width: 150px; max-width: 320px; display: grid; gap: 3px; }
+.tip .t { font-weight: 600; }
+.tip .row { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
+.tip .row b { color: var(--ink); font-variant-numeric: tabular-nums; margin-left: auto; padding-left: 12px; }
+.tip .hint { color: var(--muted); font-size: .8rem; }
+.drawer { position: fixed; z-index: 30; top: 0; right: 0; bottom: 0; width: min(540px, 100%); background: var(--surface); border-left: 1px solid var(--rule); box-shadow: var(--shadow);
+  display: grid; grid-template-rows: auto minmax(0, 1fr); transform: translateX(105%); transition: transform .2s ease; visibility: hidden; }
 .drawer.open { transform: none; visibility: visible; }
-.drawer-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; padding: calc(16px + env(safe-area-inset-top, 0px)) 22px 14px; border-bottom: 1px solid var(--rule); }
-.drawer-head > div { display: grid; gap: 4px; min-width: 0; }
-.drawer-head .x { border: 0; background: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--ink-2); padding: 2px 6px; }
-.drawer-body { overflow: auto; padding: 18px 22px calc(40px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 16px; align-content: start; }
-.reading { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; font-size: .92rem; margin: 0; }
+.drawer-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; padding: calc(16px + env(safe-area-inset-top, 0px)) 20px 12px; border-bottom: 1px solid var(--rule); }
+.drawer-head .close { border: 0; background: none; font-size: 1.4rem; line-height: 1; cursor: pointer; color: var(--ink-2); padding: 2px 6px; }
+.drawer-body { overflow: auto; padding: 16px 20px calc(36px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 14px; align-content: start; }
+.reading { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 5px 16px; font-size: .9rem; margin: 0; }
 .reading dt { color: var(--muted); }
 .reading dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
-.as-written { font-family: var(--mono); font-size: .95rem; background: var(--sheet-2); padding: 1px 6px; border-radius: 3px; }
-.scan { position: relative; height: min(58vh, 520px); overflow: auto; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--sheet-2); }
-.scan-inner { position: relative; }
-.scan-inner img { display: block; width: 100%; }
-.scan-mark { position: absolute; left: 0; right: 0; border-top: 2px solid var(--redink); border-bottom: 2px solid var(--redink); background: color-mix(in srgb, var(--redink) 10%, transparent); pointer-events: none; }
-.scan-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: .84rem; color: var(--muted); }
-.obs-switch { display: flex; flex-wrap: wrap; gap: 6px; }
-.empty { color: var(--muted); font-style: italic; }
-.foot { color: var(--muted); font-size: .84rem; border-top: 1px solid var(--rule); padding-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.as-written { font-family: var(--mono); font-size: .9rem; background: var(--surface-2); padding: 1px 6px; border-radius: 3px; }
+.mini-scan { height: min(50vh, 440px); overflow: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface-2); position: relative; }
 @media (prefers-reduced-motion: reduce) { .drawer { transition: none; } }
 </style>
 
 <header class="top">
   <div class="top-inner">
-    <a class="brand" href="#overview"><b>Ilzertrift-Komplex</b><span>1878/90</span></a>
+    <a class="brand" href="#contents">Ilzertrift-Komplex 1878/90</a>
     <nav class="tabs" id="tabs" aria-label="Views"></nav>
   </div>
 </header>
-<main id="view" aria-live="polite"></main>
-<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Source">
-  <div class="drawer-head"><div id="drawer-title"></div><button class="x" id="drawer-close" aria-label="Close source">×</button></div>
+<main id="view"></main>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Value">
+  <div class="drawer-head"><div id="drawer-title"></div><button class="close" id="drawer-close" aria-label="Close">×</button></div>
   <div class="drawer-body" id="drawer-body"></div>
 </aside>
 <div class="tip" id="tip" hidden></div>
@@ -264,40 +376,46 @@ const PACKAGE_LINK = "__PACKAGE_LINK__";
 const REVIERE = ["Schönau", "St. Oswald", "Klingenbrunn"];
 const REV_COLOR = { "Schönau": "var(--rev-1)", "St. Oswald": "var(--rev-2)", "Klingenbrunn": "var(--rev-3)" };
 const STATUS = {
-  ok: { label: "Sum checked", color: "var(--ok)", icon: "✓", order: 0 },
-  ok_after_recheck: { label: "Corrected on re-read", color: "var(--ok)", icon: "↻", order: 1 },
-  reading_confirmed: { label: "Reading confirmed, sum differs", color: "var(--warn)", icon: "?", order: 2 },
-  mismatch_after_recheck: { label: "Sum differs", color: "var(--crit)", icon: "!", order: 3 },
-  mismatch: { label: "Sum differs", color: "var(--crit)", icon: "!", order: 3 },
-  unparseable: { label: "Unreadable number", color: "var(--serious)", icon: "–", order: 4 },
-  unchecked: { label: "Not covered by a sum", color: "var(--unchecked)", icon: "·", order: 5 },
+  ok: { label: "sum agrees", color: "var(--ok)", order: 0 },
+  ok_after_recheck: { label: "agrees after re-reading", color: "var(--ok)", order: 1 },
+  reading_confirmed: { label: "reading confirmed, sum differs", color: "var(--warn)", order: 2 },
+  mismatch_after_recheck: { label: "sum differs", color: "var(--crit)", order: 3 },
+  mismatch: { label: "sum differs", color: "var(--crit)", order: 3 },
+  unparseable: { label: "number unreadable", color: "var(--serious)", order: 4 },
+  unchecked: { label: "no sum to check against", color: "var(--unchecked)", order: 5 },
 };
 const STATUS_ORDER = ["ok", "ok_after_recheck", "reading_confirmed", "mismatch_after_recheck", "unparseable"];
-const EVENT_TYPES = { windthrow: "Windthrow", bark_beetle: "Bark beetle", snow_break: "Snow break", ice_break: "Rime break",
-  frost: "Frost", fungal: "Rot", game_damage: "Game browsing", grazing_damage: "Grazing damage", fire: "Fire",
-  drought: "Drought", flood: "Flood", other_insects: "Other insects", other: "Other" };
-const CATEGORIES = { tree_species: "Tree species", stand_structure: "Stand structure", site_conditions: "Site",
-  ground_vegetation: "Ground vegetation", climate_weather: "Climate & weather", damage_event: "Damage",
-  regeneration: "Regeneration", silvicultural_measure: "Silviculture", non_timber_use: "Non-timber use",
-  wildlife: "Wildlife", land_use_hydrology: "Land use & water", quantity: "Quantities", other_ecological: "Other" };
+const EVENT_TYPES = { windthrow: "Windthrow", bark_beetle: "Bark beetle", snow_break: "Snow break", ice_break: "Rime break", frost: "Frost",
+  fungal: "Rot", game_damage: "Game browsing", grazing_damage: "Grazing damage", fire: "Fire", drought: "Drought", flood: "Flood",
+  other_insects: "Insects", other: "Other" };
+const CATEGORY = { tree_species: "Species", stand_structure: "Stand", site_conditions: "Site", ground_vegetation: "Ground flora",
+  climate_weather: "Climate", damage_event: "Damage", regeneration: "Regeneration", silvicultural_measure: "Silviculture",
+  non_timber_use: "Use", wildlife: "Wildlife", land_use_hydrology: "Land and water", quantity: "Quantity", other_ecological: "Other" };
+const STATUS_WORD = { observed: "observed", historical: "past", planned: "planned", prescribed: "prescribed", prohibited: "prohibited",
+  recommended: "recommended", assessed: "assessed" };
+const OUTSIDE = { marginalia: "Margin", signature: "Signature", stamp: "Stamp", note: "Note", other: "Other" };
 const VAR_LABELS = { age: "Age", area: "Area", growing_stock: "Growing stock", growing_stock_faggots: "Growing stock, faggots",
   planned_harvest: "Planned harvest 1878/89", planned_harvest_faggots: "Planned harvest, faggots", yield_per_area: "Yield per ha",
   yield_faggots_per_area: "Faggots per ha", cut_area: "Cut area", planned_yield: "Planned yield", planned_secondary_yield: "Planned intermediate yield",
-  harvest_age: "Age at harvest", nonwooded_area: "Non-wooded area", growing_stock_per_area: "Growing stock per ha",
-  final_yield_per_area: "Final yield per ha", harvest_estimate: "Estimated yield", harvest_result: "Actual yield",
-  harvest_surplus: "Surplus", harvest_deficit: "Deficit", harvest_estimate_bundles: "Estimated faggots", harvest_result_bundles: "Actual faggots",
-  harvest_surplus_bundles: "Surplus faggots", harvest_deficit_bundles: "Deficit faggots", stem_count: "Stem count", volume: "Volume",
-  area_not_assigned: "Area not assigned", area_transferred: "Area transferred", area_became_bare: "Became bare",
-  area_to_young_class: "Passed to young class", remaining_cut_area: "Remaining cut area",
-  harvest_main_use: "Hauptnutzung", harvest_intermediate_use: "Zwischennutzung", harvest_total: "Total harvest",
+  harvest_age: "Age at harvest", nonwooded_area: "Non-wooded area", growing_stock_per_area: "Growing stock per ha", final_yield_per_area: "Final yield per ha",
+  harvest_estimate: "Estimated yield", harvest_result: "Actual yield", harvest_surplus: "Surplus", harvest_deficit: "Deficit",
+  harvest_estimate_bundles: "Estimated faggots", harvest_result_bundles: "Actual faggots", harvest_surplus_bundles: "Surplus faggots",
+  harvest_deficit_bundles: "Deficit faggots", stem_count: "Stem count", volume: "Volume", area_not_assigned: "Area not assigned",
+  area_transferred: "Area transferred", area_became_bare: "Became bare", area_to_young_class: "Passed to young class",
+  remaining_cut_area: "Remaining cut area", harvest_main_use: "Hauptnutzung", harvest_intermediate_use: "Zwischennutzung", harvest_total: "Total harvest",
   grazing_cows: "Kühe", grazing_oxen: "Ochsen", grazing_young_cattle: "Jungrinder", litter_leaf: "Laubstreu", litter_needle: "Nadelstreu",
-  litter_other: "Other litter", rafting_structures_cost_total: "Trift works, total cost" };
-const UNIT_TITLES = Object.fromEntries(D.units.map(u => [u.id, u.title]));
+  litter_other: "Other litter", rafting_structures_cost_total: "Trift works, total" };
+const UNIT = Object.fromEntries(D.units.map(u => [u.id, u]));
+const LINKED = D.toc.entries.filter(e => e.linked);
 
-const nf = (v, digits) => v == null || Number.isNaN(v) ? "–" : new Intl.NumberFormat("en-US", { maximumFractionDigits: digits ?? (Math.abs(v) >= 100 ? 0 : Math.abs(v) >= 10 ? 1 : 2) }).format(v);
+const nf = (v, d) => v == null || Number.isNaN(v) ? "–" : new Intl.NumberFormat("en-US", { maximumFractionDigits: d ?? (Math.abs(v) >= 100 ? 0 : Math.abs(v) >= 10 ? 1 : 2) }).format(v);
 const compact = v => new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(v);
 const varLabel = v => VAR_LABELS[v] || v.replace(/_/g, " ").replace(/^./, c => c.toUpperCase());
-const store = (key, value) => { try { if (value === undefined) return localStorage.getItem(key); localStorage.setItem(key, value); } catch (e) { return null; } return null; };
+const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } return null; };
+const heftOf = id => id.startsWith("II") ? "II" : "I";
+const sectionNo = id => { const x = UNIT[id] || D.toc.entries.find(e => e.id === id); return x && x.nr ? `${heftOf(id)}. ${x.nr}` : heftOf(id); };
+const sectionRef = id => { const x = UNIT[id]; return x && x.nr ? sectionNo(id) : (x?.title || id); };
+const joinUnique = parts => [...new Set(parts.filter(Boolean))].join(", ");
 
 function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
@@ -305,6 +423,7 @@ function el(tag, attrs = {}, ...children) {
     if (v == null || v === false) continue;
     if (k === "class") node.className = v;
     else if (k === "style") node.style.cssText = v;
+    else if (k === "html") node.innerHTML = v;
     else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
     else node.setAttribute(k, v === true ? "" : v);
   }
@@ -316,198 +435,140 @@ function el(tag, attrs = {}, ...children) {
 }
 function svgEl(tag, attrs = {}) { const n = document.createElementNS("http://www.w3.org/2000/svg", tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); return n; }
 function svgText(attrs, text) { const t = svgEl("text", attrs); t.textContent = text; return t; }
-
-const OBS_COLS = Object.fromEntries(D.obs.cols.map((c, i) => [c, i]));
-function obs(i) { const r = D.obs.rows[i]; const o = { i }; for (const c in OBS_COLS) o[c] = r[OBS_COLS[c]]; return o; }
+const OBS = Object.fromEntries(D.obs.cols.map((c, i) => [c, i]));
+function obs(i) { const r = D.obs.rows[i]; const o = { i }; for (const c in OBS) o[c] = r[OBS[c]]; return o; }
+const OBS_BY_PAGE = {};
+D.obs.rows.forEach((r, i) => { (OBS_BY_PAGE[`${r[0]}/${r[1]}`] = OBS_BY_PAGE[`${r[0]}/${r[1]}`] || []).push(i); });
 function page(u, p) { const r = D.pages[`${u}/${p}`]; return r && { u, p, pid: r[0], img: r[1] ? IMG + r[1] : "", w: r[2], h: r[3], kind: r[4], sig: r[5], num: r[6] }; }
-
-function statusDot(cs) { const s = STATUS[cs] || STATUS.unchecked; return el("i", { style: `background:${s.color}`, "aria-hidden": "true" }, s.icon); }
-function statusTag(cs) { const s = STATUS[cs] || STATUS.unchecked; return el("span", { class: "status" }, statusDot(cs), s.label); }
-function worstStatus(list) { return (list || []).slice().sort((a, b) => (STATUS[b]?.order ?? 9) - (STATUS[a]?.order ?? 9))[0] || "unchecked"; }
+const archival = pg => pg ? `${pg.sig}, p. ${pg.num}` : "";
+const statusDot = cs => el("span", { class: "dot", title: (STATUS[cs] || STATUS.unchecked).label, style: `background:${(STATUS[cs] || STATUS.unchecked).color}` });
+const statusTag = cs => el("span", { class: "status" }, statusDot(cs), (STATUS[cs] || STATUS.unchecked).label);
+const worst = list => (list || []).slice().sort((a, b) => (STATUS[b]?.order ?? 9) - (STATUS[a]?.order ?? 9))[0] || "unchecked";
+const merged = c => ({ ...c, mismatch_after_recheck: (c.mismatch_after_recheck || 0) + (c.mismatch || 0) });
+function statusBar(counts) {
+  const m = merged(counts || {}), sum = STATUS_ORDER.reduce((s, k) => s + (m[k] || 0), 0);
+  if (!sum) return "";
+  return el("div", { class: "statusbar", role: "img", "aria-label": STATUS_ORDER.filter(k => m[k]).map(k => `${m[k]} ${STATUS[k].label}`).join(", ") },
+    STATUS_ORDER.filter(k => m[k]).map(k => el("span", { style: `width:${m[k] / sum * 100}%;background:${STATUS[k].color};${k === "ok_after_recheck" ? "opacity:.55" : ""}` })));
+}
+function statusLegend(counts) {
+  const m = merged(counts || {});
+  return el("div", { class: "legend" }, STATUS_ORDER.filter(k => m[k]).map(k => el("span", {}, statusDot(k), el("b", { class: "num" }, nf(m[k], 0)), STATUS[k].label)));
+}
 
 /* tooltip */
 const tip = document.getElementById("tip");
-function showTip(event, title, rows, hint) {
-  tip.replaceChildren(el("div", { class: "t" }, title), ...rows.map(r => el("div", { class: "row" }, r.key || "", r.label, r.value !== "" ? el("b", {}, r.value) : "")), hint ? el("div", { class: "hint" }, hint) : "");
+function showTip(e, title, rows = [], hint = "") {
+  tip.replaceChildren(el("div", { class: "t" }, title), ...rows.map(r => el("div", { class: "row" }, r.key || "", r.label, r.value !== "" && r.value != null ? el("b", {}, r.value) : "")), hint ? el("div", { class: "hint" }, hint) : "");
   tip.hidden = false;
-  const pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
-  let x = event.clientX + pad, y = event.clientY + pad;
-  if (x + w > innerWidth - 8) x = event.clientX - w - pad;
-  if (y + h > innerHeight - 8) y = event.clientY - h - pad;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + w > innerWidth - 8) x = e.clientX - w - 14;
+  if (y + h > innerHeight - 8) y = e.clientY - h - 14;
   tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
 }
 function hideTip() { tip.hidden = true; }
-const keyLine = color => el("span", { class: "key-line", style: `background:${color}` });
-const keyRect = color => el("span", { class: "key-rect", style: `background:${color}` });
+const keyLine = c => el("span", { class: "key-line", style: `background:${c}` });
+const keyRect = c => el("span", { class: "key-rect", style: `background:${c}` });
 
 /* drawer */
 const drawer = document.getElementById("drawer");
 document.getElementById("drawer-close").addEventListener("click", closeDrawer);
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(); });
 function closeDrawer() { drawer.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); }
-function openDrawer(titleNodes, bodyNodes) {
-  document.getElementById("drawer-title").replaceChildren(...titleNodes);
-  document.getElementById("drawer-body").replaceChildren(...bodyNodes);
+function openDrawer(title, body) {
+  document.getElementById("drawer-title").replaceChildren(...title);
+  document.getElementById("drawer-body").replaceChildren(...body);
   drawer.classList.add("open"); drawer.setAttribute("aria-hidden", "false");
   document.getElementById("drawer-body").scrollTop = 0;
-  document.getElementById("drawer-close").focus({ preventScroll: true });
 }
-function scanViewer(pg, box, zoom) {
-  if (!pg || !pg.img) return el("p", { class: "empty" }, "No image of this page in the current data set; the scan is held at the archive.");
-  let level = zoom || (box ? 1.7 : 1);
-  const inner = el("div", { class: "scan-inner" });
-  const img = el("img", { src: pg.img, alt: `Scan of ${pg.pid}` });
-  inner.append(img);
-  if (box && box.length === 4) {
-    const [y0, , y1] = box, h = Math.max(y1 - y0, 12);
-    inner.append(el("div", { class: "scan-mark", style: `top:${Math.max(0, y0 - h * 1.2) / 10}%;height:${(h * 3.4) / 10}%` }));
-  }
-  const view = el("div", { class: "scan", tabindex: "0", "aria-label": "Page scan" }, inner);
-  const apply = () => {
-    inner.style.width = (level * 100) + "%";
-    if (box && img.naturalHeight) {
-      view.scrollTop = Math.max(0, (box[0] + box[2]) / 2000 * inner.offsetHeight - view.clientHeight / 2);
-      view.scrollLeft = Math.max(0, (box[1] + box[3]) / 2000 * inner.offsetWidth - view.clientWidth * .6);
-    }
-  };
-  img.addEventListener("load", apply);
-  const tools = el("div", { class: "scan-tools" },
-    el("button", { class: "btn", "aria-label": "Zoom out", onclick: () => { level = Math.max(1, level - .4); apply(); } }, "−"),
-    el("button", { class: "btn", "aria-label": "Zoom in", onclick: () => { level = Math.min(4, level + .4); apply(); } }, "+"),
-    el("span", { class: "mono" }, pg.pid),
-    box ? el("span", {}, "Red band: approximate position of the row.") : "");
-  setTimeout(apply, 0);
-  return el("div", { style: "display:grid;gap:8px" }, view, tools);
+function miniScan(pg, box) {
+  if (!pg || !pg.img) return el("p", { class: "muted" }, "No image of this page.");
+  const inner = el("div", { class: "scan-inner", style: "width:170%" }, el("img", { src: pg.img, alt: `Scan ${pg.pid}` }));
+  if (box && box.length === 4) { const h = Math.max(box[2] - box[0], 14); inner.append(el("div", { class: "scan-band", style: `top:${Math.max(0, box[0] - h * .6) / 10}%;height:${h * 2.2 / 10}%` })); }
+  const view = el("div", { class: "mini-scan" }, inner);
+  inner.querySelector("img").addEventListener("load", () => { if (box) { view.scrollTop = (box[0] + box[2]) / 2000 * inner.offsetHeight - view.clientHeight / 2; view.scrollLeft = (box[1] + box[3]) / 2000 * inner.offsetWidth - view.clientWidth * .6; } });
+  return view;
 }
-function sourceLine(u, pg, extra) {
-  return el("dd", {}, `${u} · ${UNIT_TITLES[u] || ""}`, el("br"), el("span", { class: "mono" }, `${pg ? pg.pid : ""}${extra || ""}`));
-}
-function openObservations(indexes, title) {
+function openValues(indexes, title) {
   const list = [...new Set(indexes)].map(obs);
   if (!list.length) return;
-  let current = 0;
-  const body = el("div", { style: "display:grid;gap:16px" });
-  const render = () => {
-    const o = list[current], pg = page(o.u, o.p);
-    const converted = o.vs != null && o.v != null && Math.abs(o.vs - o.v) > 1e-9;
+  let cur = 0;
+  const body = el("div", { style: "display:grid;gap:14px" });
+  const draw = () => {
+    const o = list[cur], pg = page(o.u, o.p);
     body.replaceChildren(
-      list.length > 1 ? el("div", { class: "obs-switch" }, list.map((x, i) => el("button", { class: "chip", "aria-pressed": i === current ? "true" : "false", onclick: () => { current = i; render(); } },
-        x.sc && REV_COLOR[x.sc] ? el("span", { class: "dot", style: `background:${REV_COLOR[x.sc]}` }) : "", `${varLabel(x.var)}${x.sc ? " · " + x.sc : ""}`))) : "",
+      list.length > 1 ? el("div", { class: "controls" }, list.map((x, i) => el("button", { class: "chip", "aria-pressed": i === cur ? "true" : "false", onclick: () => { cur = i; draw(); } },
+        x.sc && REV_COLOR[x.sc] ? el("span", { class: "dot", style: `background:${REV_COLOR[x.sc]}` }) : "", x.sc ? `${varLabel(x.var)}, ${x.sc}` : varLabel(x.var)))) : "",
       el("dl", { class: "reading" },
         el("dt", {}, "Value"), el("dd", {}, el("b", { class: "num" }, nf(o.vs ?? o.v, 3)), " ", o.us || ""),
-        el("dt", {}, "As written"), el("dd", {}, el("span", { class: "as-written" }, o.raw || "–"), converted ? el("span", { class: "muted" }, " converted with the factor the source uses") : ""),
-        o.per ? [el("dt", {}, "Period"), el("dd", {}, o.per)] : "",
+        el("dt", {}, "As written"), el("dd", {}, el("span", { class: "as-written" }, o.raw || "–")),
+        o.per ? [el("dt", {}, "Year"), el("dd", {}, o.per)] : "",
         o.sc ? [el("dt", {}, "Revier"), el("dd", {}, o.sc)] : "",
-        o.st ? [el("dt", {}, "Stand"), el("dd", {}, standLabel(o.st))] : "",
         el("dt", {}, "Check"), el("dd", {}, statusTag(o.cs)),
-        el("dt", {}, "Source"), sourceLine(o.u, pg, ` · table ${o.t + 1}, row ${o.r + 1}`)),
-      scanViewer(pg, o.box));
+        el("dt", {}, "Source"), el("dd", {}, `${sectionNo(o.u)} ${UNIT[o.u]?.title || ""}`, el("br"), el("span", { class: "muted" }, archival(pg)))),
+      el("div", {}, el("button", { class: "btn", onclick: () => { closeDrawer(); openReader(o.u, o.p, { row: o.r, table: o.t }); } }, "Open the page in the reader")),
+      miniScan(pg, o.box));
   };
-  render();
-  openDrawer([el("div", { class: "eyebrow" }, "Source"), el("h3", {}, title)], [body]);
-}
-function openQuote(item, title) {
-  const pg = item.p ? page(item.u, item.p) : null;
-  openDrawer([el("div", { class: "eyebrow" }, "Source"), el("h3", {}, title)], [
-    el("p", { class: "quote" }, item.quote || ""),
-    el("dl", { class: "reading" },
-      item.qc ? [el("dt", {}, "Quote"), el("dd", {}, quoteCheck(item.qc))] : "",
-      el("dt", {}, "Source"), sourceLine(item.u, pg)),
-    scanViewer(pg, null)]);
-}
-function openPage(u, p) {
-  const pg = page(u, p);
-  openDrawer([el("div", { class: "eyebrow" }, `${u} · ${UNIT_TITLES[u] || ""}`), el("h3", { class: "mono" }, pg ? pg.pid : "")], [scanViewer(pg, null, 1)]);
-}
-function quoteCheck(qc) {
-  const text = { exact_on_page: "found verbatim on the page", normalised_on_page: "found on the page", elsewhere_in_document: "found elsewhere in the document",
-    prefix: "beginning found in the text", missing: "not found verbatim, may be paraphrased", empty: "no quote" }[qc] || qc;
-  const color = qc === "missing" ? "var(--warn)" : qc === "prefix" ? "var(--serious)" : "var(--ok)";
-  return el("span", { class: "status" }, el("i", { style: `background:${color}`, "aria-hidden": "true" }, qc === "missing" ? "?" : "✓"), text);
+  draw();
+  openDrawer([el("h2", { style: "font-size:1.1rem" }, title)], [body]);
 }
 
 /* charts */
 function niceTicks(max, count = 4) {
   if (!max || max <= 0) return [0, 1];
-  const raw = max / count, mag = 10 ** Math.floor(Math.log10(raw)), norm = raw / mag;
-  const step = (norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 2.5 ? 2.5 : norm <= 5 ? 5 : 10) * mag;
-  const ticks = []; for (let v = 0; v <= max + step * .999; v += step) ticks.push(+v.toFixed(10));
-  return ticks;
+  const raw = max / count, mag = 10 ** Math.floor(Math.log10(raw)), n = raw / mag;
+  const step = (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * mag;
+  const t = []; for (let v = 0; v <= max + step * .999; v += step) t.push(+v.toFixed(10)); return t;
 }
-function labelStep(n, inner, width = 54) { return Math.max(1, Math.ceil(n * width / inner)); }
-function periodIndex(x, year) { return x.findIndex(p => parseInt(p, 10) === year); }
-function barPath(x0, y0, w, y1) { const r = Math.min(4, (y1 - y0), w / 2); return `M${x0},${y1} V${y0 + r} Q${x0},${y0} ${x0 + r},${y0} H${x0 + w - r} Q${x0 + w},${y0} ${x0 + w},${y0 + r} V${y1} Z`; }
+const labelStep = (n, inner, w = 54) => Math.max(1, Math.ceil(n * w / inner));
+const periodIndex = (x, y) => x.findIndex(p => parseInt(p, 10) === y);
+function barPath(x0, y0, w, y1) { const r = Math.min(3, y1 - y0, w / 2); return `M${x0},${y1} V${y0 + r} Q${x0},${y0} ${x0 + r},${y0} H${x0 + w - r} Q${x0 + w},${y0} ${x0 + w},${y0 + r} V${y1} Z`; }
 function attachHit(hit, onTip, onOpen) {
   hit.addEventListener("pointermove", onTip); hit.addEventListener("pointerleave", hideTip);
   hit.addEventListener("focus", () => { const r = hit.getBoundingClientRect(); onTip({ clientX: r.left + r.width / 2, clientY: r.top }); });
   hit.addEventListener("blur", hideTip);
   if (onOpen) { hit.addEventListener("click", () => { hideTip(); onOpen(); }); hit.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); hideTip(); onOpen(); } }); }
 }
-
 function columnChart(host, cfg) {
   const width = Math.max(300, host.clientWidth), height = cfg.height || 300;
-  const m = { t: cfg.annotations?.length ? 34 : 14, r: 14, b: 34, l: 56 };
-  const iw = width - m.l - m.r, ih = height - m.t - m.b;
-  const n = cfg.x.length, band = iw / n, bw = Math.min(24, band * .62);
+  const m = { t: cfg.annotations?.length ? 30 : 12, r: 12, b: 32, l: 52 };
+  const iw = width - m.l - m.r, ih = height - m.t - m.b, n = cfg.x.length, band = iw / n, bw = Math.min(22, band * .6);
   const totals = cfg.x.map((_, i) => cfg.series.reduce((s, g) => s + (g.points[i]?.v || 0), 0));
-  const ticks = niceTicks(Math.max(...totals, cfg.ref || 0) * 1.04);
-  const top = ticks[ticks.length - 1], y = v => m.t + ih - v / top * ih;
+  const ticks = niceTicks(Math.max(...totals, cfg.ref || 0) * 1.04), top = ticks[ticks.length - 1], y = v => m.t + ih - v / top * ih;
   const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": cfg.title });
-  for (const t of ticks) {
-    svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: y(t), y2: y(t), class: t === 0 ? "baseline" : "gridline" }));
-    svg.append(svgText({ x: m.l - 8, y: y(t) + 4, "text-anchor": "end" }, compact(t)));
-  }
+  for (const t of ticks) { svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: y(t), y2: y(t), class: t === 0 ? "baseline" : "gridline" })); svg.append(svgText({ x: m.l - 8, y: y(t) + 4, "text-anchor": "end" }, compact(t))); }
   for (const a of cfg.annotations || []) {
-    const i0 = periodIndex(cfg.x, a.from), i1 = periodIndex(cfg.x, a.to);
-    if (i0 < 0) continue;
-    const band0 = m.l + i0 * band, band1 = m.l + ((i1 < 0 ? i0 : i1) + 1) * band;
-    if (a.to !== a.from) {
-      svg.append(svgEl("rect", { x: band0, y: m.t, width: band1 - band0, height: ih, class: "ann-band" }));
-      svg.append(svgText({ x: band1 - 4, y: m.t - 10, class: "ann-text", "text-anchor": "end" }, a.label));
-    } else {
-      svg.append(svgEl("line", { x1: band0 + band / 2, x2: band0 + band / 2, y1: m.t - 4, y2: m.t + ih, class: "ann-line" }));
-      svg.append(svgText({ x: band0 + band / 2 - 4, y: m.t - 10, class: "ann-text", "text-anchor": "end" }, a.label));
-    }
+    const i0 = periodIndex(cfg.x, a.from), i1 = periodIndex(cfg.x, a.to); if (i0 < 0) continue;
+    const b0 = m.l + i0 * band, b1 = m.l + ((i1 < 0 ? i0 : i1) + 1) * band;
+    if (a.to !== a.from) { svg.append(svgEl("rect", { x: b0, y: m.t, width: b1 - b0, height: ih, class: "ann-band" })); svg.append(svgText({ x: b1 - 4, y: m.t - 9, class: "ann-text", "text-anchor": "end" }, a.label)); }
+    else { svg.append(svgEl("line", { x1: b0 + band / 2, x2: b0 + band / 2, y1: m.t - 4, y2: m.t + ih, class: "ann-line" })); svg.append(svgText({ x: b0 + band / 2 - 4, y: m.t - 9, class: "ann-text", "text-anchor": "end" }, a.label)); }
   }
-  if (cfg.ref) {
-    svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: y(cfg.ref), y2: y(cfg.ref), class: "ref" }));
-    svg.append(svgText({ x: m.l + 6, y: y(cfg.ref) - 6, class: "ref-text" }, cfg.refLabel));
-  }
+  if (cfg.ref) { svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: y(cfg.ref), y2: y(cfg.ref), class: "ref" })); svg.append(svgText({ x: m.l + 6, y: y(cfg.ref) - 6, class: "ref-text" }, cfg.refLabel)); }
   cfg.x.forEach((label, i) => {
-    let acc = 0;
-    const cx = m.l + i * band + band / 2;
+    let acc = 0; const cx = m.l + i * band + band / 2;
     const parts = cfg.series.map(s => ({ s, p: s.points[i] })).filter(d => d.p && d.p.v > 0);
-    parts.forEach((d, k) => {
-      const yTop = y(acc + d.p.v), yBottom = y(acc) - (k > 0 ? 2 : 0);
-      if (yBottom - yTop > .5) svg.append(svgEl("path", { d: k === parts.length - 1 ? barPath(cx - bw / 2, yTop, bw, yBottom) : `M${cx - bw / 2},${yBottom} V${yTop} H${cx + bw / 2} V${yBottom} Z`, fill: d.s.color }));
-      acc += d.p.v;
-    });
+    parts.forEach((d, k) => { const yT = y(acc + d.p.v), yB = y(acc) - (k > 0 ? 2 : 0);
+      if (yB - yT > .5) svg.append(svgEl("path", { d: k === parts.length - 1 ? barPath(cx - bw / 2, yT, bw, yB) : `M${cx - bw / 2},${yB} V${yT} H${cx + bw / 2} V${yB} Z`, fill: d.s.color })); acc += d.p.v; });
     const hit = svgEl("rect", { x: m.l + i * band, y: m.t, width: band, height: ih, class: "hit", tabindex: "0", role: "button", "aria-label": `${label}: ${nf(totals[i])} ${cfg.unit}` });
     const rows = cfg.series.map(s => ({ key: keyRect(s.color), label: s.label, value: s.points[i] ? `${nf(s.points[i].v)} ${cfg.unit}` : "–" }));
     if (cfg.series.length > 1) rows.push({ label: "Total", value: `${nf(totals[i])} ${cfg.unit}` });
-    const parts2 = cfg.series.flatMap(s => (s.points[i]?.parts || []).map(([name, v]) => ({ label: `  ${s.label}, ${name}`, value: `${nf(v)} ${cfg.unit}` })));
-    const statuses = cfg.series.flatMap(s => s.points[i]?.cs || []);
-    attachHit(hit, e => showTip(e, label, rows.concat(parts2), `${STATUS[worstStatus(statuses)].label} · click for the source`),
-      () => openObservations(cfg.series.flatMap(s => s.points[i]?.refs || []), `${cfg.title}, ${label}`));
+    const detail = cfg.series.flatMap(s => (s.points[i]?.parts || []).map(([name, v]) => ({ label: `${s.label}, ${name}`, value: `${nf(v)} ${cfg.unit}` })));
+    attachHit(hit, e => showTip(e, label, rows.concat(detail), STATUS[worst(cfg.series.flatMap(s => s.points[i]?.cs || []))].label),
+      () => openValues(cfg.series.flatMap(s => s.points[i]?.refs || []), `${cfg.title}, ${label}`));
     svg.append(hit);
   });
   const step = labelStep(n, iw);
   cfg.x.forEach((label, i) => { if (i % step === 0) svg.append(svgText({ x: m.l + i * band + band / 2, y: height - m.b + 18, "text-anchor": "middle" }, label)); });
   host.replaceChildren(svg);
 }
-
 function lineChart(host, cfg) {
-  const width = Math.max(300, host.clientWidth), height = cfg.height || 280;
-  const m = { t: 14, r: width < 520 ? 16 : 98, b: 34, l: 48 };
+  const width = Math.max(300, host.clientWidth), height = cfg.height || 270, m = { t: 12, r: width < 520 ? 14 : 96, b: 32, l: 44 };
   const iw = width - m.l - m.r, ih = height - m.t - m.b, n = cfg.x.length;
-  const values = cfg.series.flatMap(s => s.points.map(p => p?.v || 0));
-  const ticks = niceTicks(Math.max(...values, 1) * 1.05), top = ticks[ticks.length - 1];
+  const ticks = niceTicks(Math.max(...cfg.series.flatMap(s => s.points.map(p => p?.v || 0)), 1) * 1.05), top = ticks[ticks.length - 1];
   const x = i => m.l + (n === 1 ? iw / 2 : i / (n - 1) * iw), y = v => m.t + ih - v / top * ih;
   const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": cfg.title });
-  for (const t of ticks) {
-    svg.append(svgEl("line", { x1: m.l, x2: m.l + iw, y1: y(t), y2: y(t), class: t === 0 ? "baseline" : "gridline" }));
-    svg.append(svgText({ x: m.l - 8, y: y(t) + 4, "text-anchor": "end" }, compact(t)));
-  }
+  for (const t of ticks) { svg.append(svgEl("line", { x1: m.l, x2: m.l + iw, y1: y(t), y2: y(t), class: t === 0 ? "baseline" : "gridline" })); svg.append(svgText({ x: m.l - 8, y: y(t) + 4, "text-anchor": "end" }, compact(t))); }
   const step = labelStep(n, iw);
   cfg.x.forEach((label, i) => { if (i % step === 0) svg.append(svgText({ x: x(i), y: height - m.b + 18, "text-anchor": "middle" }, label)); });
   const ends = [];
@@ -516,108 +577,320 @@ function lineChart(host, cfg) {
     s.points.forEach((p, i) => { if (!p) { pen = false; return; } d += `${pen ? "L" : "M"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`; pen = true; });
     svg.append(svgEl("path", { d, fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
     const last = s.points.map((p, i) => p ? i : -1).filter(i => i >= 0).pop();
-    if (last != null) {
-      svg.append(svgEl("circle", { cx: x(last), cy: y(s.points[last].v), r: 4, fill: s.color, stroke: "var(--sheet)", "stroke-width": 2 }));
-      ends.push({ s, y: y(s.points[last].v), x: x(last) });
-    }
+    if (last != null) { svg.append(svgEl("circle", { cx: x(last), cy: y(s.points[last].v), r: 4, fill: s.color, stroke: "var(--surface)", "stroke-width": 2 })); ends.push({ s, y: y(s.points[last].v), x: x(last) }); }
   }
-  if (m.r > 40) {
-    ends.sort((a, b) => a.y - b.y);
-    for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 17) ends[i].y = ends[i - 1].y + 17;
-    for (const e of ends) svg.append(svgText({ x: e.x + 10, y: e.y + 4, class: "end-label" }, e.s.label));
-  }
-  const cross = svgEl("line", { y1: m.t, y2: m.t + ih, class: "cross", visibility: "hidden" });
-  svg.append(cross);
-  const overlay = svgEl("rect", { x: m.l, y: m.t, width: iw, height: ih, class: "hit", tabindex: "0", role: "button", "aria-label": `${cfg.title}: click a year for its sources` });
-  const nearest = e => { const r = svg.getBoundingClientRect(); const px = (e.clientX - r.left) * width / r.width; return Math.max(0, Math.min(n - 1, Math.round((px - m.l) / iw * (n - 1)))); };
-  overlay.addEventListener("pointermove", e => {
-    const i = nearest(e); cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
-    showTip(e, cfg.x[i], cfg.series.map(s => ({ key: keyLine(s.color), label: s.label, value: s.points[i] ? `${nf(s.points[i].v)} ${cfg.unit}` : "–" })), "click for the source");
-  });
-  overlay.addEventListener("pointerleave", () => { cross.setAttribute("visibility", "hidden"); hideTip(); });
-  overlay.addEventListener("click", e => { const i = nearest(e); hideTip(); openObservations(cfg.series.flatMap(s => s.points[i]?.refs || []), `${cfg.title}, ${cfg.x[i]}`); });
-  svg.append(overlay);
-  host.replaceChildren(svg);
+  if (m.r > 40) { ends.sort((a, b) => a.y - b.y); for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 17) ends[i].y = ends[i - 1].y + 17;
+    for (const e of ends) svg.append(svgText({ x: e.x + 10, y: e.y + 4, class: "end-label" }, e.s.label)); }
+  const cross = svgEl("line", { y1: m.t, y2: m.t + ih, class: "cross", visibility: "hidden" }); svg.append(cross);
+  const ov = svgEl("rect", { x: m.l, y: m.t, width: iw, height: ih, class: "hit", tabindex: "0", role: "button", "aria-label": cfg.title });
+  const near = e => { const r = svg.getBoundingClientRect(); return Math.max(0, Math.min(n - 1, Math.round(((e.clientX - r.left) * width / r.width - m.l) / iw * (n - 1)))); };
+  ov.addEventListener("pointermove", e => { const i = near(e); cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
+    showTip(e, cfg.x[i], cfg.series.map(s => ({ key: keyLine(s.color), label: s.label, value: s.points[i] ? `${nf(s.points[i].v)} ${cfg.unit}` : "–" }))); });
+  ov.addEventListener("pointerleave", () => { cross.setAttribute("visibility", "hidden"); hideTip(); });
+  ov.addEventListener("click", e => { const i = near(e); hideTip(); openValues(cfg.series.flatMap(s => s.points[i]?.refs || []), `${cfg.title}, ${cfg.x[i]}`); });
+  svg.append(ov); host.replaceChildren(svg);
 }
-
 function histogram(host, values, color, cfg) {
-  const width = Math.max(220, host.clientWidth), height = 170, m = { t: 10, r: 8, b: 30, l: 32 };
-  const iw = width - m.l - m.r, ih = height - m.t - m.b;
-  const counts = cfg.bins.map(([a, b]) => values.filter(v => v >= a && v < b).length);
-  const ticks = niceTicks(Math.max(...counts, 1), 3), top = ticks[ticks.length - 1];
-  const band = iw / cfg.bins.length, bw = Math.min(24, band - 2), y = v => m.t + ih - v / top * ih;
-  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": `${cfg.title}: ages of stands` });
-  for (const t of ticks) { svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: y(t), y2: y(t), class: t === 0 ? "baseline" : "gridline" }));
-    svg.append(svgText({ x: m.l - 6, y: y(t) + 4, "text-anchor": "end" }, t)); }
-  cfg.bins.forEach(([a, b], i) => {
-    const c = counts[i], x0 = m.l + i * band + (band - bw) / 2;
+  const width = Math.max(220, host.clientWidth), height = 160, m = { t: 8, r: 8, b: 28, l: 30 }, iw = width - m.l - m.r, ih = height - m.t - m.b;
+  const counts = cfg.bins.map(([a, b]) => values.filter(v => v >= a && v < b).length), ticks = niceTicks(Math.max(...counts, 1), 3), top = ticks[ticks.length - 1];
+  const band = iw / cfg.bins.length, bw = Math.min(22, band - 2), y = v => m.t + ih - v / top * ih;
+  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": `Ages, ${cfg.title}` });
+  for (const t of ticks) { svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: y(t), y2: y(t), class: t === 0 ? "baseline" : "gridline" })); svg.append(svgText({ x: m.l - 6, y: y(t) + 4, "text-anchor": "end" }, t)); }
+  cfg.bins.forEach(([a, b], i) => { const c = counts[i], x0 = m.l + i * band + (band - bw) / 2;
     if (c) svg.append(svgEl("path", { d: barPath(x0, y(c), bw, m.t + ih), fill: color }));
     const hit = svgEl("rect", { x: m.l + i * band, y: m.t, width: band, height: ih, class: "hit" });
-    attachHit(hit, e => showTip(e, `${a}–${b - 1} years`, [{ label: cfg.title, value: `${c} stands` }]));
-    svg.append(hit);
-    if (i % 3 === 0) svg.append(svgText({ x: m.l + i * band + band / 2, y: height - 10, "text-anchor": "middle" }, a));
-  });
+    attachHit(hit, e => showTip(e, `${a}–${b - 1} years`, [{ label: cfg.title, value: `${c} stands` }])); svg.append(hit);
+    if (i % 3 === 0) svg.append(svgText({ x: m.l + i * band + band / 2, y: height - 9, "text-anchor": "middle" }, a)); });
   host.replaceChildren(svg);
 }
-
-function statusBar(counts) {
-  const merged = { ...counts, mismatch_after_recheck: (counts.mismatch_after_recheck || 0) + (counts.mismatch || 0) };
-  const sum = STATUS_ORDER.reduce((s, k) => s + (merged[k] || 0), 0);
-  if (!sum) return el("span", { class: "muted", style: "font-size:.84rem" }, "no sums to check");
-  return el("div", { class: "statusbar", role: "img", "aria-label": STATUS_ORDER.filter(k => merged[k]).map(k => `${STATUS[k].label}: ${merged[k]}`).join(", ") },
-    STATUS_ORDER.filter(k => merged[k]).map(k => el("span", { style: `width:${merged[k] / sum * 100}%;background:${STATUS[k].color};${k === "ok_after_recheck" ? "opacity:.55" : ""}`, title: `${STATUS[k].label}: ${merged[k]}` })));
-}
-function statusLegend(counts) {
-  const merged = counts ? { ...counts, mismatch_after_recheck: (counts.mismatch_after_recheck || 0) + (counts.mismatch || 0) } : null;
-  return el("div", { class: "legend" }, STATUS_ORDER.filter(k => !merged || merged[k]).map(k => el("span", {}, statusTag(k), merged ? el("b", { class: "num" }, nf(merged[k], 0)) : "")));
-}
-
 function dataTable(columns, rows, onRow) {
-  return el("div", { class: "tablewrap" }, el("table", { class: "data" },
-    el("thead", {}, el("tr", {}, columns.map(c => el("th", { class: c.n ? "n" : "" }, c.label)))),
+  return el("div", { class: "tablewrap" }, el("table", { class: "data" }, el("thead", {}, el("tr", {}, columns.map(c => el("th", { class: c.n ? "n" : "" }, c.label)))),
     el("tbody", {}, rows.map(r => el("tr", { onclick: onRow ? () => onRow(r) : null }, columns.map(c => el("td", { class: c.n ? "n" : "" }, c.get(r))))))));
 }
-
 const charts = [];
 function chartBlock(draw) {
-  const host = el("div", { class: "chart" });
-  const tableHost = el("div", { hidden: true });
-  const toggle = el("button", { class: "btn", "aria-pressed": "false" }, "Show table");
-  toggle.addEventListener("click", () => { const on = tableHost.hidden; tableHost.hidden = !on; host.hidden = on; toggle.setAttribute("aria-pressed", on ? "true" : "false"); toggle.textContent = on ? "Show chart" : "Show table"; });
+  const host = el("div", { class: "chart" }), tableHost = el("div", { hidden: true });
+  const toggle = el("button", { class: "btn" }, "Table");
   const redraw = () => { if (host.isConnected && !host.hidden) draw(host); };
-  charts.push(redraw);
-  requestAnimationFrame(redraw);
+  toggle.addEventListener("click", () => { const show = tableHost.hidden; tableHost.hidden = !show; host.hidden = show; toggle.textContent = show ? "Chart" : "Table"; redraw(); });
+  charts.push(redraw); requestAnimationFrame(redraw);
   return { host, tableHost, toggle };
 }
-let resizeTimer;
-addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => charts.forEach(f => f()), 150); });
-
+let resizeTimer; addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => charts.forEach(f => f()), 150); });
 function seriesTable(s, groups) {
-  const columns = [{ label: "Year of use", get: r => r.period }]
-    .concat(groups.map(g => ({ label: `${g.label} (${s.unit})`, n: true, get: r => r.values[g.key] == null ? "–" : nf(r.values[g.key]) })));
-  const rows = s.x.map((period, i) => ({ period, values: Object.fromEntries(groups.map(g => [g.key, g.points[i]?.v])), refs: groups.flatMap(g => g.points[i]?.refs || []) }));
-  return dataTable(columns, rows, r => openObservations(r.refs, `${s.title}, ${r.period}`));
+  const cols = [{ label: "Year", get: r => r.period }].concat(groups.map(g => ({ label: `${g.label} (${s.unit})`, n: true, get: r => r.values[g.key] == null ? "–" : nf(r.values[g.key]) })));
+  return dataTable(cols, s.x.map((period, i) => ({ period, values: Object.fromEntries(groups.map(g => [g.key, g.points[i]?.v])), refs: groups.flatMap(g => g.points[i]?.refs || []) })),
+    r => openValues(r.refs, `${s.title}, ${r.period}`));
 }
+function setPressed(e) { for (const b of e.currentTarget.parentElement.children) b.setAttribute("aria-pressed", b === e.currentTarget ? "true" : "false"); }
 
 /* routing */
-const VIEWS = [["overview", "Overview"], ["use", "Harvest & use"], ["stands", "Stands"], ["disturbances", "Disturbances"],
-  ["statements", "Statements"], ["maps", "Maps"], ["sources", "Sources"]];
-const viewHost = document.getElementById("view");
-const tabs = document.getElementById("tabs");
+const VIEWS = [["contents", "Contents"], ["reader", "Reader"], ["figures", "Figures"], ["stands", "Stands"], ["statements", "Statements"], ["events", "Events"], ["maps", "Maps"]];
+const viewHost = document.getElementById("view"), tabs = document.getElementById("tabs");
 for (const [id, label] of VIEWS) tabs.append(el("button", { class: "tab", "data-view": id, onclick: () => go(id) }, label));
-function go(id) { if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id); render(id); }
-addEventListener("hashchange", () => render(location.hash.slice(1)));
-function render(id) {
-  if (!VIEWS.some(v => v[0] === id)) id = "overview";
+const readerState = { u: null, p: null, focus: null, mode: "checked", lines: store("ilz-lines") !== "0", ids: false, zoom: 1 };
+function go(id) {
+  const hash = id === "reader" && readerState.u ? `read-${readerState.u}-${readerState.p}` : id;
+  if (location.hash !== "#" + hash) history.replaceState(null, "", "#" + hash);
+  render();
+}
+addEventListener("hashchange", render);
+function render() {
+  const hash = decodeURIComponent(location.hash.slice(1));
+  let id = hash;
+  const m = hash.match(/^read-(.+)-(\d+)$/);
+  if (m && D.reader[m[1]]) { id = "reader"; readerState.u = m[1]; readerState.p = +m[2]; }
+  if (!VIEWS.some(v => v[0] === id)) id = "contents";
   for (const b of tabs.children) b.setAttribute("aria-current", b.dataset.view === id ? "page" : "false");
   charts.length = 0; closeDrawer(); hideTip();
-  viewHost.replaceChildren(...{ overview, use, stands, disturbances, statements, maps, sources }[id]());
-  scrollTo({ top: 0 });
-  store("ilz-view", id);
+  if (window.CSS && CSS.highlights) CSS.highlights.clear();
+  viewHost.replaceChildren(...{ contents, reader, figures, stands, statements, events, maps }[id]());
+  if (id !== "reader") scrollTo({ top: 0 });
 }
-function head(eyebrow, title, text) { return el("section", { class: "view-head" }, el("div", { class: "eyebrow" }, eyebrow), el("h1", {}, title), text ? el("p", {}, text) : ""); }
 
-/* overview */
+/* contents */
+function contents() {
+  const row = e => {
+    const u = UNIT[e.id];
+    return el("button", { class: "toc-row", disabled: e.linked ? null : true, onclick: () => openReader(e.id) },
+      el("span", { class: "nr" }, e.nr && e.nr !== "WHB" ? `${e.nr}.` : ""), el("span", { class: "ti" }, e.title),
+      el("span", { class: "meta" }, e.linked ? `${u.pages} p.` : "", e.linked ? statusBar(u.checks) : ""));
+  };
+  const c = D.meta.counts, checks = D.meta.checks, total = Object.values(checks).reduce((a, b) => a + b, 0);
+  return [el("div", { class: "page" },
+    el("div", { class: "title-block" },
+      el("h1", {}, "Waldstandsrevision für den Ilzertrift-Komplex"),
+      el("p", { class: "sub" }, "Reviere Schönau, St. Oswald und Klingenbrunn, Forstamt Schönberg, 1878 mit 1890"),
+      el("p", { class: "caption" }, "Regierung von Niederbayern, Kammer der Forsten, A 383 I – A 385")),
+    el("div", { class: "contents" },
+      el("section", { class: "heft" }, el("h2", {}, "I. Heft"), D.toc.entries.filter(e => heftOf(e.id) === "I").map(row)),
+      el("section", { class: "heft" }, el("h2", {}, "II. Heft"), D.toc.entries.filter(e => heftOf(e.id) === "II").map(row)),
+      D.toc.img ? el("figure", { class: "toc-scan" }, el("img", { src: D.toc.img, alt: "Inhaltsverzeichnis of the Operat" }),
+        el("figcaption", { class: "caption" }, "Inhaltsverzeichnis, A 383 I")) : ""),
+    el("div", { class: "facts" },
+      el("span", {}, el("b", {}, nf(D.meta.pages, 0)), " pages"),
+      el("span", {}, el("b", {}, nf(c.cells, 0)), " table cells"),
+      el("span", {}, el("b", {}, nf((checks.ok + (checks.ok_after_recheck || 0)) / total * 100, 0) + " %"), ` of ${nf(total, 0)} sums agree`),
+      el("span", {}, el("b", {}, nf(c.statements, 0)), " statements"),
+      el("span", {}, el("b", {}, nf(c.map_labels, 0)), " map labels"),
+      PACKAGE_LINK ? el("a", { href: PACKAGE_LINK }, "Data package") : ""))];
+}
+
+/* reader */
+function openReader(u, p, focus = null) {
+  if (!D.reader[u]) return;
+  readerState.u = u; readerState.p = p ?? D.reader[u][0].p; readerState.focus = focus;
+  const hash = `#read-${u}-${readerState.p}`;
+  if (location.hash !== hash) history.replaceState(null, "", hash);
+  render();
+}
+function stepPage(d) {
+  const pages = D.reader[readerState.u] || [], i = pages.findIndex(r => r.p === readerState.p), next = pages[i + d];
+  if (next) openReader(readerState.u, next.p);
+}
+document.addEventListener("keydown", e => {
+  if (!location.hash.startsWith("#read-") || e.altKey || e.ctrlKey || e.metaKey || /input|select|textarea/i.test(document.activeElement?.tagName || "")) return;
+  if (e.key === "ArrowRight") stepPage(1);
+  if (e.key === "ArrowLeft") stepPage(-1);
+});
+function failCount(r) { return (r.fails || []).filter(f => f[7] !== "reading_confirmed").length; }
+function reader() {
+  if (!readerState.u) { readerState.u = LINKED[0].id; readerState.p = D.reader[LINKED[0].id][0].p; }
+  const u = readerState.u, pages = D.reader[u], rec = pages.find(r => r.p === readerState.p) || pages[0];
+  readerState.p = rec.p;
+  const pg = page(u, rec.p), idx = pages.indexOf(rec), focus = readerState.focus || {};
+  readerState.focus = null;
+
+  const rail = el("nav", { class: "rail", "aria-label": "Sections" });
+  for (const heft of ["I", "II"]) {
+    rail.append(el("div", { class: "rail-heft" }, `${heft}. Heft`));
+    for (const e of LINKED.filter(x => heftOf(x.id) === heft)) {
+      rail.append(el("button", { class: "rail-item", "aria-current": e.id === u ? "true" : "false", onclick: () => openReader(e.id) },
+        el("span", { class: "rid" }, e.nr && e.nr !== "WHB" ? `${e.nr}.` : ""), el("span", {}, e.title)));
+      if (e.id === u) rail.append(el("div", { class: "pages-list" }, pages.map(r => {
+        const pp = page(u, r.p);
+        return el("button", { "aria-current": r.p === rec.p ? "true" : "false", class: failCount(r) ? "flag" : "", title: archival(pp), onclick: () => openReader(u, r.p) }, pp ? pp.num : r.p);
+      })));
+    }
+  }
+
+  /* scan */
+  const inner = el("div", { class: "scan-inner" });
+  const scroll = el("div", { class: "scroll" }, inner);
+  const band = el("div", { class: "scan-band", hidden: true });
+  if (pg && pg.img) inner.append(el("img", { src: pg.img, alt: `Scan ${pg.pid}` }), band);
+  else inner.append(el("p", { class: "note" }, "No image of this page in the data set."));
+  const zoomLabel = el("span", { class: "muted num", style: "font-size:.82rem;min-width:40px;text-align:right" });
+  const applyZoom = () => { inner.style.width = (readerState.zoom * 100) + "%"; zoomLabel.textContent = `${Math.round(readerState.zoom * 100)} %`; };
+  applyZoom();
+  const showBand = (box, center) => {
+    if (!box || box.length !== 4 || !pg?.img) { band.hidden = true; return; }
+    const h = Math.max(box[2] - box[0], 12);
+    band.style.top = `${Math.max(0, box[0] - h * .5) / 10}%`; band.style.height = `${h * 2 / 10}%`; band.hidden = false;
+    if (center) scroll.scrollTo({ top: (box[0] + box[2]) / 2000 * inner.offsetHeight - scroll.clientHeight / 2, behavior: "smooth" });
+  };
+  const mapRec = rec.kind === "map" ? D.maps.find(x => x.u === u && x.p === rec.p) : null;
+  if (mapRec && pg?.img) for (const l of mapRec.labels) {
+    const b = el("button", { class: "scan-label", "aria-label": l[0], style: `left:${l[2] / mapRec.w * 100}%;top:${l[3] / mapRec.h * 100}%;width:${(l[4] - l[2]) / mapRec.w * 100}%;height:${(l[5] - l[3]) / mapRec.h * 100}%` });
+    b.addEventListener("pointermove", e => showTip(e, l[0], [{ label: l[1].replace(/_/g, " "), value: "" }])); b.addEventListener("pointerleave", hideTip);
+    inner.append(b);
+  }
+  const scanPane = el("section", { class: "pane scan-pane", "aria-label": "Scan" },
+    el("div", { class: "pane-bar" }, el("span", { class: "title" }, "Scan"),
+      el("div", { class: "controls" }, zoomLabel, el("div", { class: "seg" },
+        el("button", { "aria-label": "Zoom out", onclick: () => { readerState.zoom = Math.max(1, readerState.zoom - .5); applyZoom(); } }, "−"),
+        el("button", { onclick: () => { readerState.zoom = 1; applyZoom(); } }, "Fit"),
+        el("button", { "aria-label": "Zoom in", onclick: () => { readerState.zoom = Math.min(5, readerState.zoom + .5); applyZoom(); } }, "+")))),
+    scroll);
+
+  /* transcription */
+  const tx = el("div");
+  const selectRow = (tr, center) => {
+    for (const n of tx.querySelectorAll("tr.sel")) n.classList.remove("sel");
+    tr.classList.add("sel");
+    if (center) tr.scrollIntoView({ block: "center", behavior: "smooth" });
+    showBand(tr.dataset.b ? tr.dataset.b.split(",").map(Number) : null, true);
+  };
+  const renderTx = () => {
+    if (rec.kind === "text") {
+      tx.className = `tx${readerState.lines ? " lines" : ""}${readerState.mode === "draft" ? " plain" : ""}`;
+      tx.innerHTML = readerState.mode === "draft" ? rec.htr : rec.html;
+      for (const mk of tx.querySelectorAll("mark.corr")) mk.title = `HTR draft: ${mk.dataset.htr || "(nothing)"}`;
+    } else if (rec.kind === "table") {
+      tx.className = `tx-table${readerState.ids ? "" : " hide-ids"}`;
+      const formNr = rec.outside.filter(o => o[0] === "form_number"), headings = rec.outside.filter(o => o[0] === "heading");
+      const notes = rec.outside.filter(o => OUTSIDE[o[0]]);
+      tx.replaceChildren(
+        formNr.length || headings.length ? el("div", { class: "form-head" }, formNr.map(o => el("span", { class: "form-nr" }, o[1])), headings.map(o => el("div", { class: "ttl" }, o[1]))) : "",
+        el("div", { html: rec.html }),
+        notes.length ? el("div", { class: "page-notes" }, notes.map(o => el("div", {}, el("span", { class: "k" }, OUTSIDE[o[0]]), el("span", { class: "t" }, o[1])))) : "");
+      for (const tr of tx.querySelectorAll("tbody tr[data-r]")) {
+        tr.addEventListener("pointerenter", () => showBand(tr.dataset.b ? tr.dataset.b.split(",").map(Number) : null, false));
+        tr.addEventListener("click", () => selectRow(tr, false));
+      }
+      tx.addEventListener("pointerleave", () => { const sel = tx.querySelector("tr.sel"); if (sel) showBand(sel.dataset.b?.split(",").map(Number), false); else band.hidden = true; });
+    } else if (rec.kind === "map") {
+      tx.className = "tx";
+      tx.replaceChildren(mapRec ? el("div", {}, el("h2", { style: "text-align:left;margin-top:0" }, mapRec.title),
+        el("p", { class: "muted", style: "font-family:var(--sans);font-size:.92rem" }, [mapRec.type, mapRec.date, mapRec.scale].filter(Boolean).join(", ")),
+        mapRec.legend.length ? el("div", { class: "legend-list", style: "margin-top:18px;font-family:var(--sans)" }, el("h3", {}, "Legend"),
+          mapRec.legend.map(([s, meaning]) => el("div", {}, el("span", {}, meaning), el("span", { class: "sym" }, s)))) : "") : el("p", { class: "note" }, "Map not read."));
+    } else {
+      tx.className = "";
+      tx.replaceChildren(el("p", { class: "note" }, rec.note || "Not transcribed."));
+    }
+  };
+  const txControls = el("div", { class: "controls" });
+  if (rec.kind === "text") txControls.append(
+    el("div", { class: "seg", role: "group", "aria-label": "Version" },
+      el("button", { "aria-pressed": readerState.mode === "checked" ? "true" : "false", title: "Proofread against the scan", onclick: e => { readerState.mode = "checked"; setPressed(e); renderTx(); } }, "Checked"),
+      el("button", { "aria-pressed": readerState.mode === "draft" ? "true" : "false", title: "Transcription before proofreading", onclick: e => { readerState.mode = "draft"; setPressed(e); renderTx(); } }, "HTR")),
+    el("label", { class: "toggle" }, el("input", { type: "checkbox", id: "opt-lines", checked: readerState.lines ? true : null, onchange: e => { readerState.lines = e.target.checked; store("ilz-lines", e.target.checked ? "1" : "0"); renderTx(); } }), "Line breaks"));
+  if (rec.kind === "table") txControls.append(el("label", { class: "toggle" }, el("input", { type: "checkbox", id: "opt-ids", checked: readerState.ids ? true : null, onchange: e => { readerState.ids = e.target.checked; renderTx(); } }), "Column ids"));
+  renderTx();
+  const txPane = el("section", { class: "pane tx-pane", "aria-label": "Transcription" },
+    el("div", { class: "pane-bar" }, el("span", { class: "title" }, rec.kind === "table" ? "Table" : rec.kind === "map" ? "Map" : "Transcription"), txControls),
+    el("div", { class: "scroll" }, tx));
+
+  /* extraction */
+  const x = el("div", { class: "x" });
+  const clearHighlight = () => {
+    for (const n of tx.querySelectorAll(".on")) n.classList.remove("on");
+    for (const n of x.querySelectorAll(".x-item.on")) n.classList.remove("on");
+    if (window.CSS && CSS.highlights) CSS.highlights.delete("quote");
+  };
+  const highlight = (id, center) => {
+    clearHighlight();
+    x.querySelector(`.x-item[data-id="${id}"]`)?.classList.add("on");
+    const span = tx.querySelector(`.q[data-q="${id}"]`);
+    if (span) { span.classList.add("on"); if (center) span.scrollIntoView({ block: "center", behavior: "smooth" }); return; }
+    const a = tx.querySelector(`.qa[data-q="${id}"]`), z = tx.querySelector(`.qz[data-q="${id}"]`);
+    if (!a) return;
+    a.classList.add("on");
+    if (z && window.Highlight && CSS.highlights) { const r = new Range(); r.setStartAfter(a); r.setEndBefore(z); CSS.highlights.set("quote", new Highlight(r)); }
+    if (center) a.scrollIntoView({ block: "center", behavior: "smooth" });
+  };
+  const ensureChecked = () => { if (readerState.mode !== "checked") { readerState.mode = "checked"; for (const b of txControls.querySelectorAll(".seg button")) b.setAttribute("aria-pressed", b.textContent === "Checked" ? "true" : "false"); renderTx(); } };
+  const anchorAt = id => { const i = rec.html ? rec.html.indexOf(`data-q="${id}"`) : -1; return i < 0 ? Infinity : i; };
+  const xItem = (id, cls, subject, cat, value, where) => {
+    const placed = anchorAt(id) !== Infinity;
+    return el("button", { class: `x-item ${cls}${placed ? "" : " unplaced"}`, "data-id": id, title: placed ? null : "Quote not located in the transcription",
+      onclick: () => { if (placed) { ensureChecked(); highlight(id, true); } },
+      onmouseenter: () => { if (placed && readerState.mode === "checked") highlight(id, false); } },
+      el("span", { class: "top-line" }, el("span", { class: "s" }, subject), el("span", { class: "c" }, cat)),
+      value ? el("span", { class: "v" }, value) : "", where ? el("span", { class: "w" }, where) : "");
+  };
+  if (rec.kind === "text") {
+    const items = [
+      ...rec.events.map(i => { const e = D.events[i]; return { id: `e${i}`, at: anchorAt(`e${i}`), node: () => xItem(`e${i}`, "event", EVENT_TYPES[e.type] || e.type, e.date || "undated", e.extent, e.place) }; }),
+      ...rec.stmts.map(i => { const s = D.statements[i]; return { id: String(i), at: anchorAt(String(i)), node: () => xItem(String(i), "", s.attr ? `${s.subj}, ${s.attr}` : s.subj,
+        [CATEGORY[s.cat], STATUS_WORD[s.status]].filter(Boolean).join(", "), s.val ? `${s.val}${s.vu ? " " + s.vu : ""}` : "", joinUnique([s.time, s.place].filter(t => t !== s.val))) }; })]
+      .sort((a, b) => a.at - b.at);
+    x.append(
+      el("section", {}, el("h3", {}, "Statements", el("span", {}, items.length || "")),
+        items.length ? items.map(i => i.node()) : el("p", { class: "muted", style: "font-size:.88rem" }, "None on this page.")),
+      rec.corr.length ? el("section", {}, el("h3", {}, "Corrections", el("span", {}, rec.corr.length)),
+        el("div", { class: "pairs" }, el("span", { class: "h" }, "HTR"), el("span", { class: "h" }, "Scan"),
+          rec.corr.map(([a, b]) => [el("span", { class: "from" }, a || "–"), el("span", { class: "to" }, b || "–")]))) : "");
+    tx.addEventListener("pointerover", e => { const q = e.target.closest?.(".q"); if (q) x.querySelector(`.x-item[data-id="${q.dataset.q}"]`)?.classList.add("on"); });
+    tx.addEventListener("pointerout", e => { const q = e.target.closest?.(".q"); if (q && !q.classList.contains("on")) x.querySelector(`.x-item[data-id="${q.dataset.q}"]`)?.classList.remove("on"); });
+    tx.addEventListener("click", e => { const q = e.target.closest?.(".q"); if (q) { const it = x.querySelector(`.x-item[data-id="${q.dataset.q}"]`); highlight(q.dataset.q, false); it?.scrollIntoView({ block: "nearest", behavior: "smooth" }); } });
+  } else if (rec.kind === "table") {
+    const total = Object.values(rec.checks || {}).reduce((a, b) => a + b, 0), m = merged(rec.checks || {}), good = (m.ok || 0) + (m.ok_after_recheck || 0);
+    const form = (D.forms[u] || {})[rec.form];
+    const vals = (OBS_BY_PAGE[`${u}/${rec.p}`] || []).map(obs);
+    const findRow = (t, r) => tx.querySelectorAll("table.grid")[t]?.querySelector(`tbody tr[data-r="${r}"]`);
+    x.append(
+      el("section", { class: "sums" }, el("h3", {}, "Sums"),
+        total ? [el("span", { class: "big" }, `${good} of ${total} agree`), statusBar(rec.checks), statusLegend(rec.checks)] : el("span", { class: "muted", style: "font-size:.88rem" }, "No sums on this page."),
+        rec.reread ? el("span", { class: "muted", style: "font-size:.86rem" }, `${rec.reread} cells changed on re-reading, shaded yellow`) : ""),
+      rec.fails.length ? el("section", {}, el("h3", {}, "Open sums", el("span", {}, rec.fails.length)), el("div", { class: "fails" }, rec.fails.map(f => {
+        const [t, r, label, column, , found, expected, status] = f;
+        return el("button", { class: `fail${status === "reading_confirmed" ? " conf" : ""}`, onclick: () => { const tr = findRow(t, r); if (tr) selectRow(tr, true); } },
+          el("span", {}, el("b", {}, (label || `Row ${r + 1}`).replace(/[\s,.;:]+$/, "")), `, ${column.split(" › ").slice(-2).join(" › ")}`),
+          el("span", { class: "w" }, `written ${nf(found, 2)}, rows give ${nf(expected, 2)}`),
+          el("span", { class: "w muted" }, STATUS[status].label));
+      }))) : "",
+      vals.length ? el("section", {}, el("h3", {}, "Values", el("span", {}, nf(vals.length, 0))),
+        el("div", { style: "max-height:340px;overflow:auto;border:1px solid var(--rule);border-radius:4px" },
+          el("table", { class: "vals" }, el("thead", {}, el("tr", {}, el("th", {}, "Row"), el("th", {}, "Variable"), el("th", { style: "text-align:right" }, "Value"), el("th", {}, ""))),
+            el("tbody", {}, vals.slice(0, 400).map(o => el("tr", { onclick: () => { const tr = findRow(o.t, o.r); if (tr) selectRow(tr, true); else showBand(o.box, true); },
+              onmouseenter: () => showBand(o.box, false) },
+              el("td", { class: "muted" }, o.st ? o.st.split("|").slice(1).filter(Boolean).join(" ") : (o.per || o.sc || o.r + 1)),
+              el("td", {}, varLabel(o.var)), el("td", { class: "n" }, `${nf(o.vs ?? o.v)} ${o.us || ""}`), el("td", {}, statusDot(o.cs)))))))) : "",
+      rec.scan_corr.length ? el("section", {}, el("h3", {}, "Read from the scan", el("span", {}, rec.scan_corr.length)),
+        el("div", { class: "pairs" }, el("span", { class: "h" }, "HTR"), el("span", { class: "h" }, "Scan"),
+          rec.scan_corr.slice(0, 60).map(([w, a, b]) => [el("span", { class: "from", title: w }, a || "–"), el("span", { class: "to", title: w }, b || "–")]))) : "",
+      form ? el("details", {}, el("summary", {}, `Form ${form.name || rec.form}, ${form.columns.length} columns`),
+        el("div", { class: "colmap" }, form.columns.map(([id, label, , unit, variable]) => [el("span", {}, label), el("span", { class: "id" }, variable ? `${variable}${unit ? " [" + unit + "]" : ""}` : id)]))) : "");
+  } else if (rec.kind === "map" && mapRec) {
+    const byClass = {}; for (const l of mapRec.labels) (byClass[l[1]] = byClass[l[1]] || []).push(l[0]);
+    x.append(el("section", {}, el("h3", {}, "Labels", el("span", {}, mapRec.labels.length)),
+      Object.entries(byClass).sort((a, b) => b[1].length - a[1].length).map(([k, v]) =>
+        el("details", {}, el("summary", {}, `${k.replace(/_/g, " ")} (${v.length})`), el("p", { style: "font-size:.88rem;margin-top:6px;line-height:1.5" }, v.join(", "))))));
+  } else x.append(el("p", { class: "muted", style: "font-size:.88rem" }, "Nothing extracted from this page."));
+  const xPane = el("section", { class: "pane x-pane", "aria-label": "Extraction" }, el("div", { class: "pane-bar" }, el("span", { class: "title" }, "Extraction")), el("div", { class: "scroll" }, x));
+
+  const select = el("select", { "aria-label": "Section", onchange: e => openReader(e.target.value) },
+    LINKED.map(e => el("option", { value: e.id, selected: e.id === u ? true : null }, `${sectionNo(e.id)} ${e.title}`)));
+  const toolbar = el("div", { class: "toolbar" },
+    select,
+    el("div", { class: "sec" }, el("span", {}, sectionNo(u)), UNIT[u].title),
+    el("div", { class: "where" }, archival(pg)),
+    el("div", { class: "nav" },
+      el("button", { class: "btn", disabled: idx <= 0 ? true : null, onclick: () => stepPage(-1), "aria-label": "Previous page" }, "←"),
+      el("span", { class: "count" }, `${idx + 1} / ${pages.length}`),
+      el("button", { class: "btn", disabled: idx >= pages.length - 1 ? true : null, onclick: () => stepPage(1), "aria-label": "Next page" }, "→")));
+
+  setTimeout(() => {
+    if (focus.row != null) { const tr = tx.querySelectorAll("table.grid")[focus.table || 0]?.querySelector(`tbody tr[data-r="${focus.row}"]`) || tx.querySelector(`tbody tr[data-r="${focus.row}"]`); if (tr) selectRow(tr, true); }
+    if (focus.q != null) { highlight(focus.q, true); x.querySelector(`.x-item[data-id="${focus.q}"]`)?.scrollIntoView({ block: "nearest" }); }
+    rail.querySelector('.rail-item[aria-current="true"]')?.scrollIntoView({ block: "nearest" });
+  }, 0);
+  return [el("div", { class: "reader" }, rail, el("div", { class: "reader-main" }, toolbar, el("div", { class: "panes" }, scanPane, txPane, xPane)))];
+}
+
+/* figures */
 function harvestAnnotations() {
   const picked = [];
   for (const type of ["windthrow", "bark_beetle"]) {
@@ -630,367 +903,219 @@ function harvestAnnotations() {
   }
   return picked;
 }
-function harvestCard(height) {
-  const s = D.series.find(x => x.id === "harvest");
-  const groups = [{ ...s.groups[0], label: "Hauptnutzung", color: "var(--harvest-main)" }, { ...s.groups[1], label: "Zwischennutzung", color: "var(--harvest-inter)" }];
-  const perYear = s.etat ? s.etat / s.years : null;
-  const block = chartBlock(host => columnChart(host, { x: s.x, series: groups, unit: "Ster", title: s.title, height,
-    annotations: harvestAnnotations(), ref: perYear, refLabel: perYear ? `Etat: ${nf(perYear)} Ster a year` : "" }));
-  block.tableHost.append(seriesTable(s, groups));
-  return el("section", { class: "card" },
-    el("div", { class: "card-head" },
-      el("div", {}, el("div", { class: "eyebrow" }, "I-16 · Abschluß der jährlichen Materialergebnisse"), el("h2", {}, "Harvest per year of use, 1860/61–1877"),
-        el("p", { class: "card-note" }, "Final fellings (Hauptnutzung) and intermediate yields (Zwischennutzung) of the whole complex, in Ster. Klafter up to 1871 are converted with the clerk's own factor of 3.1325 Ster. The line spreads the planned cut (Etat) evenly over the 17 years.")),
-      block.toggle),
-    el("div", { class: "legend" }, groups.map(g => el("span", {}, keyRect(g.color), g.label)), el("span", {}, keyLine("var(--ink-2)"), "Etat per year")),
-    block.host, block.tableHost);
+function figurePanel(title, caption, block, legend) {
+  return el("section", { class: "panel" }, el("div", { class: "panel-head" }, el("h2", {}, title), block.toggle), legend || "", block.host, block.tableHost, el("p", { class: "caption" }, caption));
 }
-function overview() {
-  const s = D.series.find(x => x.id === "harvest");
-  const overPct = s.etat ? (s.total / s.etat - 1) * 100 : null;
-  const checks = D.meta.checks, totalChecks = Object.values(checks).reduce((a, b) => a + b, 0);
-  const okShare = ((checks.ok || 0) + (checks.ok_after_recheck || 0)) / totalChecks * 100;
-  return [
-    el("section", { class: "hero" },
-      el("div", {},
-        el("div", { class: "eyebrow" }, "Waldstandsrevision · Forstamt Schönberg · Reviere Schönau, St. Oswald, Klingenbrunn"),
-        el("h1", { style: "margin-top:10px" }, "The Ilzertrift forests in the revision of 1878/90"),
-        el("p", { class: "lede" }, `Structured data from ${D.meta.pages} pages of the revision files (A 383 I – A 385): tables read as faithful grids and checked against their own sums, reports proofread against the scans, maps read label by label. Every number opens the page it comes from.`)),
-      el("div", { class: "figure" },
-        el("div", { class: "big" }, overPct != null ? `+${nf(overPct, 0)} %` : "–"),
-        el("div", { class: "what" }, "felled above the plan, 1860/61–1877"),
-        el("div", { class: "how" }, `${nf(s.total, 0)} Ster cut against an Etat of ${nf(s.etat, 0)} Ster: ${nf(s.overcut, 0)} Ster more (“Demnach Mehrfällung”). Most of it came after the storm of October 1870 and the bark beetle years.`),
-        el("button", { class: "btn link", onclick: () => openPage("I-16", 1) }, "See the closing table, Beilage I. 16"))),
-    el("div", { class: "stats" },
-      [[D.meta.counts.observations, "numeric values, each linked to its cell"], [D.stands.length, "stands, by Revier, Distrikt and Abteilung"],
-       [D.meta.counts.statements, "statements from reports and protocols"], [D.meta.counts.map_labels, "labels read on four maps"]]
-        .map(([v, l]) => el("div", { class: "stat" }, el("div", { class: "v" }, nf(v, 0)), el("div", { class: "l" }, l)))),
-    harvestCard(320),
-    el("section", { class: "card" },
-      el("div", { class: "card-head" },
-        el("div", {}, el("div", { class: "eyebrow" }, "Reliability"), el("h2", {}, `${nf(okShare, 0)} % of ${nf(totalChecks, 0)} sums reproduced`),
-          el("p", { class: "card-note" }, "The tables carry their own arithmetic: column totals, row sums and carry-overs between pages. Every reading was checked against it, and failed sums were read again on zoomed crops of the scan.")),
-        el("button", { class: "btn", onclick: () => go("sources") }, "All 24 sections")),
-      statusLegend(checks), statusBar(checks)),
-    footer()];
-}
-
-/* harvest & use */
-function revierSeriesCard(s, eyebrow, explanation) {
-  let variant = "all";
-  const holder = el("div", { style: "display:grid;gap:14px" });
-  const seg = el("div", { class: "seg", role: "group", "aria-label": "Kind" });
-  const drawCard = () => {
-    const groups = (s.variants[variant] || s.groups).map(g => ({ ...g, label: g.key, color: REV_COLOR[g.key] }));
-    const block = chartBlock(host => lineChart(host, { x: s.x, series: groups, unit: s.unit, title: s.title }));
-    block.tableHost.append(seriesTable(s, groups));
-    holder.replaceChildren(el("div", { class: "controls", style: "justify-content:space-between" }, seg, block.toggle),
-      el("div", { class: "legend" }, groups.map(g => el("span", {}, keyLine(g.color), g.label))), block.host, block.tableHost);
-  };
-  for (const [key, label] of [["all", "All"], ...Object.entries(s.variables)]) seg.append(el("button", { "aria-pressed": key === variant ? "true" : "false", onclick: e => {
-    variant = key; for (const b of seg.children) b.setAttribute("aria-pressed", b === e.currentTarget ? "true" : "false"); drawCard(); } }, label));
-  drawCard();
-  return el("section", { class: "card" }, el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, eyebrow), el("h2", {}, s.title), el("p", { class: "card-note" }, explanation)), holder);
-}
-function simpleSeriesCard(s, eyebrow, colors, explanation) {
-  const groups = s.groups.map((g, i) => ({ ...g, color: colors[i] }));
-  const block = chartBlock(host => columnChart(host, { x: s.x, series: groups, unit: s.unit, title: s.title, height: 260 }));
-  block.tableHost.append(seriesTable(s, groups));
-  return el("section", { class: "card" },
-    el("div", { class: "card-head" }, el("div", {}, el("div", { class: "eyebrow" }, eyebrow), el("h2", {}, s.title), el("p", { class: "card-note" }, explanation)), block.toggle),
-    groups.length > 1 ? el("div", { class: "legend" }, groups.map(g => el("span", {}, keyRect(g.color), g.label))) : "",
-    block.host, block.tableHost);
-}
-function use() {
+function figures() {
   const get = id => D.series.find(s => s.id === id);
-  return [
-    head("Harvest & use, 1860/61–1877", "What the forest gave, year by year", "Timber, grazing, litter, new cultures and the cost of the timber-floating works, from the closing tables of the past period. Click any year for the cells it comes from."),
-    harvestCard(340),
-    el("div", { class: "grid-2" },
-      revierSeriesCard(get("grazing"), "I-20 · Weidenschaft", "Cattle driven into the state forest each year, per Revier."),
-      revierSeriesCard(get("litter"), "I-20 · Streunutzung", "Litter raked from the forest floor each year, in Fuder (cart loads of 144 cubic feet).")),
-    el("div", { class: "grid-2" },
-      simpleSeriesCard(get("cultures"), "I-18 · Forstculturen", ["var(--conifer)", "var(--broadleaf)"], "Area newly planted or sown each year, conifers and broadleaves; hover a year for planting and sowing separately."),
-      simpleSeriesCard(get("trift"), "I-19 · Triftbaukosten", ["var(--harvest-main)"], "Cash expense of the state on chutes, timber yards, stream clearing, bank protection and splash dams, in Mark.")),
-    footer()];
+  const h = get("harvest"), hg = [{ ...h.groups[0], label: "Hauptnutzung", color: "var(--harvest-main)" }, { ...h.groups[1], label: "Zwischennutzung", color: "var(--harvest-inter)" }];
+  const perYear = h.etat ? h.etat / h.years : null;
+  const hb = chartBlock(host => columnChart(host, { x: h.x, series: hg, unit: "Ster", title: "Harvest per year of use", height: 330, annotations: harvestAnnotations(), ref: perYear, refLabel: perYear ? `Etat ${nf(perYear)} Ster a year` : "" }));
+  hb.tableHost.append(seriesTable(h, hg));
+  const revierPanel = (s, title, caption) => {
+    let variant = "all";
+    const holder = el("div", { style: "display:grid;gap:12px" }), seg = el("div", { class: "seg", role: "group", "aria-label": "Kind" });
+    const draw = () => {
+      const groups = (s.variants[variant] || s.groups).map(g => ({ ...g, label: g.key, color: REV_COLOR[g.key] }));
+      const b = chartBlock(host => lineChart(host, { x: s.x, series: groups, unit: s.unit, title }));
+      b.tableHost.append(seriesTable(s, groups));
+      holder.replaceChildren(el("div", { class: "controls", style: "justify-content:space-between" }, seg, b.toggle), el("div", { class: "legend" }, groups.map(g => el("span", {}, keyLine(g.color), g.label))), b.host, b.tableHost);
+    };
+    for (const [k, l] of [["all", "All"], ...Object.entries(s.variables)]) seg.append(el("button", { "aria-pressed": k === variant ? "true" : "false", onclick: e => { variant = k; setPressed(e); draw(); } }, l));
+    draw();
+    return el("section", { class: "panel" }, el("h2", {}, title), holder, el("p", { class: "caption" }, caption));
+  };
+  const cu = get("cultures"), cg = cu.groups.map((g, i) => ({ ...g, color: ["var(--conifer)", "var(--broadleaf)"][i] }));
+  const cb = chartBlock(host => columnChart(host, { x: cu.x, series: cg, unit: "ha", title: "New cultures", height: 250 }));
+  cb.tableHost.append(seriesTable(cu, cg));
+  const tr = get("trift"), tg = tr.groups.map(g => ({ ...g, label: "Expense", color: "var(--harvest-main)" }));
+  const tb = chartBlock(host => columnChart(host, { x: tr.x, series: tg, unit: "M", title: "Timber-floating works", height: 250 }));
+  tb.tableHost.append(seriesTable(tr, tg));
+  return [el("div", { class: "page" },
+    el("div", { class: "head" }, el("h1", {}, "Use of the forest, 1860/61–1877"), el("p", { class: "sub" }, "From the closing tables of the past period. Bars and points open the cells they are read from.")),
+    figurePanel("Harvest per year of use", "Ster. Klafter up to 1871 converted at the clerk’s factor of 3.1325 Ster; the line spreads the Etat evenly over 17 years. Beilage I. 16.", hb,
+      el("div", { class: "legend" }, hg.map(g => el("span", {}, keyRect(g.color), g.label)), el("span", {}, keyLine("var(--ink-2)"), "Etat per year"))),
+    el("div", { class: "cols-2" },
+      revierPanel(get("grazing"), "Cattle grazing in the forest", "Head of cattle per year. Beilage I. 20, Weidenschaft."),
+      revierPanel(get("litter"), "Litter raking", "Fuder of 144 cubic feet per year. Beilage I. 20, Streunutzung.")),
+    el("div", { class: "cols-2" },
+      figurePanel("New cultures", "Hectares planted or sown per year, Tagwerk at 0.3407 ha. Beilage I. 18.", cb, el("div", { class: "legend" }, cg.map(g => el("span", {}, keyRect(g.color), g.label)))),
+      figurePanel("Timber-floating works", "Expense of the state in Mark, Gulden at 12/7. Beilage I. 19.", tb)))];
 }
 
 /* stands */
-const standById = Object.fromEntries(D.stands.map(s => [s.id, s]));
-function standLabel(id) { const s = standById[id]; if (!s) return id; return `${s.rev} · Distr. ${s.d}${s.c ? " · Abt. " + s.c : ""}${s.s ? " " + s.s : ""}${s.names ? " (" + s.names.split(";")[0] + ")" : ""}`; }
-function romanValue(r) { const map = { I: 1, V: 5, X: 10, L: 50, C: 100 }; let total = 0; for (let i = 0; i < (r || "").length; i++) { const a = map[r[i]] || 0, b = map[r[i + 1]] || 0; total += a < b ? -a : a; } return total || 999; }
+function standName(s) { return `${s.rev}, Distrikt ${s.d}${s.c ? ", Abteilung " + s.c : ""}${s.s ? " " + s.s : ""}`; }
+function romanValue(r) { const m = { I: 1, V: 5, X: 10, L: 50, C: 100 }; let t = 0; for (let i = 0; i < (r || "").length; i++) { const a = m[r[i]] || 0, b = m[r[i + 1]] || 0; t += a < b ? -a : a; } return t || 999; }
 function stands() {
-  const state = { rev: "all", district: "all", q: "" };
-  const ages = REVIERE.map(r => ({ r, values: D.obs.rows.filter(x => x[0] === "I-02" && x[4] === "age" && x[9] === r && x[5] != null).map(x => x[5]) }));
+  const state = { rev: "all", d: "all", q: "" };
   const bins = Array.from({ length: 15 }, (_, i) => [i * 20, i * 20 + 20]);
-  const histCard = el("section", { class: "card" },
-    el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, "I-02 · Spezieller Wirtschaftsplan 1878/89"), el("h2", {}, "Age of the stands scheduled for cutting"),
-      el("p", { class: "card-note" }, "Stands in the cutting plan for the new period, by Revier, in age classes of 20 years.")),
-    el("div", { class: "hist-grid" }, ages.map(a => {
-      const block = chartBlock(host => histogram(host, a.values, REV_COLOR[a.r], { bins, title: a.r }));
-      return el("div", { style: "display:grid;gap:6px" }, el("h3", {}, a.r, el("span", { class: "muted", style: "font-family:var(--body);font-weight:400;font-size:.88rem" }, ` · ${a.values.length} stands`)), block.host);
-    })));
-  const tableHost = el("div");
-  const card = el("div", { class: "card stand-card" }, el("p", { class: "empty" }, "Select a stand to see what the sources say about it."));
+  const ages = REVIERE.map(r => ({ r, values: D.obs.rows.filter(x => x[0] === "I-02" && x[4] === "age" && x[9] === r && x[5] != null).map(x => x[5]) }));
+  const hist = el("section", { class: "panel" }, el("h2", {}, "Age of the stands in the cutting plan 1878/89"),
+    el("div", { class: "hist-grid" }, ages.map(a => { const b = chartBlock(host => histogram(host, a.values, REV_COLOR[a.r], { bins, title: a.r }));
+      return el("div", { style: "display:grid;gap:4px" }, el("h3", {}, a.r, el("span", { class: "muted", style: "font-weight:400;margin-left:8px" }, `${a.values.length} stands`)), b.host); })),
+    el("p", { class: "caption" }, "Age classes of 20 years. Beilage I. 2, Spezieller Wirtschaftsplan."));
+  const tableHost = el("div"), card = el("div", { class: "panel stand-card" }, el("p", { class: "muted" }, "Select a stand."));
   const districts = [...new Set(D.stands.map(s => s.d))].sort((a, b) => romanValue(a) - romanValue(b));
-  const districtSelect = el("select", { id: "district", "aria-label": "Distrikt" }, el("option", { value: "all" }, "All Distrikte"), districts.map(d => el("option", { value: d }, `Distrikt ${d}`)));
-  const search = el("input", { type: "search", id: "stand-search", placeholder: "Search names, e.g. Rachel", "aria-label": "Search stands" });
-  const revChips = el("div", { class: "controls" });
-  for (const [key, label] of [["all", "All Reviere"], ...REVIERE.map(r => [r, r])]) revChips.append(el("button", { class: "chip", "aria-pressed": key === "all" ? "true" : "false", onclick: e => {
-    state.rev = key; for (const b of revChips.children) b.setAttribute("aria-pressed", b === e.currentTarget ? "true" : "false"); draw(); } }, key !== "all" ? el("span", { class: "dot", style: `background:${REV_COLOR[key]}` }) : "", label));
-  districtSelect.addEventListener("change", () => { state.district = districtSelect.value; draw(); });
+  const dSel = el("select", { "aria-label": "Distrikt" }, el("option", { value: "all" }, "All Distrikte"), districts.map(d => el("option", { value: d }, `Distrikt ${d}`)));
+  const search = el("input", { type: "search", placeholder: "Name, e.g. Rachel", "aria-label": "Search stands" });
+  const revs = el("div", { class: "controls" });
+  for (const [k, l] of [["all", "All Reviere"], ...REVIERE.map(r => [r, r])]) revs.append(el("button", { class: "chip", "aria-pressed": k === "all" ? "true" : "false", onclick: e => { state.rev = k; setPressed(e); draw(); } },
+    k !== "all" ? el("span", { class: "dot", style: `background:${REV_COLOR[k]}` }) : "", l));
+  dSel.addEventListener("change", () => { state.d = dSel.value; draw(); });
   search.addEventListener("input", () => { state.q = search.value.trim().toLowerCase(); draw(); });
-  const firstValue = (s, v, unit) => { for (const i of s.obs) { const o = obs(i); if (o.var === v && (!unit || o.us === unit)) return o; } return null; };
+  const first = (s, v, unit) => { for (const i of s.obs) { const o = obs(i); if (o.var === v && (!unit || o.us === unit)) return o; } return null; };
   function draw() {
-    const list = D.stands.filter(s => (state.rev === "all" || s.rev === state.rev) && (state.district === "all" || s.d === state.district)
-      && (!state.q || (s.names || "").toLowerCase().includes(state.q) || s.id.toLowerCase().includes(state.q)))
+    const list = D.stands.filter(s => (state.rev === "all" || s.rev === state.rev) && (state.d === "all" || s.d === state.d) && (!state.q || (s.names || "").toLowerCase().includes(state.q)))
       .sort((a, b) => REVIERE.indexOf(a.rev) - REVIERE.indexOf(b.rev) || romanValue(a.d) - romanValue(b.d) || (+a.c || 0) - (+b.c || 0) || a.s.localeCompare(b.s));
-    tableHost.replaceChildren(el("p", { class: "muted", style: "font-size:.86rem;margin-bottom:8px" }, `${list.length} stands${list.length > 400 ? " · showing the first 400" : ""}`),
-      dataTable([
-        { label: "Stand", get: s => el("span", { style: "white-space:nowrap" }, el("span", { class: "dot", style: `margin-right:7px;background:${REV_COLOR[s.rev]}` }), `${s.d}${s.c ? " · " + s.c : ""}${s.s ? " " + s.s : ""}`) },
+    tableHost.replaceChildren(el("p", { class: "caption", style: "margin-bottom:8px" }, `${list.length} stands`),
+      dataTable([{ label: "Stand", get: s => el("span", { style: "white-space:nowrap;display:inline-flex;gap:8px;align-items:center" }, el("span", { class: "dot", style: `background:${REV_COLOR[s.rev]}` }), `${s.d}${s.c ? " " + s.c : ""}${s.s ? " " + s.s : ""}`) },
         { label: "Name", get: s => (s.names || "").split(";")[0] },
-        { label: "Area ha", n: true, get: s => { const o = firstValue(s, "area", "ha"); return o ? nf(o.vs ?? o.v, 2) : "–"; } },
-        { label: "Age", n: true, get: s => { const o = firstValue(s, "age"); return o ? nf(o.v, 0) : "–"; } },
-        { label: "Sources", get: s => s.src.replace(/; /g, " ") }],
-        list.slice(0, 400), s => renderStandCard(card, s)));
+        { label: "Area ha", n: true, get: s => { const o = first(s, "area", "ha"); return o ? nf(o.vs ?? o.v, 2) : "–"; } },
+        { label: "Age", n: true, get: s => { const o = first(s, "age"); return o ? nf(o.v, 0) : "–"; } },
+        { label: "Sections", get: s => s.src.split("; ").map(sectionNo).join(", ") }], list.slice(0, 400), s => standCard(card, s)));
   }
   draw();
-  return [
-    head("Stands", "The forest stand by stand", `${D.stands.length} stands appear in the tables, keyed by Revier, Distrikt (Roman numeral), Abteilung and Unterabteilung. Pick one to see every value the sources give for it.`),
-    histCard,
-    el("section", { class: "card" }, el("div", { class: "controls" }, revChips, districtSelect, search), el("div", { class: "stands-layout" }, tableHost, card)),
-    footer()];
+  return [el("div", { class: "page" },
+    el("div", { class: "head" }, el("h1", {}, "Stands"), el("p", { class: "sub" }, `${D.stands.length} stands by Revier, Distrikt, Abteilung and Unterabteilung, with every value the tables give for them.`)),
+    hist, el("section", { class: "panel" }, el("div", { class: "controls" }, revs, dSel, search), el("div", { class: "stands-layout" }, tableHost, card)))];
 }
-function renderStandCard(card, s) {
-  const byUnit = {};
-  for (const i of s.obs) { const o = obs(i); (byUnit[o.u] = byUnit[o.u] || []).push(o); }
-  const blocks = Object.entries(byUnit).map(([u, list]) => el("div", { class: "src-block" },
-    el("h4", {}, el("span", { class: "mono" }, u), UNIT_TITLES[u] || ""),
-    el("div", { class: "kv" }, list.map(o => [
-      el("span", { class: "k" }, varLabel(o.var), o.per ? el("span", { class: "muted" }, ` · ${o.per}`) : ""),
-      el("button", { class: "v num", onclick: () => openObservations([o.i], `${varLabel(o.var)} · ${standLabel(s.id)}`) }, `${nf(o.vs ?? o.v)} ${o.us || ""}`),
-      el("span", { class: "status", title: (STATUS[o.cs] || STATUS.unchecked).label }, statusDot(o.cs))]))));
-  const descBlocks = s.desc.map(i => D.descs[i]).filter(Boolean).map(d => {
-    const stand = d.parts.stand || {}, site = d.parts.site || {}, damage = d.parts.damage || [], mgmt = d.parts.management || {};
-    const species = (stand.species || []).map(sp => el("span", {}, sp.name_de + (sp.share_value != null ? ` ${nf(sp.share_value * 100, 0)} %` : "")));
-    const facts = [["Age", stand.age_raw || stand.age_mean], ["Structure", stand.structure], ["Stocking", stand.stocking_min != null ? `${stand.stocking_min}${stand.stocking_max ? "–" + stand.stocking_max : ""}` : ""],
-      ["Health", stand.health], ["Regeneration", stand.regeneration], ["Soil", site.soil], ["Bedrock", site.bedrock], ["Exposition", site.exposition],
-      ["Slope", site.slope], ["Moisture", site.moisture], ["Cutting", mgmt.planned_cut_type], ["Damage", damage.map(x => x.type).join(", ")]].filter(([, v]) => v);
-    return el("div", { class: "src-block" },
-      el("h4", {}, el("span", { class: "mono" }, d.u), "Description cell, decomposed"),
-      species.length ? el("div", { class: "species" }, species) : "",
-      facts.length ? el("div", { class: "kv", style: "grid-template-columns:auto minmax(0,1fr)" }, facts.map(([k, v]) => [el("span", { class: "k" }, k), el("span", {}, String(v))])) : "",
-      el("p", { class: "quote", style: "font-size:.95rem" }, d.text),
-      el("button", { class: "btn link", style: "justify-self:start", onclick: () => openQuote({ u: d.u, p: d.p, quote: d.text }, `Description · ${standLabel(s.id)}`) }, "Read the cell on the scan"));
+function standCard(card, s) {
+  const byUnit = {}; for (const i of s.obs) { const o = obs(i); (byUnit[o.u] = byUnit[o.u] || []).push(o); }
+  const blocks = Object.entries(byUnit).map(([u, list]) => el("div", { class: "block" },
+    el("h3", {}, el("span", {}, `${sectionNo(u)} ${UNIT[u]?.title || ""}`), el("button", { class: "link", onclick: () => openReader(u, list[0].p, { row: list[0].r, table: list[0].t }) }, "Read")),
+    el("div", { class: "kv" }, list.map(o => [el("span", { class: "k" }, varLabel(o.var), o.per ? el("span", {}, o.per) : ""),
+      el("button", { onclick: () => openValues([o.i], `${varLabel(o.var)}, ${standName(s)}`) }, `${nf(o.vs ?? o.v)} ${o.us || ""}`), statusDot(o.cs)]))));
+  const descs = s.desc.map(i => D.descs[i]).filter(Boolean).map(d => {
+    const st = d.parts.stand || {}, site = d.parts.site || {}, dmg = d.parts.damage || [], mg = d.parts.management || {};
+    const facts = [["Age", st.age_raw || st.age_mean], ["Structure", st.structure], ["Health", st.health], ["Regeneration", st.regeneration], ["Soil", site.soil],
+      ["Bedrock", site.bedrock], ["Exposition", site.exposition], ["Moisture", site.moisture], ["Cutting", mg.planned_cut_type], ["Damage", dmg.map(z => z.type).join(", ")]].filter(([, v]) => v);
+    return el("div", { class: "block" }, el("h3", {}, el("span", {}, `Description, ${sectionNo(d.u)}`), d.p != null ? el("button", { class: "link", onclick: () => openReader(d.u, d.p, { row: d.r }) }, "Read") : ""),
+      el("p", { class: "quote" }, d.text),
+      (st.species || []).length ? el("div", { class: "species" }, st.species.map(sp => el("span", {}, sp.name_de + (sp.share_value != null ? ` ${nf(sp.share_value * 100, 0)} %` : "")))) : "",
+      facts.length ? el("div", { class: "kv", style: "grid-template-columns:auto minmax(0,1fr)" }, facts.map(([k, v]) => [el("span", { class: "k" }, k), el("span", {}, String(v))])) : "");
   });
-  card.replaceChildren(
-    el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, s.rev), el("h2", {}, `Distrikt ${s.d}${s.c ? " · Abteilung " + s.c : ""}${s.s ? " " + s.s : ""}`),
-      s.names ? el("p", { class: "muted" }, s.names) : ""),
-    blocks.length ? blocks : el("p", { class: "empty" }, "No numeric values for this stand."), descBlocks);
+  card.replaceChildren(el("div", { style: "display:grid;gap:4px" }, el("h2", {}, standName(s)), s.names ? el("p", { class: "muted" }, s.names.replace(/; /g, ", ")) : ""),
+    blocks.length ? blocks : el("p", { class: "muted" }, "No numeric values."), descs);
   if (innerWidth < 1000) card.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-/* disturbances */
-function parseEdtf(edtf) {
-  const m = (edtf || "").match(/^(\d{3})([\dX])(?:-(\d\d))?(?:-(\d\d))?(?:\/(\d{3})([\dX]))?/);
-  if (!m) return null;
-  const decade = m[2] === "X";
-  const from = +(m[1] + (decade ? "0" : m[2])) + (m[3] ? (+m[3] - 1) / 12 : 0);
-  const to = m[5] ? +(m[5] + (m[6] === "X" ? "9" : m[6])) + .99 : decade ? from + 9.99 : from + (m[3] ? .08 : .99);
-  return { from, to, uncertain: decade };
+/* statements */
+function statements() {
+  const state = { cat: "all", q: "", limit: 80 };
+  const counts = {}; for (const s of D.statements) counts[s.cat] = (counts[s.cat] || 0) + 1;
+  const list = el("div", { class: "items" }), count = el("span", { class: "caption" });
+  const more = el("button", { class: "btn", onclick: () => { state.limit += 80; draw(); } }, "More");
+  const cat = el("select", { "aria-label": "Category", onchange: e => { state.cat = e.target.value; state.limit = 80; draw(); } },
+    el("option", { value: "all" }, "All categories"), Object.entries(CATEGORY).filter(([k]) => counts[k]).map(([k, l]) => el("option", { value: k }, `${l} (${counts[k]})`)));
+  const search = el("input", { type: "search", placeholder: "Search, e.g. Fichte, Windbruch, Weide", "aria-label": "Search statements",
+    oninput: e => { state.q = e.target.value.trim().toLowerCase(); state.limit = 80; draw(); } });
+  const indexed = D.statements.map((s, i) => ({ ...s, i }));
+  function draw() {
+    const hits = indexed.filter(s => (state.cat === "all" || s.cat === state.cat) && (!state.q || [s.subj, s.attr, s.val, s.quote, s.place, s.species].join(" ").toLowerCase().includes(state.q)));
+    count.textContent = `${hits.length} statements`;
+    list.replaceChildren(...hits.slice(0, state.limit).map(s => el("div", { class: "item" },
+      el("div", { class: "when" }, s.attr ? `${s.subj}, ${s.attr}` : s.subj, el("span", {}, [CATEGORY[s.cat], STATUS_WORD[s.status]].filter(Boolean).join(", "))),
+      el("div", { class: "body" }, el("p", { class: "quote" }, s.quote),
+        el("div", { class: "meta" }, joinUnique([s.val ? `${s.val}${s.vu ? " " + s.vu : ""}` : "", s.time, s.place]))),
+      el("div", { class: "src" }, s.p != null ? el("button", { class: "link", onclick: () => openReader(s.u, s.p, { q: String(s.i) }) }, `${sectionRef(s.u)}, p. ${page(s.u, s.p)?.num ?? s.p}`) : sectionRef(s.u)))));
+    more.hidden = hits.length <= state.limit;
+  }
+  draw();
+  return [el("div", { class: "page" },
+    el("div", { class: "head" }, el("h1", {}, "Statements"), el("p", { class: "sub" }, "What the reports and protocols say about species, stands, site, damage and use, each with its passage in the text.")),
+    el("section", { class: "panel" }, el("div", { class: "controls" }, cat, search, count), list, el("div", {}, more)))];
 }
-function disturbances() {
-  const dated = D.events.map(e => ({ ...e, span: parseEdtf(e.edtf) })).filter(e => e.span).sort((a, b) => a.span.from - b.span.from);
-  const undated = D.events.filter(e => !parseEdtf(e.edtf));
+
+/* events */
+function parseEdtf(edtf) {
+  const m = (edtf || "").match(/^(\d{3})([\dX])(?:-(\d\d))?(?:-(\d\d))?(?:\/(\d{3})([\dX]))?/); if (!m) return null;
+  const dec = m[2] === "X", from = +(m[1] + (dec ? "0" : m[2])) + (m[3] ? (+m[3] - 1) / 12 : 0);
+  const to = m[5] ? +(m[5] + (m[6] === "X" ? "9" : m[6])) + .99 : dec ? from + 9.99 : from + (m[3] ? .08 : .99);
+  return { from, to, uncertain: dec };
+}
+function events() {
+  const all = D.events.map((e, i) => ({ ...e, i, span: parseEdtf(e.edtf) }));
+  const dated = all.filter(e => e.span).sort((a, b) => a.span.from - b.span.from), undated = all.filter(e => !e.span);
   const types = [...new Set(dated.map(e => e.type))];
-  const timeline = chartBlock(host => {
-    const width = Math.max(320, host.clientWidth), lane = 36, m = { t: 26, r: 16, b: 30, l: width < 520 ? 92 : 112 }, height = m.t + m.b + lane * types.length;
-    const x0 = 1835, x1 = 1895, x = v => m.l + (v - x0) / (x1 - x0) * (width - m.l - m.r);
-    const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": "Timeline of disturbance events" });
-    for (let yr = 1840; yr <= 1890; yr += 10) { svg.append(svgEl("line", { x1: x(yr), x2: x(yr), y1: m.t, y2: height - m.b, class: "gridline" }));
-      svg.append(svgText({ x: x(yr), y: height - 10, "text-anchor": "middle" }, yr)); }
+  const tl = chartBlock(host => {
+    const width = Math.max(320, host.clientWidth), lane = 34, m = { t: 24, r: 14, b: 28, l: width < 520 ? 92 : 110 }, height = m.t + m.b + lane * types.length;
+    const x = v => m.l + (v - 1835) / 60 * (width - m.l - m.r);
+    const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": "Timeline of events" });
+    for (let yr = 1840; yr <= 1890; yr += 10) { svg.append(svgEl("line", { x1: x(yr), x2: x(yr), y1: m.t, y2: height - m.b, class: "gridline" })); svg.append(svgText({ x: x(yr), y: height - 9, "text-anchor": "middle" }, yr)); }
     svg.append(svgEl("rect", { x: x(1860.75), y: m.t, width: x(1878) - x(1860.75), height: lane * types.length, class: "ann-band" }));
-    svg.append(svgText({ x: x(1860.9), y: m.t - 9, class: "ann-text" }, "past period 1860/61–1877"));
+    svg.append(svgText({ x: x(1860.9), y: m.t - 8, class: "ann-text" }, "Period 1860/61–1877"));
     types.forEach((type, k) => {
       const yy = m.t + k * lane + lane / 2;
-      svg.append(svgText({ x: m.l - 12, y: yy + 4, "text-anchor": "end", style: "fill:var(--ink-2);font-size:12.5px" }, EVENT_TYPES[type] || type));
+      svg.append(svgText({ x: m.l - 12, y: yy + 4, "text-anchor": "end", class: "lane-label" }, EVENT_TYPES[type] || type));
       svg.append(svgEl("line", { x1: m.l, x2: width - m.r, y1: yy, y2: yy, class: "gridline" }));
       for (const e of dated.filter(d => d.type === type)) {
         const a = x(e.span.from), b = Math.max(x(e.span.to), a + 9);
-        svg.append(b - a > 13 ? svgEl("rect", { x: a, y: yy - 5, width: b - a, height: 10, rx: 5, fill: "var(--harvest-main)", opacity: e.span.uncertain ? .4 : .85 })
-          : svgEl("circle", { cx: a + 4.5, cy: yy, r: 5.5, fill: "var(--harvest-main)", stroke: "var(--sheet)", "stroke-width": 2 }));
+        svg.append(b - a > 13 ? svgEl("rect", { x: a, y: yy - 4, width: b - a, height: 8, rx: 4, fill: "var(--harvest-main)", opacity: e.span.uncertain ? .4 : .85 }) : svgEl("circle", { cx: a + 4.5, cy: yy, r: 5, fill: "var(--harvest-main)", stroke: "var(--surface)", "stroke-width": 2 }));
         const hit = svgEl("rect", { x: a - 8, y: yy - 13, width: Math.max(24, b - a + 16), height: 26, class: "hit", tabindex: "0", role: "button", "aria-label": `${EVENT_TYPES[type] || type}, ${e.date || e.edtf}` });
-        attachHit(hit, ev => showTip(ev, `${EVENT_TYPES[type] || type} · ${e.date || e.edtf}`, [{ label: e.place || e.rev || e.u, value: "" }], e.extent || "click for the quote"),
-          () => openQuote(e, `${EVENT_TYPES[type] || type}, ${e.date || ""}`));
+        attachHit(hit, ev => showTip(ev, `${EVENT_TYPES[type] || type}, ${e.date || e.edtf}`, e.place ? [{ label: e.place, value: "" }] : [], e.extent || ""), () => openReader(e.u, e.p, { q: `e${e.i}` }));
         svg.append(hit);
       }
     });
     host.replaceChildren(svg);
   });
-  const areaRows = (unit, variable) => REVIERE.map(r => {
-    const rows = D.obs.rows.map((x, i) => [x, i]).filter(([x]) => x[0] === unit && x[4] === variable && x[9] === r);
-    return { r, v: rows.reduce((s, [x]) => s + (x[6] ?? x[5] ?? 0), 0), refs: rows.map(([, i]) => i) };
-  });
-  const damageStatements = D.statements.filter(s => s.cat === "damage_event" && !D.events.some(e => e.quote === s.quote));
-  const eventItem = e => el("div", { class: "item" },
-    el("div", { class: "when" }, e.date || e.edtf || "undated", el("div", { class: "sub" }, EVENT_TYPES[e.type] || e.type)),
-    el("div", { class: "body" }, el("p", { class: "quote" }, e.quote),
-      el("div", { class: "meta" }, e.place ? el("span", {}, e.place) : "", e.extent ? el("span", {}, e.extent) : "",
-        el("button", { class: "btn link", onclick: () => openQuote(e, `${EVENT_TYPES[e.type] || e.type}, ${e.date || ""}`) }, `${e.u} · open page`))));
-  return [
-    head("Disturbances", "Storm, beetle, snow and frost", "Dated events named in the Erörternde Darstellung, the Grundlagenprotokoll and the examination protocol, next to the areas the tables record as laid bare."),
-    el("section", { class: "card" },
-      el("div", { class: "card-head" }, el("div", {}, el("div", { class: "eyebrow" }, "From the texts"), el("h2", {}, `${dated.length} dated events`),
-        el("p", { class: "card-note" }, "Dots are single dates, bars periods; pale bars are dated only to the decade. Click an event for its quote and page."))),
-      timeline.host),
-    el("div", { class: "grid-2" },
-      areaCard("I-17 · Abgleichung der Angriffsflächen", "Cutting areas laid bare instead", areaRows("I-17", "area_became_bare"), "Areas planned for cutting in the past period that became bare (blößig) through wind and beetle, in ha."),
-      areaCard("I-13 · Verzeichnis der nicht eingereihten Flächen", "Areas left out of the plan", areaRows("I-13", "area_not_assigned"), "Windthrow and beetle gaps, mostly at high elevation and hard to reforest, in ha.")),
-    el("section", { class: "card" },
-      el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, "Quotes"), el("h2", {}, "What the foresters wrote")),
-      el("div", { class: "items" }, dated.map(eventItem), undated.map(eventItem),
-        damageStatements.map(s => el("div", { class: "item" },
-          el("div", { class: "when" }, s.time || "undated", el("div", { class: "sub" }, s.subj)),
-          el("div", { class: "body" }, el("p", { class: "quote" }, s.quote),
-            el("div", { class: "meta" }, s.place ? el("span", {}, s.place) : "", s.val ? el("span", {}, `${s.val} ${s.vu || ""}`) : "",
-              el("button", { class: "btn link", onclick: () => openQuote(s, s.subj) }, `${s.u} · open page`))))))),
-    footer()];
-}
-function areaCard(eyebrow, title, rows, note) {
-  const max = Math.max(...rows.map(r => r.v), 1);
-  return el("section", { class: "card" },
-    el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, eyebrow), el("h2", {}, title), el("p", { class: "card-note" }, note)),
-    el("div", { style: "display:grid;gap:10px" }, rows.map(r => el("button", { class: "area-row", onclick: () => openObservations(r.refs, `${title} · ${r.r}`), "aria-label": `${r.r}: ${nf(r.v, 1)} ha` },
-      el("span", {}, r.r), el("span", { class: "track" }, el("span", { class: "fill", style: `width:${r.v / max * 100}%;background:${REV_COLOR[r.r]}` })),
-      el("b", { class: "num", style: "text-align:right" }, `${nf(r.v, 1)} ha`)))));
-}
-
-/* statements */
-function statements() {
-  const state = { cat: "all", rev: "all", q: "", limit: 60 };
-  const counts = {}; for (const s of D.statements) counts[s.cat] = (counts[s.cat] || 0) + 1;
-  const list = el("div", { class: "items" });
-  const more = el("button", { class: "btn", onclick: () => { state.limit += 60; draw(); } }, "Show more");
-  const catChips = el("div", { class: "controls" });
-  for (const [key, label, count] of [["all", "All", D.statements.length], ...Object.entries(CATEGORIES).filter(([k]) => counts[k]).map(([k, l]) => [k, l, counts[k]])])
-    catChips.append(el("button", { class: "chip", "aria-pressed": key === "all" ? "true" : "false", onclick: e => {
-      state.cat = key; state.limit = 60; for (const b of catChips.children) b.setAttribute("aria-pressed", b === e.currentTarget ? "true" : "false"); draw(); } }, label, el("span", { class: "count" }, count)));
-  const revSelect = el("select", { id: "st-rev", "aria-label": "Revier" }, el("option", { value: "all" }, "All Reviere"), REVIERE.map(r => el("option", { value: r }, r)));
-  const search = el("input", { type: "search", id: "st-search", placeholder: "Search, e.g. Fichte, Windbruch, Weide", "aria-label": "Search statements" });
-  revSelect.addEventListener("change", () => { state.rev = revSelect.value; state.limit = 60; draw(); });
-  search.addEventListener("input", () => { state.q = search.value.trim().toLowerCase(); state.limit = 60; draw(); });
-  const count = el("p", { class: "muted", style: "font-size:.86rem" });
-  function draw() {
-    const filtered = D.statements.filter(s => (state.cat === "all" || s.cat === state.cat) && (state.rev === "all" || s.rev === state.rev)
-      && (!state.q || [s.subj, s.attr, s.val, s.quote, s.place, s.species].join(" ").toLowerCase().includes(state.q)));
-    count.textContent = `${filtered.length} statements`;
-    list.replaceChildren(...filtered.slice(0, state.limit).map(s => el("div", { class: "item" },
-      el("div", { class: "when" }, s.time || "–", el("div", { class: "sub" }, CATEGORIES[s.cat] || s.cat)),
-      el("div", { class: "body" },
-        el("div", {}, el("b", {}, s.subj), s.attr ? ` · ${s.attr}` : "", s.val ? el("span", { class: "num" }, ` · ${s.val}${s.vu ? " " + s.vu : ""}`) : ""),
-        el("p", { class: "quote" }, s.quote),
-        el("div", { class: "meta" }, el("span", { class: "tag" }, s.status), s.place ? el("span", {}, s.place) : "", s.rev ? el("span", {}, s.rev) : "",
-          el("button", { class: "btn link", onclick: () => openQuote(s, s.subj) }, `${s.u} · open page`))))));
-    more.hidden = filtered.length <= state.limit;
-  }
-  draw();
-  return [
-    head("Statements", "What the reports say about the forest", `${D.statements.length} single statements from the Erörternde Darstellung (I-00), the protocols (I-01, I-21) and the text pages of the plans, each with its verbatim quote, place, date and whether it describes, plans or forbids.`),
-    el("section", { class: "card" }, catChips, el("div", { class: "controls" }, revSelect, search, count), list, more),
-    footer()];
+  const areas = (unit, v) => REVIERE.map(r => { const hits = D.obs.rows.map((o, i) => [o, i]).filter(([o]) => o[0] === unit && o[4] === v && o[9] === r);
+    return { r, v: hits.reduce((s, [o]) => s + (o[6] ?? o[5] ?? 0), 0), refs: hits.map(([, i]) => i) }; });
+  const areaPanel = (title, caption, list) => { const max = Math.max(...list.map(r => r.v), 1);
+    return el("section", { class: "panel" }, el("h2", {}, title), el("div", { style: "display:grid;gap:10px" }, list.map(r => el("button", { class: "area-row", onclick: () => openValues(r.refs, `${title}, ${r.r}`) },
+      el("span", {}, r.r), el("span", { class: "track" }, el("span", { class: "fill", style: `width:${r.v / max * 100}%;background:${REV_COLOR[r.r]}` })), el("b", { class: "num", style: "text-align:right" }, `${nf(r.v, 1)} ha`)))),
+      el("p", { class: "caption" }, caption)); };
+  const damage = D.statements.map((s, i) => ({ ...s, i })).filter(s => s.cat === "damage_event" && !D.events.some(e => e.quote === s.quote));
+  const entry = (when, sub, quote, meta, u, p, q) => el("div", { class: "item" }, el("div", { class: "when" }, when, el("span", {}, sub)),
+    el("div", { class: "body" }, el("p", { class: "quote" }, quote), el("div", { class: "meta" }, joinUnique(meta))),
+    el("div", { class: "src" }, p != null ? el("button", { class: "link", onclick: () => openReader(u, p, { q }) }, `${sectionRef(u)}, p. ${page(u, p)?.num ?? p}`) : sectionRef(u)));
+  return [el("div", { class: "page" },
+    el("div", { class: "head" }, el("h1", {}, "Storm, beetle, snow and frost"), el("p", { class: "sub" }, "Dated events in the reports and protocols, and the areas the tables record as laid bare.")),
+    el("section", { class: "panel" }, el("h2", {}, `${dated.length} dated events`), tl.host, el("p", { class: "caption" }, "Dots are dates, bars periods, pale bars dates known only to the decade.")),
+    el("div", { class: "cols-2" },
+      areaPanel("Cutting areas laid bare", "Hectares. Beilage I. 17, Abgleichung der Angriffsflächen.", areas("I-17", "area_became_bare")),
+      areaPanel("Areas left out of the plan", "Hectares, mostly windthrow and beetle gaps at high elevation. Beilage I. 13.", areas("I-13", "area_not_assigned"))),
+    el("section", { class: "panel" }, el("h2", {}, "Passages"),
+      el("div", { class: "items" }, [...dated, ...undated].map(e => entry(e.date || e.edtf || "undated", EVENT_TYPES[e.type] || e.type, e.quote, [e.place, e.extent], e.u, e.p, `e${e.i}`)),
+        damage.map(s => entry(s.time || "undated", s.subj, s.quote, [s.place, s.val ? `${s.val} ${s.vu || ""}` : ""], s.u, s.p, String(s.i))))))];
 }
 
 /* maps */
 function maps() {
-  let current = 0, zoom = 1, showLabels = true, q = "";
-  const tabsRow = el("div", { class: "map-tabs" });
-  const viewer = el("div", { class: "map-view" });
-  const info = el("div", { style: "display:grid;gap:6px" });
-  const toggle = el("button", { class: "chip", "aria-pressed": "true", onclick: () => { showLabels = !showLabels; toggle.setAttribute("aria-pressed", showLabels ? "true" : "false"); draw(); } }, "Label boxes");
-  const search = el("input", { type: "search", id: "map-search", placeholder: "Find a label, e.g. Rachel", "aria-label": "Find a label" });
-  search.addEventListener("input", () => { q = search.value.trim().toLowerCase(); draw(); });
-  const dynamic = el("div", { style: "display:grid;gap:14px" });
+  let cur = 0, zoom = 1, show = true, q = "";
+  const tabsRow = el("div", { class: "map-tabs" }), view = el("div", { class: "map-view" }), info = el("div", { style: "display:grid;gap:4px" });
+  const search = el("input", { type: "search", placeholder: "Find a label, e.g. Rachel", "aria-label": "Find a label", oninput: e => { q = e.target.value.trim().toLowerCase(); draw(); } });
+  const dyn = el("div", { style: "display:grid;gap:12px" });
   const side = el("div", { class: "map-side" },
     el("div", { class: "controls" }, el("div", { class: "seg" },
-      el("button", { "aria-label": "Zoom out", onclick: () => { zoom = Math.max(1, zoom - .5); draw(); } }, "−"),
-      el("button", { "aria-label": "Zoom in", onclick: () => { zoom = Math.min(5, zoom + .5); draw(); } }, "+")), toggle),
-    search, dynamic);
-  function focusLabel(l) {
-    const m = D.maps[current];
-    zoom = Math.max(zoom, 2.5); q = l[0].toLowerCase(); search.value = l[0]; draw();
-    requestAnimationFrame(() => { const inner = viewer.firstChild; viewer.scrollTo({ left: l[2] / m.w * inner.offsetWidth - viewer.clientWidth / 2, top: l[3] / m.h * inner.offsetHeight - viewer.clientHeight / 2 }); });
-  }
+      el("button", { "aria-label": "Zoom out", onclick: () => { zoom = Math.max(1, zoom - .5); draw(); } }, "−"), el("button", { onclick: () => { zoom = 1; draw(); } }, "Fit"),
+      el("button", { "aria-label": "Zoom in", onclick: () => { zoom = Math.min(5, zoom + .5); draw(); } }, "+")),
+      el("label", { class: "toggle" }, el("input", { type: "checkbox", checked: true, onchange: e => { show = e.target.checked; draw(); } }), "Label boxes")),
+    search, dyn);
+  const focusLabel = l => { const m = D.maps[cur]; zoom = Math.max(zoom, 2.5); q = l[0].toLowerCase(); search.value = l[0]; draw();
+    requestAnimationFrame(() => { const inner = view.firstChild; view.scrollTo({ left: l[2] / m.w * inner.offsetWidth - view.clientWidth / 2, top: l[3] / m.h * inner.offsetHeight - view.clientHeight / 2 }); }); };
   function draw() {
-    const m = D.maps[current], pg = page(m.u, m.p);
-    for (const [i, b] of [...tabsRow.children].entries()) b.setAttribute("aria-pressed", i === current ? "true" : "false");
-    info.replaceChildren(el("div", { class: "eyebrow" }, `${m.u} · ${UNIT_TITLES[m.u]}`), el("h2", {}, m.title), el("p", { class: "card-note" }, [m.type, m.date, m.scale].filter(Boolean).join(" · ")));
-    const inner = el("div", { class: "map-inner", style: `width:${zoom * 100}%` }, el("img", { src: pg.img, alt: m.title }));
-    const matches = [];
-    m.labels.forEach((l, i) => {
-      const hit = q && l[0].toLowerCase().includes(q);
-      if (hit) matches.push(i);
-      if (!showLabels) return;
-      const b = el("button", { class: `lab${q && !hit ? " dim" : ""}${hit ? " hit" : ""}`, "aria-label": l[0],
-        style: `left:${l[2] / m.w * 100}%;top:${l[3] / m.h * 100}%;width:${(l[4] - l[2]) / m.w * 100}%;height:${(l[5] - l[3]) / m.h * 100}%` });
-      b.addEventListener("pointermove", e => showTip(e, l[0], [{ label: l[1].replace(/_/g, " "), value: l[6] }]));
-      b.addEventListener("pointerleave", hideTip);
-      inner.append(b);
-    });
-    const scroll = [viewer.scrollLeft, viewer.scrollTop];
-    viewer.replaceChildren(inner);
-    viewer.scrollLeft = scroll[0]; viewer.scrollTop = scroll[1];
-    const byClass = {}; for (const l of m.labels) byClass[l[1]] = (byClass[l[1]] || 0) + 1;
-    const listed = q ? matches.map(i => m.labels[i]) : m.labels.filter(l => ["settlement", "forest_district", "water", "mountain", "trift_structure"].includes(l[1]));
-    dynamic.replaceChildren(
-      el("p", { class: "muted", style: "font-size:.86rem" }, `${m.labels.length} labels: ` + Object.entries(byClass).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, v]) => `${v} ${k.replace(/_/g, " ")}`).join(", ")),
-      m.legend.length ? el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, "Legend"), m.legend.map(([sym, meaning]) => el("div", { style: "font-size:.88rem" }, el("b", {}, meaning), el("span", { class: "muted" }, ` · ${sym}`)))) : "",
-      el("div", { class: "eyebrow" }, q ? `${matches.length} matches` : "Places, districts, waters"),
+    const m = D.maps[cur], pg = page(m.u, m.p);
+    for (const [i, b] of [...tabsRow.children].entries()) b.setAttribute("aria-pressed", i === cur ? "true" : "false");
+    info.replaceChildren(el("div", { class: "panel-head" }, el("h2", {}, m.title), el("button", { class: "link", onclick: () => openReader(m.u, m.p) }, "Open in the reader")),
+      el("p", { class: "caption" }, [m.type, m.date, m.scale].filter(Boolean).join(", ")));
+    const inner = el("div", { class: "scan-inner", style: `width:${zoom * 100}%` }, el("img", { src: pg.img, alt: m.title }));
+    const hits = [];
+    m.labels.forEach((l, i) => { const hit = q && l[0].toLowerCase().includes(q); if (hit) hits.push(i); if (!show) return;
+      const b = el("button", { class: `scan-label${q && !hit ? " dim" : ""}${hit ? " hit" : ""}`, "aria-label": l[0], style: `left:${l[2] / m.w * 100}%;top:${l[3] / m.h * 100}%;width:${(l[4] - l[2]) / m.w * 100}%;height:${(l[5] - l[3]) / m.h * 100}%` });
+      b.addEventListener("pointermove", e => showTip(e, l[0], [{ label: l[1].replace(/_/g, " "), value: "" }])); b.addEventListener("pointerleave", hideTip); inner.append(b); });
+    const sc = [view.scrollLeft, view.scrollTop]; view.replaceChildren(inner); view.scrollLeft = sc[0]; view.scrollTop = sc[1];
+    const listed = q ? hits.map(i => m.labels[i]) : m.labels.filter(l => ["settlement", "forest_district", "water", "mountain", "trift_structure"].includes(l[1]));
+    dyn.replaceChildren(
+      m.legend.length ? el("div", { class: "legend-list" }, el("h3", {}, "Legend"), m.legend.map(([s, meaning]) => el("div", {}, el("span", {}, meaning), el("span", { class: "sym" }, s)))) : "",
+      el("h3", {}, q ? `${hits.length} matches` : "Places and waters"),
       el("div", { class: "label-list" }, listed.slice(0, 150).map(l => el("button", { onclick: () => focusLabel(l) }, el("span", {}, l[0]), el("span", { class: "muted" }, l[1].replace(/_/g, " "))))));
   }
-  D.maps.forEach((m, i) => { const pg = page(m.u, m.p); tabsRow.append(el("button", { class: "map-tab", onclick: () => { current = i; zoom = 1; q = ""; search.value = ""; viewer.scrollTo(0, 0); draw(); } },
-    el("img", { src: pg.img, alt: "", loading: "lazy" }), el("span", {}, `${m.u} · ${UNIT_TITLES[m.u]}`))); });
+  D.maps.forEach((m, i) => { const pg = page(m.u, m.p); tabsRow.append(el("button", { class: "map-tab", onclick: () => { cur = i; zoom = 1; q = ""; search.value = ""; view.scrollTo(0, 0); draw(); } },
+    el("img", { src: pg.img, alt: "", loading: "lazy" }), el("span", {}, UNIT[m.u]?.title || m.u))); });
   draw();
-  return [
-    head("Maps", "Four sheets, read label by label", "Every label was read on overlapping zoomed tiles and placed on the sheet. Search a place name to find it, hover a box for the reading. The 1200 px images limit what can be read on the large overview sheet (I-08)."),
-    tabsRow,
-    el("section", { class: "card" }, info, el("div", { class: "map-layout" }, viewer, side)),
-    footer()];
+  return [el("div", { class: "page" }, el("div", { class: "head" }, el("h1", {}, "Maps"), el("p", { class: "sub" }, "Every label read on overlapping zoomed tiles and placed on the sheet.")),
+    tabsRow, el("section", { class: "panel" }, info, el("div", { class: "map-layout" }, view, side)))];
 }
 
-/* sources */
-function sources() {
-  const detail = el("div");
-  const showUnit = u => {
-    const keys = Object.keys(D.pages).filter(k => k.startsWith(u.id + "/")).sort((a, b) => +a.split("/")[1] - +b.split("/")[1]);
-    detail.replaceChildren(el("section", { class: "card" },
-      el("div", { style: "display:grid;gap:4px" }, el("div", { class: "eyebrow" }, `${u.id} · ${u.heft} ${u.nr}`), el("h2", {}, u.title)),
-      el("p", { class: "card-note" }, u.summary),
-      Object.keys(u.checks).length ? statusLegend(u.checks) : "",
-      el("div", { class: "thumbs" }, keys.map(k => { const p = +k.split("/")[1]; const pg = page(u.id, p);
-        return el("button", { class: "thumb", onclick: () => openPage(u.id, p), "aria-label": `Open ${pg.pid}` },
-          pg.img ? el("img", { src: pg.img, alt: "", loading: "lazy" }) : el("div", { style: "aspect-ratio:3/4;display:grid;place-items:center;color:var(--muted);font-size:.8rem" }, "no image"),
-          el("span", {}, `p. ${pg.num}`)); }))));
-    detail.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-  const rows = D.units.map(u => el("div", { class: "unit-row", role: "button", tabindex: "0", onclick: () => showUnit(u), onkeydown: e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); showUnit(u); } } },
-    el("div", { class: "id" }, u.id),
-    el("div", { style: "display:grid;gap:2px;min-width:0" }, el("div", { class: "t" }, u.title),
-      el("div", { class: "s" }, `${u.pages} pages · ${[u.kinds.Te && u.kinds.Te + " text", u.kinds.Ta && u.kinds.Ta + " table", u.kinds.Ka && u.kinds.Ka + " map"].filter(Boolean).join(", ")}`)),
-    el("div", { class: "s" }, Object.keys(u.checks).length ? `${nf(Object.values(u.checks).reduce((a, b) => a + b, 0), 0)} sums checked` : "text or map"),
-    el("div", {}, statusBar(u.checks))));
-  return [
-    head("Sources", "24 sections of the Operat", "The items of the table of contents (A 383 I, p. 2) that are linked to pages. The bar shows how the readings of each table section fared against its own sums. Open a section to page through its scans."),
-    el("section", { class: "card" }, statusLegend(null), el("div", { class: "units" }, rows)),
-    detail, footer()];
-}
-
-function footer() {
-  return el("footer", { class: "foot" },
-    el("span", {}, "Waldstandsrevision Ilzertrift-Komplex 1878/90 · Regierung von Niederbayern, Kammer der Forsten, A 383 I – A 385"),
-    el("span", {}, `Data package ${D.meta.built} · ${nf(D.meta.counts.cells, 0)} table cells`),
-    PACKAGE_LINK ? el("a", { href: PACKAGE_LINK }, "Data package (CSV)") : "",
-    el("span", {}, "Readings by Gemini 3.8 Flash from scan and transcript; unit specs and checks by Claude Code"));
-}
-
-render((location.hash ? location.hash.slice(1) : store("ilz-view")) || "overview");
+render();
 </script>

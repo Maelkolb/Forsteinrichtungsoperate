@@ -1,3 +1,4 @@
+import base64
 import csv
 import json
 import re
@@ -75,6 +76,9 @@ def prepare_units(dump_path: Path, toc_ui_path: Path, annotations_path: Path, ou
     if annotations.get("toc") != toc_ui["toc"]["pid"]:
         print(f"! annotation export belongs to TOC {annotations.get('toc')!r}, UI shows {toc_ui['toc']['pid']!r}")
     units, missing, unlinked = build_units(toc_ui, annotations, order)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if toc_ui["toc"].get("img"):
+        (out_dir / "toc_page.jpg").write_bytes(base64.b64decode(toc_ui["toc"]["img"]))
     dump = Dump(dump_path)
     resolver = ImageResolver(dump, scans_dir, max_side)
     out_dir.mkdir(parents=True, exist_ok=True)

@@ -7,6 +7,7 @@ from pathlib import Path
 import pandas as pd
 
 from .publish import revier_name, text_of
+from .reader import reader_pages, table_of_contents
 from .spec import load_spec, load_unit
 
 TEMPLATE = Path(__file__).parent / "explorer_template.html"
@@ -279,6 +280,8 @@ def build_data(units_dir: Path, run_dir: Path, package: Path) -> dict:
     events = read_csv(package, "text_events")
     maps = read_csv(package, "maps")
     status_counts = checks.groupby("status").size().to_dict() if not checks.empty else {}
+    statement_items, event_items = statements_list(statements), events_list(events)
+    reader, forms = reader_pages(units_dir, run_dir, checks, statement_items, event_items)
     return {
         "meta": {"title": "Ilzertrift-Komplex 1878/90", "built": date.today().isoformat(),
                  "pages": sum(u["pages"] for u in units), "units": len(units), "checks": status_counts,
@@ -286,8 +289,8 @@ def build_data(units_dir: Path, run_dir: Path, package: Path) -> dict:
                             "statements": len(statements), "events": len(events), "map_labels": len(labels)}},
         "units": units, "pages": pages, "obs": obs, "series": series,
         "stands": stands_table(read_csv(package, "stands"), data_obs, descriptions, obs),
-        "descs": descriptions, "statements": statements_list(statements), "events": events_list(events),
-        "maps": maps_list(maps, labels),
+        "descs": descriptions, "statements": statement_items, "events": event_items,
+        "maps": maps_list(maps, labels), "reader": reader, "forms": forms, "toc": table_of_contents(units_dir, units),
     }
 
 
