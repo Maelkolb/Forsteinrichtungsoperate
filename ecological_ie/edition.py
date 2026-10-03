@@ -81,7 +81,7 @@ class Stash:
 
 def plain_text(text: str) -> str:
     text = re.sub(r"<[^>]+>", "", text or "")
-    text = re.sub(r"(\*\*|__|~~|\*)", "", text)
+    text = re.sub(r"(```\w*|\*\*|__|~~|\*)", "", text)
     text = re.sub(r"(?m)^\s*[#>]+\s*", "", text)
     return html.unescape(re.sub(r"\s+", " ", text)).strip()
 
