@@ -1,11 +1,10 @@
 import base64
 import json
-import re
 from pathlib import Path
 
 import pandas as pd
 
-from .edition import render_grid, render_transcript
+from .edition import plain_text, render_grid, render_transcript
 from .pipeline import apply_overrides, load_overrides
 from .publish import text_of
 from .spec import load_spec, load_unit, page_plans
@@ -14,8 +13,9 @@ FAILING = {"mismatch", "mismatch_after_recheck"}
 ROMAN = {"I": 1, "II": 2}
 
 
-def strip_tags(text: str) -> str:
-    return re.sub(r"<[^>]+>", "", text or "")
+def changed_pairs(pairs) -> list:
+    cleaned = ([plain_text(before), plain_text(after)] for before, after in pairs)
+    return [pair for pair in cleaned if pair[0] != pair[1]]
 
 
 def toc_order(unit_id: str) -> tuple:
@@ -111,8 +111,8 @@ def reader_pages(units_dir: Path, run_dir: Path, checks: pd.DataFrame, statement
                     "kind": "text",
                     "html": render_transcript(proof["corrected"], proof["applied"], page_quotes),
                     "htr": render_transcript(proof["text"]),
-                    "corr": [[c.get("transcript_reads", ""), c.get("image_reads", "")] for c in proof["applied"]
-                             if c.get("status") == "applied" and c.get("transcript_reads") != c.get("image_reads")],
+                    "corr": changed_pairs([c.get("transcript_reads", ""), c.get("image_reads", "")] for c in proof["applied"]
+                                          if c.get("status") == "applied"),
                     "quality": proof["result"].get("page_quality", "")})
             elif plan.profile == "table" and grid_path.exists():
                 grid = apply_overrides(json.loads(grid_path.read_text(encoding="utf-8")),
@@ -126,8 +126,8 @@ def reader_pages(units_dir: Path, run_dir: Path, checks: pd.DataFrame, statement
                     "kind": "table",
                     "html": render_grid(grid, form, bad, reread),
                     "outside": [[item.get("kind", ""), item.get("text", "")] for item in grid["result"].get("text_outside_tables", [])],
-                    "scan_corr": [[c.get("where", ""), strip_tags(c.get("transcript_reads", "")), strip_tags(c.get("image_reads", ""))]
-                                  for c in grid["result"].get("image_corrections", [])],
+                    "scan_corr": [[c.get("where", ""), *pair] for c in grid["result"].get("image_corrections", [])
+                                  for pair in changed_pairs([[c.get("transcript_reads", ""), c.get("image_reads", "")]])],
                     "checks": these.groupby("status").size().to_dict() if not these.empty else {},
                     "fails": failing_list(these, grid, form),
                     "reread": len(reread)})

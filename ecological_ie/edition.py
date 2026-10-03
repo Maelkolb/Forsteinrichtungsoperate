@@ -12,6 +12,8 @@ ALLOWED = {"p", "br", "h1", "h2", "h3", "h4", "h5", "aside", "blockquote", "em",
 ALLOWED_ATTRS = {"class", "colspan", "rowspan", "title", "data-q", "data-htr"}
 VOID = {"br", "hr"}
 CLASS_OK = re.compile(r"^[a-z0-9 _-]+$")
+TOKEN_START, TOKEN_END = "", ""
+TOKEN = re.compile("(\\d+)")
 
 
 class Sanitizer(HTMLParser):
@@ -61,14 +63,37 @@ def sanitize(markup: str) -> str:
     return parser.result()
 
 
+class Stash:
+    def __init__(self):
+        self.tags, self.kinds = [], []
+
+    def put(self, tag: str, kind: str) -> str:
+        self.tags.append(tag)
+        self.kinds.append(kind)
+        return f"{TOKEN_START}{len(self.tags) - 1}{TOKEN_END}"
+
+    def count(self, text: str, kind: str) -> int:
+        return sum(1 for m in TOKEN.finditer(text) if self.kinds[int(m.group(1))] == kind)
+
+    def restore(self, text: str) -> str:
+        return TOKEN.sub(lambda m: self.tags[int(m.group(1))], text)
+
+
+def plain_text(text: str) -> str:
+    text = re.sub(r"<[^>]+>", "", text or "")
+    text = re.sub(r"(\*\*|__|~~|\*)", "", text)
+    text = re.sub(r"(?m)^\s*[#>]+\s*", "", text)
+    return html.unescape(re.sub(r"\s+", " ", text)).strip()
+
+
 def editorial(text: str) -> str:
     text = re.sub(r"\[crossed out:\s*([^\]\n]+)\]", r"<del>\1</del>", text)
     text = re.sub(r"\[(?:Stempel|stamp):\s*([^\]\n]+)\]", r'<span class="ed">Stempel: \1</span>', text, flags=re.I)
     text = re.sub(r"\[(?:signature|Unterschrift|unleserliche Unterschrift|Unleserliche Unterschrift)\]",
                   r'<span class="ed">Unterschrift</span>', text)
     text = re.sub(r"\[(?:illegible|unleserlich)[^\]\n]*\]", r'<span class="ed">unleserlich</span>', text, flags=re.I)
-    text = re.sub(r"\[\?\]", r'<span class="unc" title="unsichere Lesung">?</span>', text)
-    text = re.sub(r"\[([^\]\n\^]{1,40})\?\]", r'<span class="unc-w" title="unsichere Lesung">\1</span>', text)
+    text = re.sub(r"\[\?\]", r'<span class="unc" title="uncertain reading">?</span>', text)
+    text = re.sub(r"\[([^\]\n\^]{1,40})\?\]", r'<span class="unc-w" title="uncertain reading">\1</span>', text)
     text = re.sub(r"\[Marginalie\]", "", text)
     text = re.sub(r"\[([^\]\n\^]{1,40})\]", r'<span class="sup-text">[\1]</span>', text)
     return text
@@ -124,16 +149,16 @@ def line_breaks(text: str) -> str:
     return "".join(result)
 
 
-def wrap_first(text: str, needle: str, before: str, after: str) -> str:
+def wrap_first(text: str, needle: str, stash: Stash, before: str, after: str) -> str:
     if not needle or len(needle) < 2 or any(c in needle for c in "<>[]*#`|\n"):
         return text
     index = text.find(needle)
     while index >= 0:
         head = text[:index]
         inside_tag = head.rfind("<") > head.rfind(">")
-        inside_mark = head.count("<mark") > head.count("</mark>")
+        inside_mark = stash.count(head, "open") > stash.count(head, "close")
         if not inside_tag and not inside_mark:
-            return head + before + needle + after + text[index + len(needle):]
+            return head + stash.put(before, "open") + needle + stash.put(after, "close") + text[index + len(needle):]
         index = text.find(needle, index + 1)
     return text
 
@@ -146,6 +171,9 @@ def plain_with_map(text: str) -> tuple[str, list[int]]:
             if end > 0:
                 i = end + 1
                 continue
+        if text[i] == TOKEN_START:
+            i = text.find(TOKEN_END, i) + 1
+            continue
         hyphen = re.match(r"[-=¬][ \t]*\n[ \t]*(?=[a-zäöüß])", text[i:])
         if hyphen and i > 0 and text[i - 1].isalpha():
             i += hyphen.end()
@@ -168,7 +196,7 @@ def normalise_quote(quote: str) -> str:
     return re.sub(r"[\s*_#>`]+", " ", quote).strip()
 
 
-def mark_quotes(text: str, quotes: list[tuple[str, str]]) -> str:
+def mark_quotes(text: str, quotes: list[tuple[str, str]], stash: Stash) -> str:
     plain, origin = plain_with_map(text)
     lowered = plain.lower()
     spans = []
@@ -192,33 +220,37 @@ def mark_quotes(text: str, quotes: list[tuple[str, str]]) -> str:
     taken = []
     for a, b, index in spans:
         segment = text[a:b]
-        overlaps = any(not (b <= x or a >= y) for x, y in taken)
-        if overlaps:
-            text = text[:a] + f'<span class="qa" data-q="{index}"></span>' + text[a:]
-        elif "<" in segment or ">" in segment or "\n\n" in segment:
-            text = (text[:a] + f'<span class="qa" data-q="{index}"></span>' + segment
-                    + f'<span class="qz" data-q="{index}"></span>' + text[b:])
+        start_anchor = stash.put(f'<span class="qa" data-q="{index}"></span>', "anchor")
+        if any(not (b <= x or a >= y) for x, y in taken):
+            text = text[:a] + start_anchor + text[a:]
+        elif "<" in segment or ">" in segment or TOKEN_START in segment or "\n\n" in segment:
+            end_anchor = stash.put(f'<span class="qz" data-q="{index}"></span>', "anchor")
+            text = text[:a] + start_anchor + segment + end_anchor + text[b:]
             taken.append((a, b))
         else:
-            text = text[:a] + f'<span class="q" data-q="{index}">' + segment + "</span>" + text[b:]
+            text = (text[:a] + stash.put(f'<span class="q" data-q="{index}">', "quote") + segment
+                    + stash.put("</span>", "quote_end") + text[b:])
             taken.append((a, b))
     return text
 
 
 def render_transcript(text: str, corrections: list[dict] | None = None, quotes: list[tuple[int, str]] | None = None) -> str:
+    stash = Stash()
     text = re.sub(r"<!--.*?-->", "", text or "", flags=re.S)
     text = re.sub(r"```html\s*\n?(.*?)```", lambda m: "\n\n" + m.group(1).strip() + "\n\n", text, flags=re.S)
+    text = re.sub(r"(?m)^```\w*\s*$", "", text)
     for correction in corrections or []:
         if correction.get("status") == "applied" and correction.get("transcript_reads") != correction.get("image_reads"):
-            text = wrap_first(text, correction.get("image_reads", ""),
-                              f'<mark class="corr" data-htr="{html.escape(correction.get("transcript_reads", ""), quote=True)}">', "</mark>")
-    text = mark_quotes(text, quotes or [])
+            htr = html.escape(plain_text(correction.get("transcript_reads", "")), quote=True)
+            text = wrap_first(text, correction.get("image_reads", ""), stash, f'<mark class="corr" data-htr="{htr}">', "</mark>")
+    text = mark_quotes(text, quotes or [], stash)
     text = marginalia(text)
     text = editorial(text)
     text = re.sub(r"~~(.+?)~~", r"<del>\1</del>", text)
+    text = "\n".join(line.lstrip() for line in text.split("\n"))
     text = line_breaks(text)
     rendered = markdown.markdown(text, output_format="html")
-    return sanitize(rendered)
+    return stash.restore(sanitize(rendered))
 
 
 def header_matrix(paths: list[str]) -> list[list[tuple[str, int, int]]]:
