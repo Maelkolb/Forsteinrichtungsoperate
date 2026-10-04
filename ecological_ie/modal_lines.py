@@ -4,7 +4,7 @@
     uvx modal run ecological_ie/modal_lines.py --units I-16,I-02    # some units
     uvx modal run ecological_ie/modal_lines.py --force              # everything again
 
-Pages are upscaled 2x before segmentation (the scans in the dump are 1200 px wide); polygons, baselines and boxes
+Pages under 2000 px (the dump previews are 1200 px wide) are upscaled 2x before segmentation; polygons, baselines and boxes
 are written back in the coordinates of the prepared image to work/runs/main/layout/lines/<unit>/pNNN.json.
 """
 from __future__ import annotations
@@ -42,13 +42,15 @@ def segment(pages: list[tuple[str, int, bytes]]) -> list[dict]:
     for unit_id, position, data in pages:
         page = Image.open(io.BytesIO(data)).convert("RGB")
         width, height = page.size
+        upscale = UPSCALE if max(width, height) < 2000 else 1
         started = time.time()
-        seg = blla.segment(page.resize((width * UPSCALE, height * UPSCALE), Image.LANCZOS), model=model, device="cpu")
+        work = page.resize((width * upscale, height * upscale), Image.LANCZOS) if upscale > 1 else page
+        seg = blla.segment(work, model=model, device="cpu")
         lines = []
         for line in seg.lines:
             if not line.boundary or len(line.boundary) < 3:
                 continue
-            outline = Polygon([(x / UPSCALE, y / UPSCALE) for x, y in line.boundary])
+            outline = Polygon([(x / upscale, y / upscale) for x, y in line.boundary])
             if not outline.is_valid:
                 outline = outline.buffer(0)
             if outline.is_empty or outline.geom_type != "Polygon":
@@ -57,7 +59,7 @@ def segment(pages: list[tuple[str, int, bytes]]) -> list[dict]:
             x0, y0, x1, y1 = outline.bounds
             lines.append({"box": [round(x0), round(y0), round(x1), round(y1)],
                           "polygon": [[round(x), round(y)] for x, y in simple.exterior.coords[:-1]],
-                          "baseline": [[round(x / UPSCALE), round(y / UPSCALE)] for x, y in line.baseline or []]})
+                          "baseline": [[round(x / upscale), round(y / upscale)] for x, y in line.baseline or []]})
         print(f"{unit_id} p{position}: {len(lines)} lines in {time.time() - started:.0f} s")
         results.append({"unit": unit_id, "position": position, "image_size": [width, height], "lines": lines})
     return results

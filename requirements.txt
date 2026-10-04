@@ -7,3 +7,4 @@ pandas>=2.0          # ecological_ie
 tqdm>=4.60           # ecological_ie
 PyYAML>=6.0          # ecological_ie specs
 jsonschema>=4.0      # ecological_ie spec validation
+opencv-python-headless>=4.8   # ecological_ie layout (region transform)

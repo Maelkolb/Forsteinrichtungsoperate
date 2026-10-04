@@ -18,7 +18,9 @@ export GEMINI_API_KEY="..."      # or GOOGLE_API_KEY, a .env file (--env-file), 
 # 0 collect the annotated pages into units (transcript + image per page)
 python -m ecological_ie prepare --dump Forsteinrichtungsoperate_Gemini_combined.zip \
     --toc-ui Forsteinrichtung_TOC_UI.html --annotations Inhaltsverzeichnis-Zuordnung.json \
-    --out work/units [--scans FOLDER_WITH_SCANS]
+    --out work/units --specs ecological_ie/specs/ilzertrift_1878_90 [--scans FOLDER_WITH_SCANS]
+# scans are matched by file name: "[039] Reg NB, KdForsten A 385.jpg" (the page id) or any name of the form
+# "[NNN] ... A 385"; prepare prints how many pages took a scan and how many the dump preview
 
 # 1 unit specs: drafts from the transcript headers, then spec.yaml written/reviewed by Claude Code and you
 python -m ecological_ie draft-specs

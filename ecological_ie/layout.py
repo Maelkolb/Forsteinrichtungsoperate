@@ -233,7 +233,24 @@ def region_transform(dump: Dump, page: dict, regions: list[dict], image_path: Pa
     """Scale and offset from the dump's region coordinates (original scan) to the prepared page image."""
     import cv2
 
-    target = cv2.imdecode(np.frombuffer(image_path.read_bytes(), np.uint8), cv2.IMREAD_GRAYSCALE)
+    full = cv2.imdecode(np.frombuffer(image_path.read_bytes(), np.uint8), cv2.IMREAD_GRAYSCALE)
+    shrink = min(1.0, 1200 / full.shape[1])
+    target = cv2.resize(full, None, fx=shrink, fy=shrink, interpolation=cv2.INTER_AREA) if shrink < 1 else full
+
+    def match(crop: np.ndarray, box: dict, scale: float):
+        effective = scale * shrink
+        w, h = int(crop.shape[1] * effective), int(crop.shape[0] * effective)
+        if w < 20 or h < 12 or w >= target.shape[1] or h >= target.shape[0]:
+            return None
+        small = cv2.resize(crop, (w, h), interpolation=cv2.INTER_AREA)
+        x, y, pad = box["x"] * effective, box["y"] * effective, 40
+        x0, y0 = max(0, int(x) - pad), max(0, int(y) - pad)
+        window = target[y0:min(target.shape[0], int(y) + h + pad), x0:min(target.shape[1], int(x) + w + pad)]
+        if window.shape[0] < h or window.shape[1] < w:
+            return None
+        _, score, _, at = cv2.minMaxLoc(cv2.matchTemplate(window, small, cv2.TM_CCOEFF_NORMED))
+        return score, scale, (x0 + at[0]) / shrink - box["x"] * scale, (y0 + at[1]) / shrink - box["y"] * scale
+
     candidates = sorted([r for r in regions if r.get("bbox") and r["type"] in TEXT_REGIONS | {"TableRegion"}],
                         key=lambda r: r["bbox"]["width"] * r["bbox"]["height"], reverse=True)[:2]
     best = None
@@ -242,24 +259,14 @@ def region_transform(dump: Dump, page: dict, regions: list[dict], image_path: Pa
         if not data:
             continue
         crop = cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_GRAYSCALE)
-        box = region["bbox"]
-        for scale in np.arange(0.30, 1.06, 0.01):
-            w, h = int(crop.shape[1] * scale), int(crop.shape[0] * scale)
-            if w < 20 or h < 12 or w >= target.shape[1] or h >= target.shape[0]:
-                continue
-            small = cv2.resize(crop, (w, h), interpolation=cv2.INTER_AREA)
-            x, y = box["x"] * scale, box["y"] * scale
-            pad = 40
-            x0, y0 = max(0, int(x) - pad), max(0, int(y) - pad)
-            x1, y1 = min(target.shape[1], int(x) + w + pad), min(target.shape[0], int(y) + h + pad)
-            window = target[y0:y1, x0:x1]
-            if window.shape[0] < h or window.shape[1] < w:
-                continue
-            scores = cv2.matchTemplate(window, small, cv2.TM_CCOEFF_NORMED)
-            _, score, _, at = cv2.minMaxLoc(scores)
-            if best is None or score > best[0]:
-                best = (score, scale, x0 + at[0] - box["x"] * scale, y0 + at[1] - box["y"] * scale)
-        if best and best[0] > 0.6:
+        found = [m for m in (match(crop, region["bbox"], s) for s in np.geomspace(0.25, 4.0, 90)) if m]
+        if not found:
+            continue
+        rough = max(found)[1]
+        found += [m for m in (match(crop, region["bbox"], s) for s in np.linspace(rough * 0.97, rough * 1.03, 25)) if m]
+        if best is None or max(found)[0] > best[0]:
+            best = max(found)
+        if best[0] > 0.6:
             break
     if not best or best[0] < 0.45:
         return None

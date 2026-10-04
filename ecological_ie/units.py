@@ -3,6 +3,7 @@ import csv
 import json
 import re
 import shutil
+from collections import Counter
 from dataclasses import asdict
 from pathlib import Path
 
@@ -101,6 +102,8 @@ def prepare_units(dump_path: Path, toc_ui_path: Path, annotations_path: Path, ou
              "missing_documents": missing}
     (out_dir / "units.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"{len(records)} units, {sum(len(r['pages']) for r in records)} pages → {out_dir}")
+    sources = Counter(p["image_source"] for r in records for p in r["pages"])
+    print("page images: " + ", ".join(f"{count} from {source}" for source, count in sources.most_common()))
     if missing:
         print(f"! {len(missing)} annotated documents not in the UI index: {missing[:5]}")
     print(f"TOC sections without annotated pages: {', '.join(s['id'] for s in unlinked)}")
