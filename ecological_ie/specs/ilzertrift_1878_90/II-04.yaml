@@ -54,11 +54,11 @@ pages:
     note: title of Beilage II.5 (Reduktionszahl); extracted as text in II-05
   9:
     form: reviere
-    note: summary of all three Reviere 1874–1876 (no image); also part of II-05, extracted only here
+    note: summary of all three Reviere 1874–1876 (checked on the scan); also part of II-05, extracted only here
   10:
     role: other
     profile: skip
-    note: calculation of the Reduktionszahl (no image); extracted in II-05
+    note: calculation of the Reduktionszahl (checked on the scan); extracted in II-05
 forms:
   stoswald_1874:
     name: Revier St. Oswald – Materialergebnisse 1874 nach Sortimenten (Register entries)
@@ -559,38 +559,43 @@ forms:
   reviere:
     name: Übersichtliche Zusammenstellung der Materialergebnisse 1874–1876 per Revier (Beil. II.5, p. 198)
     description: |
-      No image of this page; the transcription is the only source. One row per Revier (Schönau, St. Oswald – the HTR reads
-      "W. Oberwald" –, Klingenbrunn) under the year headings "1874.", "1875.", "1876." (row_type heading); after each year
-      a red "Su" row (sum of the three Reviere) and at the end a red "Su" row over the three years (row_type sum). The last
-      row has two bracket totals in red: 335939,17 (Kubikmeter, weiches + Rinde of the Bau-, Nutz- u. Werkholz) and
-      230281,30 (Ster, Scheitholz weich + Rinde) – row_type note. Values are written as integer and two decimals
-      ("104 85" = 104.85): split them into the integer and decimal columns. The St. Oswald rows equal the year totals
-      "Sa 1874/1875/1876" of the Revier pages. The data rows are in the order of row_periods. Text below the table
-      ("Hofbetriebs-Budget"?) is outside the table.
+      Checked against the 200 dpi scan (2026-10-05). Handwritten single page. Header: "Revier" | "Bau-, Nutz- u.
+      Werkholz" › hart, weich, Rinde, with "Kubik-Meter" below spanning all three | "Brenn und Kohlholz" › hart, weich,
+      Rinde (below: "Scheitholz", "Ster") and hart, weich (below: "Prügelholz", "Ster"). One row per Revier (Schönau,
+      St. Oswald – the HTR reads "W. Oberwald" –, Klingenbrunn) under the underlined year headings "1874.", "1875.",
+      "1876." (row_type heading); after each year a "Su" row (sum of the three Reviere) and at the end "Su Wirthschft.
+      Complex" (reading probable; the HTR puts it below the table as "Hofbetriebs-Budget"), the sum over the three years
+      (row_type sum). The Rinde columns (header and values) are in red ink; all other values, the Su rows included, are
+      black, every number underlined in red. Below the last row two brackets with black totals: 335939,17 under weich +
+      Rinde of the Bau-, Nutz- u. Werkholz (Kubikmeter) and 230281,30 under Scheitholz weich + Rinde (Ster) – one
+      row_type note. Every value column is ruled into an integer and a two-digit decimal column ("104 | 85" = 104.85;
+      Ster mostly "00"); dots are empty cells (1876 Schönau, Prügelholz hart). The St. Oswald rows equal the year totals
+      of page 177. The data rows are in
+      the order of row_periods.
     columns:
     - id: revier
       label: Revier
       type: key
       key: revier
     - id: timber_hard
-      label: Bau-, Nutz- u. Werkholz › hartes › Kubik-Meter
+      label: Bau-, Nutz- u. Werkholz › hart › Kubik-Meter
       type: pair_major
       unit: Kubikmeter
       variable: harvest_timber_hardwood
       meaning: construction/utility/work timber, hardwood
     - id: timber_hard_dec
-      label: Bau-, Nutz- u. Werkholz › hartes › Kubik-Meter › (Dezimalen)
+      label: Bau-, Nutz- u. Werkholz › hart › Kubik-Meter › (Dezimalen)
       type: pair_minor
       of: timber_hard
       mode: digits
     - id: timber_soft
-      label: Bau-, Nutz- u. Werkholz › weiches › Kubik-Meter
+      label: Bau-, Nutz- u. Werkholz › weich › Kubik-Meter
       type: pair_major
       unit: Kubikmeter
       variable: harvest_timber_softwood
       meaning: construction/utility/work timber, softwood
     - id: timber_soft_dec
-      label: Bau-, Nutz- u. Werkholz › weiches › Kubik-Meter › (Dezimalen)
+      label: Bau-, Nutz- u. Werkholz › weich › Kubik-Meter › (Dezimalen)
       type: pair_minor
       of: timber_soft
       mode: digits
@@ -606,57 +611,57 @@ forms:
       of: timber_bark
       mode: digits
     - id: split_hard
-      label: Brenn- und Kohlholz (?) › Scheitholz › hart › Ster
+      label: Brenn- und Kohlholz › hart › Scheitholz › Ster
       type: pair_major
       unit: Ster
       variable: harvest_split_hardwood
       meaning: split fuelwood (Scheitholz), hardwood
     - id: split_hard_dec
-      label: Brenn- und Kohlholz (?) › Scheitholz › hart › Ster › (Dezimalen)
+      label: Brenn- und Kohlholz › hart › Scheitholz › Ster › (Dezimalen)
       type: pair_minor
       of: split_hard
       mode: digits
     - id: split_soft
-      label: Brenn- und Kohlholz (?) › Scheitholz › weich › Ster
+      label: Brenn- und Kohlholz › weich › Scheitholz › Ster
       type: pair_major
       unit: Ster
       variable: harvest_split_softwood
       meaning: split fuelwood (Scheitholz), softwood
     - id: split_soft_dec
-      label: Brenn- und Kohlholz (?) › Scheitholz › weich › Ster › (Dezimalen)
+      label: Brenn- und Kohlholz › weich › Scheitholz › Ster › (Dezimalen)
       type: pair_minor
       of: split_soft
       mode: digits
     - id: split_bark
-      label: Brenn- und Kohlholz (?) › Scheitholz › Rinde › Ster
+      label: Brenn- und Kohlholz › Rinde › Scheitholz › Ster
       type: pair_major
       unit: Ster
       variable: harvest_split_bark
       meaning: bark of the split fuelwood (red ink)
     - id: split_bark_dec
-      label: Brenn- und Kohlholz (?) › Scheitholz › Rinde › Ster › (Dezimalen)
+      label: Brenn- und Kohlholz › Rinde › Scheitholz › Ster › (Dezimalen)
       type: pair_minor
       of: split_bark
       mode: digits
     - id: round_hard
-      label: Brenn- und Kohlholz (?) › Prügelholz › hart › Ster
+      label: Brenn- und Kohlholz › hart › Prügelholz › Ster
       type: pair_major
       unit: Ster
       variable: harvest_round_hardwood
       meaning: round fuelwood (Prügelholz), hardwood
     - id: round_hard_dec
-      label: Brenn- und Kohlholz (?) › Prügelholz › hart › Ster › (Dezimalen)
+      label: Brenn- und Kohlholz › hart › Prügelholz › Ster › (Dezimalen)
       type: pair_minor
       of: round_hard
       mode: digits
     - id: round_soft
-      label: Brenn- und Kohlholz (?) › Prügelholz › weich › Ster
+      label: Brenn- und Kohlholz › weich › Prügelholz › Ster
       type: pair_major
       unit: Ster
       variable: harvest_round_softwood
       meaning: round fuelwood (Prügelholz), softwood
     - id: round_soft_dec
-      label: Brenn- und Kohlholz (?) › Prügelholz › weich › Ster › (Dezimalen)
+      label: Brenn- und Kohlholz › weich › Prügelholz › Ster › (Dezimalen)
       type: pair_minor
       of: round_soft
       mode: digits
@@ -675,10 +680,12 @@ forms:
       - revier
       scope: per Revier and year 1874–1876
 notes: |
-  Reading order: the Beilage title (page 7, A 384 II 178) is put first; the St. Oswald report (172–177) was bound
-  before it. Pages 197–199 have no image. Their Beilage number is II.5 (title 197), but the per-Revier table 198 is the
-  core summary of this unit; to avoid double counting it is extracted here and skipped in II-05, while the reduction
-  calculation 199 is extracted only in II-05. Header doubts: the block name "Brenn- und Kohlholz" (HTR variously
-  "Floßholz", "Reißholz", "Raffholz", "Kohlholz"), the rotated first header of the St. Oswald form ("…register No."),
-  the HTR misreads the first column header of page 175 as "Mengen-Nr.". The St. Oswald 1874 register Seiten 1–2
-  (entries 1–30) are missing; their sums appear on page 173 ("„ 1.", "„ 2.").
+  Reading order: the Beilage title (page 7, A 384 II 178) is put first; the St. Oswald report (172–177) was bound before
+  it. Pages 197–199 checked against the 200 dpi scans (2026-10-05). Their Beilage number is II.5 (title 197), but the
+  per-Revier table 198 is the core summary of this unit; to avoid double counting it is extracted here and skipped in
+  II-05, while the reduction calculation 199 is extracted only in II-05. Header doubts: the block name "Brenn- und
+  Kohlholz" (HTR variously "Floßholz", "Reißholz", "Raffholz", "Kohlholz"; clearly "Brenn und Kohlholz" on 198), the
+  rotated first header of the St. Oswald form ("…register No."), the HTR misreads the first column header of page 175 as
+  "Mengen-Nr.". The St. Oswald 1874 register Seiten 1–2 (entries 1–30) are missing; their sums appear on page 173
+  ("„ 1.", "„ 2."). On 198 (scan) St. Oswald 1876 Prügelholz weich reads 572 and the 1876
+  Su 1576 (HTR 372 / 1376), matching page 177.

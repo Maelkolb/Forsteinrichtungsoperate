@@ -8,8 +8,8 @@ summary: |
   equipment, stream clearing, weir and bank protection works and Klausen (splash dams), the total cash expense of the
   state and contributions (Prästationen) of private parties in money and in kind. Printed heads say M. | Pf., but the
   years 1860/61–1875 are written in Gulden | Kreuzer; their sum is converted into Mark and 1876–1877 are in Mark.
-  Page 3 (no scan, December 1879) is a separate list of the staked-out road lines in the three Reviere with lengths
-  in metres.
+  Page 3 (single sheet, Schönberg December 1879) is a separate list of the staked-out road lines in the three
+  Reviere with lengths in metres.
 default_profile: table
 default_form: trift
 pages:
@@ -18,7 +18,8 @@ pages:
     profile: text
   3:
     form: roads
-    note: Verzeichnis der ausgesteckten Weglinien (A 384 II 133, no image), Schönberg December 1879
+    note: Verzeichnis der ausgesteckten Weglinien (A 384 II 133), signed K. Forstamt Schönberg December 1879 with
+      office stamp; checked against the 200 dpi scan (2026-10-05)
 forms:
   trift:
     name: Generelle Uebersicht der Kosten der 1860/61–77 ausgeführten Triftbauten (Cap. 3 § 3 Tit. 1 b)
@@ -93,25 +94,34 @@ forms:
   roads:
     name: Verzeichnis der in den Revieren Klingenbrunn, St. Oswald und Schönau ausgesteckten Weglinien
     description: |
-      One row per staked-out road line: running number, Revier (written once at the first line of each Revier, then
-      empty or ditto), name of the road (e.g. "Oberer Weg: Schwerberg-", "Mittlerer Weg: Häuslwig-", "Nebenwege:
-      Brennersteig-"; ditto marks repeat the road class), length in metres with decimal comma, remark on parts already
-      built and variants. At the end: "Summa" (sum of the lengths), "Varianten" (sum of the variant lengths, note)
-      and the grand total 76078,7 m with "hievon 2787,8 m bereits gebaut" (note).
+      Single page with a written title, five columns. One row per staked-out road line (Lauf. Num. 1–24): Revier
+      written only at the first line of each Revier (1 Klingenbrunn, 9 St. Oswald, 16 Schoenau), the lines below left
+      empty; name of the road with the road class ("Oberer Weg:", "Mittlerer Weg:", "Unterer Weg:", "Nebenweg(e):")
+      written only at the first road of each class, the following names indented without ditto marks – the class
+      carries down. Names end in "-weg" followed by a small closing hook (not a hyphen; the HTR reads "Schwerberg-").
+      Length in metres with one decimal after a comma. Remarks only at nos. 2, 3 and 20 (parts already built,
+      variants). At the end: "Summa" (sum of the lengths), "Varianten" (the variant lengths from the remarks,
+      note) and the grand total 76078,7 m with "hievon 2787,8 m bereits gebaut" (note).
     columns:
       - {id: running_no, label: "Lauf. Num.", type: label}
       - {id: revier, label: "Revier", type: key, key: revier}
       - {id: road_name, label: "Name des Weges", type: key, key: other,
          meaning: "road class (Oberer/Mittlerer/Unterer Weg, Nebenweg) and name"}
-      - {id: length, label: "Länge m.", type: number, unit: Meter, variable: road_line_length,
+      - {id: length, label: "Laenge m.", type: number, unit: Meter, variable: road_line_length,
          meaning: "length of the staked-out road line"}
       - {id: remarks, label: "Bemerkung", type: text, meaning: "parts already built, variants"}
     observations:
       scope_keys: [revier, other]
-      scope: planned wood-haulage roads staked out by 1879
+      scope: road lines staked out by December 1879 (road-network survey 1878/79)
 notes: |
   Header read from the scan of page 2 (the HTR has "Gerällschaften", "Uferschutzbauten" and "Gelder" for the vertical
   "Hektar" of the Lagerplätze). Column Meter under α) Riesen and the β) Lagerplätze area are empty in all years.
   Sum check on the scan: 1861/62 dd.) 119|17 + 2304|42½ + 635|52 = 3059|51½ and total 114 + 3059|51½ = 3173|51½ →
-  base 60, i.e. Gulden/Kreuzer until 1875; Sa. 3759 fl 7 kr = 6444,20 M (× 12/7). Page 3 (A 384 II 133) has no image: transcript only; its
-  relation to Beilage I. 19 is loose (it lists planned roads, cf. the road map in I-18).
+  base 60, i.e. Gulden/Kreuzer until 1875; Sa. 3759 fl 7 kr = 6444,20 M (× 12/7). Page 3 (A 384 II 133) checked
+  against the 200 dpi scan (2026-10-05): header and columns as in form roads. The HTR misreads several lengths
+  (no. 1 2756,0 → 3756,3, no. 3 4591,9 → 4596,9, no. 4 4232,6 → 4233,6, no. 5 2296,6 → 3296,6, no. 14 1390,7 →
+  1393,7); with the scan readings the 24 lengths add up to Summa 74053,7 (the last digit of no. 1 is faint, ,3 fits
+  the sum). Varianten 1152,8 + 872,2 = 2025,0; built 1047,6 + 868,0 + 872,2 = 2787,8. The page belongs to the road
+  plan rather than to the Trift costs: its numbers 1–24 match the 'Ziffer der Nivellementstabelle' of the
+  Waldbegangsteige rows in I-04 (table pages 8–9: same Revier, same road class, similar lengths, e.g. no. 1
+  3756,3 m ↔ I-04 run 36 3760 m); cf. also the road map in I-18.

@@ -6,8 +6,8 @@ summary: |
   (Jungholzklasse), became bare (blößig, mostly after wind-throw and bark-beetle damage) or still remain to be cut.
   Page 1 is the detail list for Revier St. Oswald, one row per Abtheilung/Unterabtheilung (Distrikt, Abtheilung,
   letter); page 2 the summary per Revier (Schönau, St. Oswald, Klingenbrunn) with red-ink additions for areas outside
-  the Wirtschaftsplan that were opened up by wind and beetles. All areas in Hektar | Dez. No scans available; the
-  detail pages of Schönau and Klingenbrunn are not in the corpus.
+  the Wirtschaftsplan that were opened up by wind and beetles. All areas in Hektar | Dez. The detail pages of
+  Schönau and Klingenbrunn are not in the corpus.
 default_profile: table
 default_form: detail
 pages:
@@ -25,29 +25,34 @@ forms:
       Unterabtheilung of the old (1860) division: Distrikt (roman), Abtheilung (number), letter; the Distrikt is
       repeated in every row. The proposed area is split into three parts in the following column pairs (usually only
       one of them is filled): passed into the Jungholzklasse, became bare (blößig), remaining. Remarks give the new
-      letter of the Abtheilung ("Jetzt a und b", "Jetzt bei a", "dabei das frühere c"). The last row "St Oswald." in
-      red ink is the Revier sum (sum). A "*" before a number is a footnote mark: put it into the row note.
+      letter of the Abtheilung ("Jetzt a und b", "Jetzt bei a", "dabei das frühere c"). The last row "Su St Oswald."
+      (black ink, underlined in red, a red check mark after the sum) is the Revier sum (sum). Dots "." mean nothing
+      (empty), also in lit. (II 3, VII 2). A "*" before a number (VIII 9 b, Jungholz column) is a footnote mark without
+      footnote text on the page: put it into the row note. A blue pencil stroke at VII 6 a is not content.
     columns:
-      - {id: district_no, label: "District", type: key, key: district_no}
-      - {id: compartment_no, label: "Abth.", type: key, key: compartment_no}
-      - {id: subcompartment, label: "lit.", type: key, key: subcompartment}
-      - {id: proposed_area, label: "Für den verflossenen Zeitabschnitt beantragte Angriffsfläche › Hekt.",
+      - {id: district_no, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › District", type: key,
+         key: district_no}
+      - {id: compartment_no, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › Abth.", type: key,
+         key: compartment_no}
+      - {id: subcompartment, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › lit.", type: key,
+         key: subcompartment}
+      - {id: proposed_area, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › Fläche › Hek.",
          type: pair_major, unit: ha, variable: cut_area, period: "1860/61–1877",
          meaning: "area proposed for final felling in the past period"}
-      - {id: proposed_area_dec, label: "Für den verflossenen Zeitabschnitt beantragte Angriffsfläche › Dez.",
+      - {id: proposed_area_dec, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › Fläche › Dez.",
          type: pair_minor, of: proposed_area, mode: digits}
-      - {id: to_young_class, label: "Hievon gingen in die Jungholzklasse über › Hekt.", type: pair_major, unit: ha,
+      - {id: to_young_class, label: "Hievon gingen in die Jungholzklasse über › Hek.", type: pair_major, unit: ha,
          variable: area_to_young_class, period: "1860/61–1877",
          meaning: "part that was cut and regenerated (now young growth)"}
       - {id: to_young_class_dec, label: "Hievon gingen in die Jungholzklasse über › Dez.", type: pair_minor,
          of: to_young_class, mode: digits}
-      - {id: became_bare, label: "Blößig gewordene (?) › Hekt.", type: pair_major, unit: ha, variable: area_became_bare,
-         period: "1860/61–1877", meaning: "part that became bare land (HTR header 'Blieben unberührt')"}
-      - {id: became_bare_dec, label: "Blößig gewordene (?) › Dez.", type: pair_minor, of: became_bare, mode: digits}
-      - {id: remaining, label: "… bleiben (?) › Hekt.", type: pair_major, unit: ha, variable: remaining_cut_area,
+      - {id: became_bare, label: "Blößen wurden › Hek.", type: pair_major, unit: ha, variable: area_became_bare,
+         period: "1860/61–1877", meaning: "part that became bare land (Blößen)"}
+      - {id: became_bare_dec, label: "Blößen wurden › Dez.", type: pair_minor, of: became_bare, mode: digits}
+      - {id: remaining, label: "Haubar bleiben › Hek.", type: pair_major, unit: ha, variable: remaining_cut_area,
          period: "1860/61–1877",
-         meaning: "part still to be cut (proposed − young class − bare); HTR header 'Heute bleiben'"}
-      - {id: remaining_dec, label: "… bleiben (?) › Dez.", type: pair_minor, of: remaining, mode: digits}
+         meaning: "part that remains mature (haubar), i.e. still to be cut (proposed − young class − bare)"}
+      - {id: remaining_dec, label: "Haubar bleiben › Dez.", type: pair_minor, of: remaining, mode: digits}
       - {id: remarks, label: "Bemerkungen", type: text,
          meaning: "new letters of the Abtheilungen after the 1878 division"}
     row_sums:
@@ -58,42 +63,54 @@ forms:
   summary:
     name: Abgleichung der Angriffsflächen – Zusammenstellung
     description: |
-      Summary per Revier; the Revier name stands in the District column (data row, key revier). Each Revier has two
-      rows: the black row with the proposed area and its three parts, and below it a red-ink row ("Hiezu" written in
-      red in the Schönau row, ditto marks in the other two) with ADDITIONAL areas that were not in the special
-      Wirtschaftsplan but were thinned out or laid bare by wind and bark beetles (see Bemerkungen). Treat the red row
-      as a data row of the same Revier (the word "Hiezu" goes into the row note, not into a key cell; a ditto mark in
-      the District column repeats the Revier). The ditto marks of the red rows in the two proposed-area columns mean
-      "no proposed area" here: leave those two cells empty ("") and mention the ditto in the row note, so that the
-      proposed area is not counted twice. Bottom lines: "Suma" (sum of the black rows only) and the red line below it
-      (sum of the red additions only) are partial sums: row_type note. The following black line adds both (1886,089
-      to young class, 371,871 bare): row_type sum. The red "2257 960" spanning both columns (their total) is a note.
-      Dots "." mean nothing.
+      Summary per Revier under the heading "Zusammenstellung"; the Revier name stands in the District column (data
+      row, key revier). Each Revier has two rows: the black row with the proposed area and its three parts, and below
+      it a red-ink row with ADDITIONAL areas that were not in the special Wirtschaftsplan but were thinned out or laid
+      bare by wind and bark beetles (red Bemerkungen beside the Schönau red row, repeated by red ditto marks in the
+      other red rows). Treat the red row as a data row of the same Revier: its District cell is empty, the Revier
+      carries down from the black row above. In the proposed-area (Fläche) column the red rows hold the red word
+      "Hiezu" (Schönau) or a red ditto mark repeating it (St. Oswald, Klingenbrunn, and the red line under "Suma"):
+      this is not an area – leave both proposed-area cells empty ("") and put "Hiezu" into the row note, so that the
+      proposed area is not counted twice. Bottom lines: "Suma" (black figures, sum of the black rows only) and the
+      red line below it (sum of the red additions only) are partial sums: row_type note. The following black line
+      below a rule adds both (1886,089 to young class, 371,871 bare): row_type sum. The black total under a brace
+      spanning both column pairs (their total) is a note. Red strokes under black figures are checking underlines,
+      not content. Dots "." mean nothing.
     columns:
-      - {id: revier, label: "District (Revier)", type: key, key: revier}
-      - {id: compartment, label: "Abth. lit.", type: text, meaning: "empty in the summary"}
-      - {id: proposed_area, label: "Für den verflossenen Zeitabschnitt beantragte Angriffsfläche › Fläche › Hek.",
+      - {id: revier, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › District", type: key,
+         key: revier, meaning: "holds the Revier name in the summary"}
+      - {id: compartment, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › Abth.", type: text,
+         meaning: "empty in the summary"}
+      - {id: subcompartment, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › lit.", type: text,
+         meaning: "empty in the summary"}
+      - {id: proposed_area, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › Fläche › Hek.",
          type: pair_major, unit: ha, variable: cut_area, period: "1860/61–1877"}
-      - {id: proposed_area_dec, label: "Für den verflossenen Zeitabschnitt beantragte Angriffsfläche › Fläche › Dez.",
+      - {id: proposed_area_dec, label: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe › Fläche › Dez.",
          type: pair_minor, of: proposed_area, mode: digits}
       - {id: to_young_class, label: "Hievon gingen in die Jungholzklasse über › Hek.", type: pair_major, unit: ha,
          variable: area_to_young_class, period: "1860/61–1877"}
       - {id: to_young_class_dec, label: "Hievon gingen in die Jungholzklasse über › Dez.", type: pair_minor,
          of: to_young_class, mode: digits}
-      - {id: became_bare, label: "Blößig gewordene › Hek.", type: pair_major, unit: ha, variable: area_became_bare,
+      - {id: became_bare, label: "Blößen wurden › Hek.", type: pair_major, unit: ha, variable: area_became_bare,
          period: "1860/61–1877"}
-      - {id: became_bare_dec, label: "Blößig gewordene › Dez.", type: pair_minor, of: became_bare, mode: digits}
-      - {id: remaining, label: "… bleiben (?) › Hek.", type: pair_major, unit: ha, variable: remaining_cut_area,
-         period: "1860/61–1877", meaning: "HTR header 'Sauber bleiben'"}
-      - {id: remaining_dec, label: "… bleiben (?) › Dez.", type: pair_minor, of: remaining, mode: digits}
+      - {id: became_bare_dec, label: "Blößen wurden › Dez.", type: pair_minor, of: became_bare, mode: digits}
+      - {id: remaining, label: "Haubar bleiben › Hek.", type: pair_major, unit: ha, variable: remaining_cut_area,
+         period: "1860/61–1877", meaning: "part that remains mature (haubar), i.e. still to be cut"}
+      - {id: remaining_dec, label: "Haubar bleiben › Dez.", type: pair_minor, of: remaining, mode: digits}
       - {id: remarks, label: "Bemerkungen", type: text, describe: true,
          meaning: "explains the red additions: areas outside the Wirtschaftsplan opened up by wind and bark beetles"}
     observations:
       scope_keys: [revier]
       scope: per Revier, state 1878
 notes: |
-  No images of A 384 II 112 and 114 – transcript only; headers reconstructed from the HTR, the heads of the third and
-  fourth column pairs are uncertain ("Blieben unberührt"/"Bloßgewordene", "Heute bleiben"/"Sauber bleiben"); the
-  arithmetic (proposed = young class + bare + remaining, e.g. Schönau 532,774 = 516,283 + 12,777 + 3,714) fixes their
-  meaning. The HTR reads the St. Oswald proposed area as 426,427 on page 2, but the red sum on page 1 and the column
-  total (1510,668) give 436,427. No row sum on the summary form, because the red "Hiezu" rows have no proposed area.
+  Checked against the 200 dpi scans of A 384 II 112 and 114 (2026-10-05). Both pages have the same handwritten
+  header: "Für den verflossenen Zeitabschnitt beantragte Angriffshiebe" over District, Abth., lit. and Fläche
+  Hek|Dez, then "Hievon gingen in die Jungholzklasse über", "Blößen wurden", "Haubar bleiben" (HTR: "Blieben
+  unberührt"/"Bloßgewordene", "Heute bleiben"/"Sauber bleiben"), Bemerkungen. Page 1 has no title, so it continues
+  a lost first page. Arithmetic on the scan: page 1 columns give 436,427 = 248,794 + 21,770 + 165,863 (HTR misreads
+  II 4 a remaining 30,256 as 20,256, VIII 20 a 7,326 as 7,236, VIII 20 c young 3,407 as 3,147); page 2 Schönau
+  532,774 = 516,283 + 12,777 + 3,714, Suma 1510,668, 1123,147 + 762,942 = 1886,089, 34,547 + 337,324 = 371,871,
+  together 2257,960 – mode digits and the detail row sum confirmed. St. Oswald's proposed area on page 2 is 436,427
+  on the scan (HTR 426,427). The HTR marks the Suma figures and 2257,960 red; they are black. Summary form split
+  "Abth. lit." into two columns as printed. No row sum on the summary form, because the red "Hiezu" rows have no
+  proposed area.

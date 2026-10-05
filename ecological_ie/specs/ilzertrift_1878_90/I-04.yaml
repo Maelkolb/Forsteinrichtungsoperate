@@ -56,16 +56,23 @@ pages:
     note: last list, sums per Revier (St. Oswald 157814 Ster, Klingenbrunn 350046 Ster); signed Schönberg 8 May 1880
   21:
     profile: table
-    note: table page 8 – Waldbegangsteige, Neubauten; no image, transcript only
+    note: table page 8 – Waldbegangsteige, Neubauten, runs 36–45 (Klingenbrunn, St. Oswald); cost per metre only in
+      the Pf. column (13–20); page sum '1. Seite' 33420 m, 4713,80 M; checked against the 200 dpi scan (2026-10-05)
   22:
     profile: table
-    note: table page 9; no image, transcript only
+    note: table page 9 – runs 46–53 (St. Oswald continued without heading, then Schoenau); '2. Seite' 30010 m (sum),
+      '1. „' (carry_over), 'Sa Begangsteige Neubauten' 63430 m, 10709,30 M (sum); pencil 'Neu.' in the left margin
+      at runs 47 and 53; checked against the 200 dpi scan (2026-10-05)
   23:
     profile: table
-    note: table page 10 – Unterhaltung der Begehungswege; no image, transcript only
+    note: table page 10 – 'Begangsteige-Unterhaltung', runs 54–56 (600 M per Revier, total cost only);
+      'Sa Waldbegangsteige Unterhaltung' 1800 (sum), 'Hiezu „ Neubauten' 63430 m, 10709,30 (carry_over),
+      'Sa Waldbegangsteige' 12509,30 (sum); checked against the 200 dpi scan (2026-10-05)
   24:
     profile: table
-    note: table page 11 – Zusammenstellung, signed Schönberg 15 Sept 1880; no image, transcript only
+    note: table page 11 – Zusammenstellung (key column heads left blank); section totals (carry_over), 'Summa
+      Wegbauten' 177659,30 M (sum); red line 'für 1 Jahr' 14804,94 (= Summa / 12, replaces struck 14800,77½) is a
+      note row; signed Schönberg 15 Sept 1880, K. Forstamt Schönberg; checked against the 200 dpi scan (2026-10-05)
   25:
     note: start of the second 'Erläuterungen' (railway lines, Holzladestellen, cases I–III)
   35:
@@ -76,15 +83,18 @@ forms:
     description: |
       One row per road project (new construction, correction or maintenance). Section headings inside the table set key
       other: 'Wegnetzprojectirung', 'Holzabfuhrwege – Neubauten', 'Unterhaltung der Holzabfuhrwege', 'Ziehbahnen'
-      (width 1,20–1,50 m), 'Waldbegangsteige – Neubauten', 'Begehungswege – Unterhaltung', 'Zusammenstellung'. Red
+      (width 1,20–1,50 m), 'Waldbegangsteige – Neubauten', 'Begangsteige-Unterhaltung', 'Zusammenstellung'. Red
       headings 'Revier Klingenbrunn', 'Revier St. Oswald', 'Revier Schoenau' set revier. The Distr./Abtheilung cells list
       all compartments a road crosses on several lines (Roman Distrikt number on the first of its lines, Abtheilung
       numbers and names below): keep them in one cell, lines joined with '; '. The road name and the construction details
       (width, Grundbau, Gefälle) are in 'Auszuführende Wege'. Kosten im Ganzen = Länge × Kosten einzeln (cost per metre;
       a product, not a sum); maintenance lines without length give only the total. Money in Mark | Pfennig (M. | Pf.).
       Page sums at the bottom ('1. Seite', '2. Seite') sum the length and the total cost (row_type sum); summary blocks
-      repeat earlier page sums ('3. Seite', '2. „', '1. „' → carry_over) and give 'Summa Holzabfuhrwege Unterhaltung /
-      Neubauten', 'Summa Ziehbahnen', 'Sa Waldbegehungswege' (sum). Bemerkungen give the necessity of the road and refer
+      repeat earlier page sums ('3. Seite', '2. „', '1. „', 'Hiezu „ Neubauten' → carry_over) and give 'Summa
+      Holzabfuhrwege Unterhaltung / Neubauten', 'Summa Ziehbahnen', 'Sa Begangsteige Neubauten', 'Sa Waldbegangsteige
+      Unterhaltung', 'Sa Waldbegangsteige' (sum). The Zusammenstellung (page 11) repeats the section totals
+      (carry_over) and gives 'Summa Wegbauten' (sum); the red line 'für 1 Jahr' below it (Summa / 12) is a note row.
+      Bemerkungen give the necessity of the road and refer
       to numbered notes '1)'…'12a)'; pasted slips carry later revision notes (red or pencil additions → red / row note).
       The Ausführung columns record the year and actual cost of execution; on table page 1 the actual costs of the
       Wegnetzprojectirung are listed per Forstamt and Revier with 'in Sa.' (note rows with values in exec_cost, then sum).
@@ -128,8 +138,15 @@ notes: |
   8–11, folios 379–382), so the reading order puts them together before the texts; the first Erläuterungen (folios
   368–378) are bound between table pages 7 and 8. Both texts read in ascending folio order (368→378 and 383→393, checked
   by the continuing sentences across page breaks); the annotated order (393 down to 376, then 368–375) is wrong.
-  Positions 21–24 have no image – rely on the transcript. Position 5 duplicates position 4 (same opening photographed
-  with a pasted slip) and is skipped. The headers are handwritten and faint: 'Nummer des Wegprotokolls' and 'Ziffer der
-  Nivellementstabelle' (two narrow columns between Lauf. Nummer and Distr. Nummer) are read with some doubt; the HTR
-  turns M. | Pf. into 'fl. | kr.' on some pages – the whole plan is in Mark. On Begangsteige pages the cost per metre
-  is only Pfennig (13, 15, 20 Pf). Roads are described in terms of compartments, not stands: no description column.
+  Positions 21–24 checked against the 200 dpi scans (2026-10-05): handwritten page numbers 8–11 on folios 379–382,
+  running numbers continue 35 → 36 from page 7 (position 9), and the Zusammenstellung repeats Summa Holzabfuhrwege
+  148150 (page 6) and Summa Ziehbahnen 12000 (page 7), so the reading order 1–9, 21–24 holds. The form and its column
+  heads are the same as on pages 1–7. Sum check (page 8): 488,80 + 484,90 + 729,30 + 551,20 + 503,10 + 500 + 337,50
+  + 382,50 + 331,50 + 405 = 4713,80 ('1. Seite') → base 100. The HTR misreads some numbers there (run 36 length
+  2760 for 3760, run 43 302 for 382,50, '2. Seite' 30030 for 30010). Position 5 duplicates position 4 (same opening
+  photographed with a pasted slip) and is skipped. The headers are handwritten and faint: 'Nummer des Wegprotokolls'
+  and 'Ziffer der Nivellementstabelle' (two narrow columns between Lauf. Nummer and Distr. Nummer) are read with some
+  doubt (clearest on pages 9–10: 'Num. d. Wegprotokolls', 'Ziff. der Nivellements-Tabelle'); on pages 8–9 the
+  Ziffer values match the numbers of the 'Verzeichnis der ausgesteckten Weglinien' (I-19 position 3); the HTR turns M. | Pf.
+  into 'fl. | kr.' on some pages – the whole plan is in Mark. On Begangsteige pages the cost per metre is only
+  Pfennig (13, 15, 20, 50 Pf). Roads are described in terms of compartments, not stands: no description column.

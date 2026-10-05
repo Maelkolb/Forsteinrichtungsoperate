@@ -1,23 +1,23 @@
 unit: II-05
 title: Ermittlung der allgemeinen Reduktionszahl
 summary: |
-  Beilage II.5 (A 384 II 197–199, no images; the same pages close II-04): derivation of the general reduction number
-  (allgemeine Reduktionszahl) used in the Waldstandsrevision 1878/89 of the Reviere Schönau, St. Oswald and Klingenbrunn
-  to convert the counted standing volumes (ausgezählte Bestandsmassen) into Ster. Page 197 is the title; page 198
-  (harvest 1874–1876 per Revier and assortment, extracted in II-04) gives the totals; page 199 splits the three-year
-  harvest into hardwood (33353,95 Ster) and softwood (570456,47 Ster), computes the percentage shares of Bau-, Nutz-
-  u. Werkholz, Scheitholz and Prügelholz, weights them with solid-content numbers (hard 100/91/80, soft 100/95/87) and
-  divides by 3,1325 (Ster per Klafter?) – result: Faktor 29 for hardwood, 31 for softwood. Signed Schönberg, 15 July
-  1878, Kgl. Forstamt Schönberg.
+  Beilage II.5 (A 384 II 197–199, checked on the scans; the same pages close II-04): derivation of the general reduction
+  number (allgemeine Reduktionszahl) used in the Waldstandsrevision 1878/89 of the Reviere Schönau, St. Oswald and
+  Klingenbrunn to convert the counted standing volumes (ausgezählte Bestandsmassen) into Ster. Page 197 is the title;
+  page 198 (harvest 1874–1876 per Revier and assortment, extracted in II-04) gives the totals; page 199 splits the
+  three-year harvest into hardwood (33353,95 Ster) and softwood (570456,47 Ster), computes the percentage shares of
+  Bau-, Nutz- u. Werkholz, Scheitholz and Prügelholz, weights them with solid-content numbers (hard 100/91/80, soft
+  100/95/87) and divides by 3,1325 (Ster per Klafter?) – result: Faktor 29 for hardwood, 31 for softwood. Signed
+  Schönberg, 15 July 1878, Kgl. Forstamt Schönberg.
 default_profile: table
 default_form: reduction
 pages:
   1:
     role: title
     profile: text
-    note: 'title: ''Uebersichtliche Zusammenstellung der Materialergebnisse in den Jahren 1874, 1875, 1876 und Ermittlung
-      der allgemeinen Reductionszahl. Zur Umwandlung der ausgezählten Bestandsmassen in Ster'' (red), for the Wirthschaftskomplex
-      Schönau, St. Oswald, Klingenbrunn, 1878/89'
+    note: 'title ''Beil. II. 5.'': ''Uebersichtliche Zusammenstellung der Materialergebnisse in den Jahren 1874, 1875, 1876
+      und Ermittlung der allgemeinen Reductionszahl. Zur Umwandlung der ausgezählten Bestandsmassen in Ster'' (black ink,
+      lines underlined in red), for the Wirthschaftskomplex Schönau, St. Oswald, Klingenbrunn, 1878/89'
   2:
     role: table
     profile: skip
@@ -28,15 +28,20 @@ forms:
   reduction:
     name: Ermittlung der allgemeinen Reduktionszahl (hartes / weiches Holz)
     description: |
-      No image; the transcription is the only source. Handwritten calculation laid out as a three-column table
-      "Bau-, Nutz- u. Werkholz | Scheitholz | Prügelholz". A heading row "Hartes Holz 33253,95 Ster [red: Raummeter …]
-      hievon" (group_header, sets_key other = "Hartes Holz"; total quantity into the row note; 33353,95 by the page
-      sums) is followed by the column labels and one data row with the percentage shares (red): 1,99 % | 93,52 % | 4,49 %.
-      The same for "Weiches Holz 570456,47 Ster hievon": 58,89 % | 40,37 % | 0,74 %. Below a double rule the calculation
-      (row_type note, keep its text in the cells): Hartes Holz 1,99 x 100 + 93,52 x 91 + 4,49 x 80 = 9068,52; / 3,1325 =
-      2894,9; : 100 = 28,949 → "Faktor = 29"; Weiches Holz 58,89 x 100 + 40,37 x 95 + 0,74 x 87 = 9788,53; / 3,1325 =
-      3124,8 (red correction of 3123,4); : 100 = 31,248 → "Faktor = 31". The shares of one wood kind add up to 100 %.
-      Date and signatures (Schönberg den 15 Juli 1878, Kgl. Forstamt Schönberg, Forstamtskassa) are outside the table.
+      Checked against the 200 dpi scan (2026-10-05). Handwritten, no printed table (a faint grid shows through): two
+      blocks with three column labels each, then a framed calculation. A double-underlined heading "Hartes Holz 33353,95
+      Ster, hievon" (group_header, sets_key other = "Hartes Holz"; total quantity into the row note; in red a reviser
+      wrote "Raummeter" above "Ster" and added "für Kubikmeter(?)" between red slashes – keep it in the note) is
+      followed by the underlined column labels "Bau- Nutz- u. Werkholz: | Scheitholz: | Prügelholz:" and one data row
+      with the percentage shares in black ink, underlined in red: 1,99 % | 93,52 % | 4,49 %. The same for "Weiches Holz
+      570456,47 Ster, hievon" (same red addition): 58,89 % | 40,37 % | 0,74 %. Below, between double rules and split by
+      a double vertical rule, two boxes that do not follow the three columns (one row_type note per box, its text in the
+      first cell): left "Hartes Holz" 1,99 x 100 = 199,00; 93,52 x 91 = 8510,32; 4,49 x 80 = 359,20; 9068,52 / 3,1325 =
+      28949 (written without comma); 2894,9 : 100 = 28,949; "Faktor = 29". Right "Weiches Holz" 58,89 x 100 = 5889,00;
+      40,37 x 95 = 3835,15; 0,74 x 87 = 64,38; 9788,53 / 3,1325 = 3123,4, struck through in red and corrected to 3124,8;
+      3123,4 : 100 = 31,234, corrected in red to 3124,8 and 31,248; "Faktor = 31.". The shares of one wood kind add up
+      to 100 %. Outside the table: "Schönberg den 15 Juli 1878", "Kgl. Forstamt Schönberg" with seal and signature,
+      "Rosenbeck k. Forstamts…" (title abbreviated), red "vdt. Kgl. Kreisforstbureau" with a red signature.
     columns:
     - id: share_timber
       label: Bau-, Nutz- u. Werkholz
@@ -62,8 +67,10 @@ forms:
       - other
       scope: Reviere Schönau, St. Oswald, Klingenbrunn, harvest 1874–1876, per wood kind
 notes: |
-  No scans of pages 197–199 in the unit; descriptions rely on the HTR. "Hartes Holz 33253,95" in the HTR should be
-  33353,95 (= 663,95 cbm + 31191 + 1499 Ster; the percentages fit 33353,95). The meaning of the weighting numbers
-  (100/91/80, 100/95/87) and of the divisor 3,1325 is inferred: probably solid cubic feet per 100 stacked units and
-  Ster per Bavarian Klafter, so the Faktor (29 hard, 31 soft) would be the solid content in cubic feet per Ster.
-  The red words after "Raummeter … für" are illegible in the HTR.
+  Pages 197–199 checked against the 200 dpi scans (2026-10-05). The scan reads "Hartes Holz 33353,95" (HTR: 33253,95;
+  = 663,95 cbm + 31191 + 1499 Ster from the last Su row of page 198). Shares, products, sums and Faktoren recomputed
+  from the scan values: all consistent. The meaning of the weighting numbers (100/91/80, 100/95/87) and of the divisor
+  3,1325 is inferred: probably solid cubic feet per 100 stacked units and Ster per Bavarian Klafter, so the Faktor
+  (29 hard, 31 soft) would be the solid content in cubic feet per Ster. The red addition after "Ster" is faint;
+  "Raummeter" is certain, "für Kubikmeter" probable. The HTR marks the shares and "28949" as red: they are black ink
+  with red underlining.
