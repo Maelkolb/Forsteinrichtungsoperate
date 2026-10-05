@@ -475,7 +475,7 @@ const OBS = Object.fromEntries(D.obs.cols.map((c, i) => [c, i]));
 function obs(i) { const r = D.obs.rows[i]; const o = { i }; for (const c in OBS) o[c] = r[OBS[c]]; return o; }
 const OBS_BY_PAGE = {};
 D.obs.rows.forEach((r, i) => { (OBS_BY_PAGE[`${r[0]}/${r[1]}`] = OBS_BY_PAGE[`${r[0]}/${r[1]}`] || []).push(i); });
-function page(u, p) { const r = D.pages[`${u}/${p}`]; return r && { u, p, pid: r[0], img: r[1] ? IMG + r[1] : "", w: r[2], h: r[3], kind: r[4], sig: r[5], num: r[6] }; }
+function page(u, p) { const r = D.pages[`${u}/${p}`]; return r && { u, p, pid: r[0], img: r[1] ? (/^https?:/.test(r[1]) ? r[1] : IMG + r[1]) : "", w: r[2], h: r[3], kind: r[4], sig: r[5], num: r[6] }; }
 const archival = pg => pg ? `${pg.sig}, p. ${pg.num}` : "";
 function pageRange(u) {
   const list = (D.reader[u] || []).map(r => page(u, r.p)).filter(Boolean);

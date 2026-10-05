@@ -43,6 +43,12 @@ python -m ecological_ie publish
 python -m ecological_ie review --out work/release/review_site --copy-images
 python -m ecological_ie explore --package work/runs/main/package --out work/release/explorer/index.html \
     --image-base ../review_site/images/
+# light release (a few MB) that loads the scans from a link-shared Drive folder instead of local copies:
+# --image-urls takes a JSON map "<unit folder>/images/<file>" -> URL, e.g. https://lh3.googleusercontent.com/d/<id>=s0
+# with the file ids from `rclone lsjson -R --files-only <drive folder>/review_site/images`
+python -m ecological_ie review --out work/release_web/review_site --image-urls drive_image_urls.json
+python -m ecological_ie explore --package work/runs/main/package --out work/release_web/explorer/index.html \
+    --image-urls drive_image_urls.json
 ```
 
 The explorer (`explorer.py`, `reader.py`, `edition.py`, `explorer_template.html`) is one HTML file with the data

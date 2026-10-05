@@ -37,7 +37,7 @@ def period_order(periods: list[str]) -> list[str]:
     return sorted(set(periods), key=key)
 
 
-def units_and_pages(units_dir: Path, checks: pd.DataFrame) -> tuple[list, dict]:
+def units_and_pages(units_dir: Path, checks: pd.DataFrame, image_urls: dict | None = None) -> tuple[list, dict]:
     units, pages = [], {}
     status = checks.groupby(["unit", "status"]).size().unstack(fill_value=0) if not checks.empty else pd.DataFrame()
     for unit_file in sorted(units_dir.glob("*/unit.json")):
@@ -48,8 +48,9 @@ def units_and_pages(units_dir: Path, checks: pd.DataFrame) -> tuple[list, dict]:
                       "checks": {k: int(v) for k, v in status.loc[unit["id"]].items() if v} if unit["id"] in status.index else {}})
         for page in unit["pages"]:
             size = page.get("image_size") or [0, 0]
+            image = f"{unit_file.parent.name}/{page['image']}" if page["image"] else ""
             pages[f"{unit['id']}/{page['position']}"] = [
-                page["pid"], f"{unit_file.parent.name}/{page['image']}" if page["image"] else "", size[0], size[1],
+                page["pid"], (image_urls or {}).get(image, image), size[0], size[1],
                 page["kind"], page["sig"], page["num"]]
     return units, pages
 
@@ -240,14 +241,14 @@ def maps_list(maps: pd.DataFrame, labels: pd.DataFrame) -> list:
     return out
 
 
-def build_data(units_dir: Path, run_dir: Path, package: Path) -> dict:
+def build_data(units_dir: Path, run_dir: Path, package: Path, image_urls: dict | None = None) -> dict:
     observations = read_csv(package, "observations")
     cells, rows, checks = read_csv(package, "table_cells"), read_csv(package, "table_rows"), read_csv(package, "table_checks")
     observations_all = observations.merge(rows[["unit", "position", "table", "row", "row_type"]].drop_duplicates(),
                                           on=["unit", "position", "table", "row"], how="left", suffixes=("", "_r"))
     if "row_type_r" in observations_all:
         observations_all["row_type"] = observations_all["row_type"].fillna(observations_all["row_type_r"])
-    units, pages = units_and_pages(units_dir, checks)
+    units, pages = units_and_pages(units_dir, checks, image_urls)
     obs, obs_index = observation_table(observations)
     data_obs = observations_all[observations_all["page_role"].fillna("") != "copy"]
     labels = read_csv(package, "map_labels")
@@ -302,8 +303,8 @@ STANDALONE_TAIL = "\n</body>\n</html>\n"
 
 
 def build_explorer(units_dir: Path, run_dir: Path, package: Path, out_file: Path, image_base: str,
-                   package_link: str = "", standalone: bool = True) -> Path:
-    data = build_data(units_dir, run_dir, package)
+                   package_link: str = "", standalone: bool = True, image_urls: dict | None = None) -> Path:
+    data = build_data(units_dir, run_dir, package, image_urls)
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     html = TEMPLATE.read_text(encoding="utf-8")
     html = html.replace("__IMAGE_BASE__", image_base).replace("__PACKAGE_LINK__", package_link)

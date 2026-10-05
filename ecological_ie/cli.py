@@ -173,15 +173,20 @@ def run_publish(args):
                               "Waldstandsrevision Ilzertrift-Komplex 1878/90 – structured data", ledger))
 
 
+def image_urls(path: Path | None) -> dict | None:
+    return json.loads(path.read_text(encoding="utf-8")) if path else None
+
+
 def run_review(args):
     from .viewer import write_review_site
-    print("review site:", write_review_site(args.units, args.run, args.out, args.copy_images))
+    print("review site:", write_review_site(args.units, args.run, args.out, args.copy_images, image_urls(args.image_urls)))
 
 
 def run_explore(args):
     from .explorer import build_explorer
     package = args.package or args.run / "package"
-    out = build_explorer(args.units, args.run, package, args.out, args.image_base, args.package_link, not args.fragment)
+    out = build_explorer(args.units, args.run, package, args.out, args.image_base, args.package_link, not args.fragment,
+                         image_urls(args.image_urls))
     print(f"explorer: {out} ({out.stat().st_size / 1e6:.1f} MB)")
 
 
@@ -262,6 +267,8 @@ def build_parser() -> argparse.ArgumentParser:
     add_unit_options(review, with_sections=False)
     review.add_argument("--out", type=Path, help="site folder (default: <run>/review)")
     review.add_argument("--copy-images", action="store_true", help="copy the page images into the site folder")
+    review.add_argument("--image-urls", type=Path, help="JSON map '<unit folder>/images/<file>' -> URL (e.g. Drive), "
+                                                        "used instead of local images where present")
     review.set_defaults(func=run_review)
 
     explore = commands.add_parser("explore", help="write the data explorer (single HTML file)")
@@ -271,6 +278,8 @@ def build_parser() -> argparse.ArgumentParser:
     explore.add_argument("--image-base", default="../review_site/images/", help="prefix of the page image paths")
     explore.add_argument("--package-link", default="", help="optional link to the data package")
     explore.add_argument("--fragment", action="store_true", help="omit the html/head/body wrapper (for hosts that add it)")
+    explore.add_argument("--image-urls", type=Path, help="JSON map '<unit folder>/images/<file>' -> URL (e.g. Drive), "
+                                                         "used instead of --image-base where present")
     explore.set_defaults(func=run_explore)
 
     export = commands.add_parser("export-specs", help="copy the units' spec.yaml files into a folder (e.g. the repo)")

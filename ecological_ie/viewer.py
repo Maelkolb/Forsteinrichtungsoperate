@@ -165,9 +165,11 @@ def esc(value) -> str:
     return html.escape("" if value is None or (isinstance(value, float) and pd.isna(value)) else str(value))
 
 
-def image_src(unit_dir: Path, page: dict, out_dir: Path, copy_images: bool = False) -> str:
+def image_src(unit_dir: Path, page: dict, out_dir: Path, copy_images: bool = False, image_urls: dict | None = None) -> str:
     if not page["image"]:
         return ""
+    if image_urls and f"{unit_dir.name}/{page['image']}" in image_urls:
+        return image_urls[f"{unit_dir.name}/{page['image']}"]
     if copy_images:
         target = out_dir / "images" / unit_dir.name / page["image"]
         if not target.exists():
@@ -325,14 +327,15 @@ def document(title: str, body: str, pager: str = "") -> str:
 
 
 def write_unit_page(unit: dict, unit_dir: Path, run_dir: Path, out_dir: Path, records: list, checks: pd.DataFrame,
-                    statements: list, events: list, neighbours: tuple, copy_images: bool = False) -> dict:
+                    statements: list, events: list, neighbours: tuple, copy_images: bool = False,
+                    image_urls: dict | None = None) -> dict:
     pages = {p["position"]: p for p in unit["pages"]}
     unit_checks = checks[checks["unit"] == unit["id"]] if not checks.empty else checks
     counts = unit_checks.groupby("status").size().to_dict() if not unit_checks.empty else {}
     sections, jump = [], []
     for record in records:
         position, page = record["p"], pages.get(record["p"])
-        src = image_src(unit_dir, page, out_dir, copy_images) if page else ""
+        src = image_src(unit_dir, page, out_dir, copy_images, image_urls) if page else ""
         width, height = (page or {}).get("image_size") or [0, 0]
         view = {"src": src, "alt": f"Scan {page['pid']}" if page else "", "w": width, "h": height}
         map_file = run_dir / "maps" / unit["id"] / f"p{position:03d}" / "map.json"
@@ -369,7 +372,8 @@ def write_unit_page(unit: dict, unit_dir: Path, run_dir: Path, out_dir: Path, re
             "range": page_range([pages[r["p"]] for r in records if r["p"] in pages])}
 
 
-def write_review_site(units_dir: Path, run_dir: Path, out_dir: Path | None = None, copy_images: bool = False) -> Path:
+def write_review_site(units_dir: Path, run_dir: Path, out_dir: Path | None = None, copy_images: bool = False,
+                      image_urls: dict | None = None) -> Path:
     out_dir = out_dir or run_dir / "review"
     out_dir.mkdir(parents=True, exist_ok=True)
     derived = run_dir / "derived"
@@ -382,7 +386,7 @@ def write_review_site(units_dir: Path, run_dir: Path, out_dir: Path | None = Non
     for i, unit in enumerate(units):
         neighbours = (units[i - 1] if i else None, units[i + 1] if i + 1 < len(units) else None)
         entries[unit["id"]] = write_unit_page(unit, unit_dirs[unit["id"]], run_dir, out_dir, reader[unit["id"]], checks,
-                                              statements, events, neighbours, copy_images)
+                                              statements, events, neighbours, copy_images, image_urls)
     toc = table_of_contents(units_dir, [{"id": u["id"], "heft": u["heft"], "nr": u["nr"], "title": u["title"]} for u in units])
 
     def row(entry: dict) -> str:
