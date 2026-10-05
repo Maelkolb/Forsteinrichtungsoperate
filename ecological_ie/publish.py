@@ -33,6 +33,7 @@ FIELD_DOCS = {
     "page_role": "role of the page in its unit; 'copy' = duplicate copy, exclude from totals",
     "box_2d": "approximate row box on the page image, [ymin, xmin, ymax, xmax] in 0-1000",
     "quote": "verbatim evidence from the (proofread) text", "quote_check": "where the quote was found",
+    "image_note": "known defect of the page image (e.g. a truncated scan file)",
 }
 
 
@@ -203,7 +204,7 @@ def units_table(units_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
                           "volume": page["sig"], "page_number": page["num"], "kind": page["kind"],
                           "category": page["category"], "image_source": page["image_source"],
                           "image": f"{unit_file.parent.name}/{page['image']}" if page["image"] else "",
-                          "image_size": page["image_size"]})
+                          "image_size": page["image_size"], "image_note": page.get("image_note", "")})
     return pd.DataFrame(units), pd.DataFrame(pages)
 
 

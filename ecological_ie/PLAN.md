@@ -36,12 +36,14 @@ more than a larger scan would.
 
 `prepare` collects the annotated pages into `work/units/<id>_<title>/` (transcript, image, `unit.json`).
 
-**Images.** The zip holds 1200 px JPEGs. The scans at work are 200 dpi exports of at most 1652 × 2338 px; the local copies in
-`Kategorien/` (A 379–A 382) show that format. So the work scans are only 1.2–1.4× larger. They should replace the
-zip images when available (`prepare --scans`), and they are needed for the 12 pages without any image. An A/B
-pilot on same-type pages from A 379–A 382, where both versions exist locally, measures the difference. For the maps
-neither version is enough to read toponyms reliably; archival masters (≥ 400 dpi) should be requested for the four
-annotated maps.
+**Images.** The zip holds 1200 px JPEGs; the scans at work are 200 dpi exports of at most 1652 × 2338 px. Since
+2026-10-05 every page uses the work scan (`prepare --scans` on the `Kategorien` folder, matched by page id; the 320 pages
+that also have a zip image correlate ≥ 0.988 with it), including the 12 pages without an image in the zip (A 384 I
+379–382; A 384 II 112, 114, 116, 117, 133, 197–199). The specs of those pages had been written from the transcript
+alone and were checked against the scans before the run (I-04, I-13, I-14, I-17, I-19, II-04, II-05). One scan file is
+truncated at the source: A 384 II 130 (Holzabfuhrweg map in I-18) is grey below 70 % of its height in every copy and in
+the zip preview (`image_note` in `pages.csv`). For the maps neither version is enough to read toponyms reliably;
+archival masters (≥ 400 dpi) should be requested for the four annotated maps.
 
 ## Stage 1 · Unit specs (Claude Code)
 
@@ -152,6 +154,7 @@ page's scan with row boxes and labels next to the extracted data and the open is
 | check logic | sections must be tracked per column (a sum may cover only some columns) and a sum with no data rows above it is an opening balance (conversion rows "= Ster", "= M. Pf.") |
 | resolution A/B, 3 Wirtschaftsplan pages A 379 IV | the zip images of that volume are already 1600 px (scan 1652 px): no measurable difference. Two readings agree on 58–76 % of cells, so the arithmetic checks and re-reads matter more than image size |
 | map stage, Wegbaukarte 1890 (A 381 I p. 32, 1652 px) | title, date, 8 legend classes, 112 labels (Distrikt names, villages, sheet numbers) with well-placed boxes for $0.08; small compartment labels need finer tiles (default now about 450 px) |
+| full-resolution rerun, all 24 units (2026-10-05) | with the 200 dpi scans instead of the 1200 px zip images: sums agreeing after re-reads 1008 of 1157 (87 %) against 976 of 1140 (86 %), map labels 805 against 628, statement quotes not found in the text 28 against 50. Per unit the differences stay within the spread of two independent readings (I-18 +18, I-02 +9, II-06 +5 agreeing sums; I-20 −2, II-10 −3) |
 
 ## Cost (at gemini-3.8-flash prices)
 
@@ -161,7 +164,7 @@ this when time does not matter.
 
 ## Open points
 
-* Work scans (200 dpi) for all units, and the 12 pages without image: A 384 I 379–382; A 384 II 112, 114, 116, 117, 133, 197–199.
+* A complete scan of A 384 II 130 (map in I-18; the file is truncated).
 * Higher-resolution masters of the four maps.
 * Nine TOC items without links (I-03, I-06, I-10, I-WHB, II-02, II-03, II-07–09).
 * Licence and publication venue for the data package (e.g. Zenodo).

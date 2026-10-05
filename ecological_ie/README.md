@@ -33,6 +33,8 @@ python -m ecological_ie run tables --section I-11 --positions 3 4  # a single un
 # layout: text lines detected on every scan (kraken on Modal), table rows aligned to them,
 # transcript lines linked to them through the dump's region layout
 uvx modal run ecological_ie/modal_lines.py
+# or without Modal, on a local CPU or GPU (own environment with kraken):
+python ecological_ie/local_lines.py --device cuda:0 --procs 1
 python -m ecological_ie layout --dump Forsteinrichtungsoperate_Gemini_combined.zip
 
 # 5 rebuild derived tables, publish the data package, write the review site and the explorer
@@ -91,7 +93,7 @@ Tests: `python -m pytest tests`.
 | `spec.py`, `html_tables.py` | spec schema, validation, page plans, drafts from transcript headers |
 | `grid.py`, `normalize.py`, `checks.py`, `recheck.py`, `pipeline.py` | table grids, normalisation, arithmetic checks, re-reads, stage runner |
 | `textdoc.py`, `maps.py`, `describe.py`, `stages.py` | text, map and description stages |
-| `modal_lines.py`, `layout.py` | line detection on Modal; row alignment (rows as runs of detected lines, matched by the columns that carry ink), region transform and transcript-to-line alignment |
+| `modal_lines.py`, `local_lines.py`, `layout.py` | line detection on Modal or locally; row alignment (rows as runs of detected lines, matched by the columns that carry ink), region transform and transcript-to-line alignment |
 | `publish.py`, `viewer.py` | data package, review site |
 | `static/zoom.js`, `static/review.js` | zoomable scan viewer with overlays, shared by explorer and review site |
 | `gemini.py`, `config.py` | Gemini client (structured output, image parts, retries, cost ledger), models and prices |
